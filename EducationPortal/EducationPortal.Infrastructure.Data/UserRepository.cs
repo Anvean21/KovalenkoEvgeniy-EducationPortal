@@ -9,9 +9,9 @@ namespace EducationPortal.Infrastructure.Data
 {
     public class UserRepository : IRepository<User>
     {
-        private readonly DbContext db;
+        private readonly EducationContext db;
 
-        public UserRepository(DbContext context)
+        public UserRepository(EducationContext context)
         {
             db = context;
         }
@@ -19,6 +19,8 @@ namespace EducationPortal.Infrastructure.Data
         {
             
             db.Users.Add(user);
+            //записываем в базу
+            EducationPortalDbInitializer.JsonSave(user);
         }
 
         public void Delete(int id)
@@ -40,9 +42,10 @@ namespace EducationPortal.Infrastructure.Data
             return db.Users.ToList();
         }
 
+        //Расскоментить EF
         //public void Update(User user)
         //{
-        //    db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+        //    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
         //}
     }
 }
