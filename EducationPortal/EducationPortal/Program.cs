@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Infrastructure.Data;
 using System;
@@ -9,6 +10,7 @@ namespace EducationPortal
     {
         static void Main(string[] args)
         {
+            EducationContext db = new EducationContext();
             EFUnitOfWork unitOfWork = new EFUnitOfWork();
             // Create your builder.
             var builder = new ContainerBuilder();
@@ -21,12 +23,9 @@ namespace EducationPortal
 
             using (var scope = container.BeginLifetimeScope())
             {
-
-                var users = unitOfWork.Users.GetAll();
-
-                foreach (var user in users)
+                foreach (var user in unitOfWork.Users.GetAll())
                 {
-                    Console.WriteLine($"{user.UserName}, {user.Role.Name}");
+                    Console.WriteLine($"{user.UserName}, {user.Email}");
                 }
             }
             Console.WriteLine("Hello World!");

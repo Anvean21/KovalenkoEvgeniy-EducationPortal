@@ -11,8 +11,7 @@ namespace EducationPortal.Autofac
     {
         public static void ConfigureContainer()
         {
-           //Перенести зависимости сюда, когда перейдем на Core
-
+           //Перенести зависимости сюда, когда перейдем на Core. Сейчас зависимости прямо в Main();
         }
     }
 }

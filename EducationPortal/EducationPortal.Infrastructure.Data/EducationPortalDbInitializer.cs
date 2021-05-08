@@ -25,11 +25,9 @@ namespace EducationPortal.Infrastructure.Data
             db.Users.Add(testAdmin);
             db.Users.Add(testUser);
 
-            JsonSave(testAdmin);
-            JsonSave(testUser);
-
+            //JsonSave(testAdmin);
+            //JsonSave(testUser);
         }
-
 
         //Аdd метод в репозиторий
         //При переезде на EF вынести куда-то
@@ -43,7 +41,5 @@ namespace EducationPortal.Infrastructure.Data
             }
         }
     }
-
-
 }
 

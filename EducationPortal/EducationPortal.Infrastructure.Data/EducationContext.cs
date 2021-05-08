@@ -10,9 +10,10 @@ namespace EducationPortal.Infrastructure.Data
     /// </summary>
     public class EducationContext
     {
-        //типо контекст EF
-        public List<User> Users { get; set; } = new List<User>();
-        public List<Role> Roles { get; set; } = new List<Role>();
+
+        //Аля DbSet, только не рабочий..
+        public List<User> Users { get; set; }
+        public List<Role> Roles { get; set; }
 
         //Чтобы при обращению к контексту создавалась БД
         static EducationContext()
@@ -21,11 +22,11 @@ namespace EducationPortal.Infrastructure.Data
         }
 
         //Заготовка под EF
-        //static DbContext()
+        //static EducationContext()
         //{
         //    Database.SetInitializer(new EducationPortalDbInitializer());
         //}
-        //public DbContext(string connectionString)
+        //public EducationContext(string connectionString)
         //    : base(connectionString)
         //{
         //}
