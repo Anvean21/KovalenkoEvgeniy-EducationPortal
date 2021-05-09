@@ -23,6 +23,7 @@ namespace EducationPortal
 
             using (var scope = container.BeginLifetimeScope())
             {
+                //JsonFileOperations<User>.JsonDeserializer();
                 foreach (var user in unitOfWork.Users.GetAll())
                 {
                     Console.WriteLine($"{user.UserName}, {user.Email}");

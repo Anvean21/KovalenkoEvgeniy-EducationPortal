@@ -42,15 +42,10 @@ namespace EducationPortal.Infrastructure.Data
             }
         }
 
+        //Реализовать
         public void Dispose()
         {
             //...
-            throw new NotImplementedException();
-        }
-
-        public void Save()
-        {
-            //Метод Create репозитория занимается сохранением и добавлением, при переезде на EF изменю это
             throw new NotImplementedException();
         }
     }

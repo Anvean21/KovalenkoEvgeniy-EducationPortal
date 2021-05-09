@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EducationPortal.Domain.Core\EducationPortal.Domain.Core.csproj" />
     <ProjectReference Include="..\EducationPortal.Domain.Interfaces\EducationPortal.Domain.Interfaces.csproj" />
   </ItemGroup>

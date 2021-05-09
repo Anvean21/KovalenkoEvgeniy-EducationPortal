@@ -18,7 +18,7 @@ namespace EducationPortal.Infrastructure.Data
         //Чтобы при обращению к контексту создавалась БД
         static EducationContext()
         {
-            EducationPortalDbInitializer.Initialize(new EducationContext());
+            EducationPortalDbInitializer.Initialize(new JsonFileOperations<User>());
         }
 
         //Заготовка под EF

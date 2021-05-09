@@ -9,6 +9,5 @@ namespace EducationPortal.Domain.Interfaces
     {
         IRepository<User> Users { get; }
         IRepository<Role> Roles { get; }
-        void Save();
     }
 }

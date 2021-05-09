@@ -40,6 +40,12 @@ namespace EducationPortal.Infrastructure.Data
             return db.Roles.ToList();
         }
 
+        public void Save(Role item)
+        {
+            JsonFileOperations<Role> json = new JsonFileOperations<Role>();
+            json.JsonSave(item);
+        }
+
         //Расскоментить EF
         //public void Update(Role role)
         //{
