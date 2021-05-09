@@ -42,8 +42,8 @@ namespace EducationPortal.Infrastructure.Data
 
         public void Save(Role item)
         {
-            JsonFileOperations<Role> json = new JsonFileOperations<Role>();
-            json.JsonSave(item);
+            //JsonFileOperations<Role> json = new JsonFileOperations<Role>();
+            //json.JsonSave(item, @"D:\Roles.json");
         }
 
         //Расскоментить EF

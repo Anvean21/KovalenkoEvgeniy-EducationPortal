@@ -12,11 +12,8 @@ namespace EducationPortal
         {
             EducationContext db = new EducationContext();
             EFUnitOfWork unitOfWork = new EFUnitOfWork();
-            // Create your builder.
             var builder = new ContainerBuilder();
 
-            // Usually you're only interested in exposing the type
-            // via its interface:
             builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>();
 
             IContainer container = builder.Build();
@@ -24,12 +21,14 @@ namespace EducationPortal
             using (var scope = container.BeginLifetimeScope())
             {
                 //JsonFileOperations<User>.JsonDeserializer();
+                
+                unitOfWork.Users.Create(new User() { UserName = "Name", Email = "name@mail.er" });
                 foreach (var user in unitOfWork.Users.GetAll())
                 {
                     Console.WriteLine($"{user.UserName}, {user.Email}");
                 }
             }
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("+++++");
         }
     }
 }

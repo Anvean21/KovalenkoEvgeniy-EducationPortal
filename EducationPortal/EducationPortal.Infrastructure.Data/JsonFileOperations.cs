@@ -10,20 +10,24 @@ namespace EducationPortal.Infrastructure.Data
 {
     public class JsonFileOperations<T> where T : class
     {
-        public void JsonSave(T item)
+        public void JsonSave(List<T> item, string path)
         {
-            // сохранение данных
-            File.WriteAllText(@"D:\Users.json", JsonConvert.SerializeObject(item));
+            //изначальная база
+            List<T> list = JsonFileOperations<T>.JsonDeserializer(path);
+            //Добавляем новые обьекты в бд
+            list.AddRange(item);
+            //сохранение данных
+            File.WriteAllText(path, JsonConvert.SerializeObject(list));
             Console.WriteLine("Data has been saved to file");
+
+
         }
-        static public  List<T> JsonDeserializer()
+        static public List<T> JsonDeserializer(string path)
         {
-            // чтение данных
-            T restoredItem = JsonConvert.DeserializeObject<T>(File.ReadAllText(@"D:\Users.json"));
+            //var list = JsonExtensions.FromDelimitedJson<T>(new StringReader(path));
+            List<T> restoredItem = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(path));
             Console.WriteLine("Data has been read from file");
-            List<T> list = new List<T>();
-            list.Add(restoredItem);
-            return list;
+            return restoredItem;
         }
     }
 }
