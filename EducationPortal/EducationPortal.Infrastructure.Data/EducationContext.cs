@@ -10,8 +10,6 @@ namespace EducationPortal.Infrastructure.Data
     /// </summary>
     public class EducationContext
     {
-
-        //Аля DbSet, только не рабочий..
         public List<User> Users { get; set; }
         public List<Role> Roles { get; set; }
 

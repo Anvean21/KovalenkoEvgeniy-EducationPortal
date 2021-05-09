@@ -39,17 +39,5 @@ namespace EducationPortal.Infrastructure.Data
         {
             return db.Roles.ToList();
         }
-
-        public void Save(Role item)
-        {
-            //JsonFileOperations<Role> json = new JsonFileOperations<Role>();
-            //json.JsonSave(item, @"D:\Roles.json");
-        }
-
-        //Расскоментить EF
-        //public void Update(Role role)
-        //{
-        //    db.Entry(role).State = System.Data.Entity.EntityState.Modified;
-        //}
     }
 }

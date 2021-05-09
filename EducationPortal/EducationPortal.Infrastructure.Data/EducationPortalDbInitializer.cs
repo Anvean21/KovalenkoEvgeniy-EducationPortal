@@ -24,7 +24,8 @@ namespace EducationPortal.Infrastructure.Data
             User testModer = new User { Id = 3, UserName = "Moder", Email = "Moder@email.com", Password = "ModerPassword", Role = adminRole, RoleId = adminRole.Id };
 
 
-            //Это нужно для запуска из коробки
+            //Это нужно расскоментировать для запуска из коробки. После того как программа отработает надо вернуть всё обратно.
+
             //List<User> list = new List<User>();
             //list.Add(testModer);
             //list.Add(testUser);

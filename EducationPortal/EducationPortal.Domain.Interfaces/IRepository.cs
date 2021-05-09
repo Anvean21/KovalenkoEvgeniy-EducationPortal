@@ -12,6 +12,7 @@ namespace EducationPortal.Domain.Interfaces
         //EF
         //void Update(T item);
         void Delete(int id);
-        void Save(T item);
+
+        //void Save(T item);
     }
 }

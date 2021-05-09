@@ -16,14 +16,6 @@ namespace EducationPortal.Infrastructure.Data
         {
             db = context;
         }
-        //при переезде на EF изменить это
-        public void Save(User user)
-        {
-            JsonFileOperations<User> json = new JsonFileOperations<User>();
-            //json.JsonSave(user, @"D:\users.json");
-            //JsonFileOperations<User> json = new JsonFileOperations<User>();
-            //json.JsonSave(user, @"D:\Users.json");
-        }
         public void Create(User user)
         {
             //db.Users.Add(user);
@@ -51,14 +43,8 @@ namespace EducationPortal.Infrastructure.Data
         public IEnumerable<User> GetAll()
         {
             List<User> list = JsonFileOperations<User>.JsonDeserializer(path);
-            //IEnumerable<User> list = JsonFileOperations<User>.JsonDeserializer(@"D:\Users.json");
             return list;
         }
-        //Расскоментить EF
-        //public void Update(User user)
-        //{
-        //    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
-        //}
     }
 }
 
