@@ -11,7 +11,6 @@ namespace EducationPortal.Infrastructure.Data
 
        private readonly EducationContext db = new EducationContext();
         private UserRepository userRepository;
-        private RoleRepository roleRepository;
 
         //На будущее
         //public UnitOfWork(string connectionString)
@@ -27,18 +26,6 @@ namespace EducationPortal.Infrastructure.Data
                     userRepository = new UserRepository(db);
                 }
                 return userRepository;
-            }
-        }
-
-        public IRepository<Role> Roles
-        {
-            get
-            {
-                if (roleRepository == null)
-                {
-                    roleRepository = new RoleRepository(db);
-                }
-                return roleRepository;
             }
         }
 

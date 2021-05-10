@@ -18,7 +18,6 @@ namespace EducationPortal.Infrastructure.Data
         }
         public void Create(User user)
         {
-            //db.Users.Add(user);
             List<User> users = new List<User>();
             users.Add(user);
             JsonFileOperations<User> save = new JsonFileOperations<User>();

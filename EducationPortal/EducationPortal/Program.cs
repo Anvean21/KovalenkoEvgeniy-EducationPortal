@@ -40,7 +40,6 @@ namespace EducationPortal
                     default:
                         break;
                 }
-                
             }
         }
     }

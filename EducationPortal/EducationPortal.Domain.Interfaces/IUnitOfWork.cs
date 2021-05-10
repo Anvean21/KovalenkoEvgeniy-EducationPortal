@@ -8,6 +8,5 @@ namespace EducationPortal.Domain.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IRepository<User> Users { get; }
-        IRepository<Role> Roles { get; }
     }
 }

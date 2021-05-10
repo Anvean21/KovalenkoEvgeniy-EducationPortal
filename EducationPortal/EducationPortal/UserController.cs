@@ -9,7 +9,11 @@ namespace EducationPortal
 {
    public class UserController
     {
-        EFUnitOfWork unitOfWork = new EFUnitOfWork();
+        EFUnitOfWork unitOfWork;
+        public UserController()
+        {
+            unitOfWork = new EFUnitOfWork();
+        }
         public void UserList()
         {
             foreach (var user in unitOfWork.Users.GetAll())
@@ -21,9 +25,7 @@ namespace EducationPortal
         {
 
             User user = unitOfWork.Users.GetAll().FirstOrDefault(u => u.Email == model.Email);
-            Role role = new Role();
-            role.Name = "user";
-            role.Id = 2;
+            Role role = new Role { Name = "user", Id = 2 };
             int maxId = unitOfWork.Users.GetAll().Count();
             if (user == null)
             {
@@ -34,7 +36,7 @@ namespace EducationPortal
             {
                 throw new Exception("Пользователь с таким Email уже зарегестрирован");
             }
-
         }
+
     }
 }
