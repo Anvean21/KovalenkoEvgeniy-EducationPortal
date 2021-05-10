@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using EducationPortal.Autofac;
 using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Infrastructure.Data;
@@ -10,23 +11,37 @@ namespace EducationPortal
     {
         static void Main(string[] args)
         {
-            //Для запуска из коробки перейдите в класс JsonFileOperations
-            EducationContext db = new EducationContext();
-            EFUnitOfWork unitOfWork = new EFUnitOfWork();
-            var builder = new ContainerBuilder();
+            //Для запуска из коробки расскоментируйте строку снизу, и перейдите в класс JsonFileOperations
+            //EducationContext db = new EducationContext();
 
-            builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>();
-
-            IContainer container = builder.Build();
-
-            using (var scope = container.BeginLifetimeScope())
+            AutofacConfigure.ConfigureContainer();
+            UserController userController = new UserController();
+            while (true)
             {
-                foreach (var user in unitOfWork.Users.GetAll())
+                Console.WriteLine("1 - Зарегистрироваться\n2 - Вывести всех пользователей\n3 - Очистить консоль ");
+                switch (Console.ReadLine())
                 {
-                    Console.WriteLine($"{user.UserName}, {user.Email}");
+                    case "1":
+                        User user = new User();
+                        Console.WriteLine("Введите имя пользователя");
+                        user.UserName = Console.ReadLine();
+                        Console.WriteLine("Введите Email");
+                        user.Email = Console.ReadLine();
+                        Console.WriteLine("Введите пароль");
+                        user.Password = Console.ReadLine();
+                        userController.Register(user);
+                        break;
+                    case "2":
+                        userController.UserList();
+                        break;
+                    case "3":
+                        Console.Clear();
+                        break;
+                    default:
+                        break;
                 }
+                
             }
-            Console.WriteLine("+++++");
         }
     }
 }

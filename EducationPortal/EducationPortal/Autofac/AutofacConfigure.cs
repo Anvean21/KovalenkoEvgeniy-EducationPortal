@@ -7,11 +7,16 @@ using System.Text;
 
 namespace EducationPortal.Autofac
 {
-    class AutofacConfigure
+   public class AutofacConfigure
     {
         public static void ConfigureContainer()
         {
-           //Перенести зависимости сюда, когда перейдем на Core. Сейчас зависимости прямо в Main();
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>();
+
+            var container = builder.Build();
+
         }
     }
 }

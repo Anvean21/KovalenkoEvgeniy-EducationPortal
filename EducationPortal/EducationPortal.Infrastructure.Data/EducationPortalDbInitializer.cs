@@ -19,17 +19,18 @@ namespace EducationPortal.Infrastructure.Data
             Role adminRole = new Role {Id = 1, Name = "admin" };
             Role userRole = new Role {Id = 2, Name = "user" };
 
-            User testAdmin = new User {Id = 1, UserName = "Admin", Email = "Admin@email.com", Password = "AdminPassword", Role = adminRole, RoleId = adminRole.Id };
-            User testUser = new User {Id = 2, UserName = "User", Email = "User@email.com", Password = "userPassword", Role = userRole, RoleId = userRole.Id };
-            User testModer = new User { Id = 3, UserName = "Moder", Email = "Moder@email.com", Password = "ModerPassword", Role = adminRole, RoleId = adminRole.Id };
+            User testAdmin = new User {Id = 1, UserName = "Admin", Email = "Admin@email.com", Password = "AdminPassword", Role = adminRole };
+            User testUser = new User {Id = 2, UserName = "User", Email = "User@email.com", Password = "userPassword", Role = userRole};
+            User testModer = new User { Id = 3, UserName = "Moder", Email = "Moder@email.com", Password = "ModerPassword", Role = adminRole};
 
 
+
+            List<User> list = new List<User>();
+            list.Add(testModer);
+            list.Add(testUser);
+            list.Add(testAdmin);
             //Это нужно расскоментировать для запуска из коробки. После того как программа отработает надо вернуть всё обратно.
 
-            //List<User> list = new List<User>();
-            //list.Add(testModer);
-            //list.Add(testUser);
-            //list.Add(testAdmin);
             //save.JsonSave(list, @"D:\Users.json");
 
         }
