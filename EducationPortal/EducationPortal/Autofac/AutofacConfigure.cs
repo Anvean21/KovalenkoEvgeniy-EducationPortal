@@ -1,6 +1,9 @@
 ﻿using Autofac;
+using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
+using EducationPortal.Infrastructure.Business;
 using EducationPortal.Infrastructure.Data;
+using EducationPortal.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,8 +15,9 @@ namespace EducationPortal.Autofac
         public static void ConfigureContainer()
         {
             var builder = new ContainerBuilder();
-
-            builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>();
+            //Непонятно как делать DI c обобщенными классами
+            builder.RegisterType<JsonSet<User>>().As(typeof(IRepository<User>));
+            builder.RegisterType<UserService>().As(typeof(IUserService));
 
             var container = builder.Build();
 

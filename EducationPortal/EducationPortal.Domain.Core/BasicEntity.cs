@@ -4,14 +4,9 @@ using System.Text;
 
 namespace EducationPortal.Domain.Core
 {
-    [Serializable]
-    public class Role
+    //У всех сущностей будет один предок
+   public class BasicEntity
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public Role()
-        {
-
-        }
     }
 }

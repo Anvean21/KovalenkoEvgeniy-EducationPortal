@@ -11,7 +11,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EducationPortal.Domain.Interfaces\EducationPortal.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\EducationPortal.Infrastructure.Business\EducationPortal.Infrastructure.Business.csproj" />
     <ProjectReference Include="..\EducationPortal.Infrastructure.Data\EducationPortal.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\EducationPortal.Services.Interfaces\EducationPortal.Services.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
