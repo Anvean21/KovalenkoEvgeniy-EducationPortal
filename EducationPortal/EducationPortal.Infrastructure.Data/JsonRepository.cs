@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -11,26 +12,35 @@ using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Data
 {
-    public class JsonSet<T> : IRepository<T> where T : class
+    public class JsonRepository<T> : IRepository<T> where T : class
     {
         DirectoryInfo directory;
         Type type;
-        public JsonSet()
+        Regex regex;
+        Match match;
+        public JsonRepository()
         {
-            this.type = typeof(T);
-            this.directory = new DirectoryInfo($"{this.type.Name}");
+            type = typeof(T);
+            directory = new DirectoryInfo($"{type.Name}");
         }
         public void Create(T item)
         {
-            Directory.CreateDirectory($"{this.type.Name}");
+            Directory.CreateDirectory($"{type.Name}");
+            //Если в директории не будет юзеров, выскочит эксепшн =(
+            regex = new Regex(@"\d+");
 
-            //Id итератор. Нужно подумать что делать если папка пустая.
-            typeof(T).GetProperty("Id").SetValue(item, directory.GetFiles("*.json").OrderBy(x => x.Name).Select(x => x.Name).Select(x => Convert.ToInt32(Regex.Match(x, @"\d+").Value)).Max()+1);
+            int itemId = directory.GetFiles("*.json")
+                .Select(x => x.Name)
+                .Select(x => int.Parse(regex.Match(x).Value))
+                .Max() + 1;
 
-            using (FileStream fs = new FileStream($"{this.type.Name}/{this.type.Name}.json", FileMode.Create))
+            typeof(T).GetProperty("Id")
+                .SetValue(item, itemId);
+            
+            using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{itemId}.json", FileMode.Create))
             {
                 JsonSerializer.SerializeAsync(fs, item);
-                Console.WriteLine("Data has been saved to file");
+               // Console.WriteLine("Data has been saved to file");
             }
         }
         public void Delete(int id)
@@ -51,7 +61,7 @@ namespace EducationPortal.Infrastructure.Data
             {
                 T item = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(File.ReadAllText(file.FullName));
                 entitiesList.Add(item);
-                Console.WriteLine("Data has been read from file");
+               // Console.WriteLine("Data has been read from file");
             }
             return entitiesList;
         }

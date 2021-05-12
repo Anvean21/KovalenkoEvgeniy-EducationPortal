@@ -13,7 +13,7 @@ namespace EducationPortal
     {
         static void Main(string[] args)
         {
-            UserService user1 = new UserService(new JsonSet<User>());
+            UserService user1 = new UserService(new JsonRepository<User>());
             AutofacConfigure.ConfigureContainer();
             
             while (true)
@@ -32,7 +32,11 @@ namespace EducationPortal
                         user1.Register(user);
                         break;
                     case "2":
-                        user1.UserList();
+                        foreach (var item in user1.UsersList())
+                        {
+                            Console.WriteLine($"Name: {item.Name}, Email: {item.Email}, Password: {item.Password}");
+                        }
+                        
                         break;
                     case "3":
                         Console.Clear();

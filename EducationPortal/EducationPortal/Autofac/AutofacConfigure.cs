@@ -16,7 +16,7 @@ namespace EducationPortal.Autofac
         {
             var builder = new ContainerBuilder();
             //Непонятно как делать DI c обобщенными классами
-            builder.RegisterType<JsonSet<User>>().As(typeof(IRepository<User>));
+            builder.RegisterType<JsonRepository<User>>().As(typeof(IRepository<User>));
             builder.RegisterType<UserService>().As(typeof(IUserService));
 
             var container = builder.Build();
