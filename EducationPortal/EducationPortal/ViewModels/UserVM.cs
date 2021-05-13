@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace EducationPortal.Domain.Core
+namespace EducationPortal.ViewModels
 {
-    public class User : BasicEntity
+   public class UserVM:BasicVM
     {
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
 
 
-        public ICollection<Skill> Skills { get; set; }
-        
-
+        public ICollection<SkillVM> Skills { get; set; }
 
     }
 }

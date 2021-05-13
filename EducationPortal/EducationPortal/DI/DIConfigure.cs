@@ -15,7 +15,7 @@ namespace EducationPortal.Autofac
         public static void ConfigureContainer()
         {
             var builder = new ContainerBuilder();
-            //Непонятно как делать DI c обобщенными классами
+            //Непонятно как делать DI c обобщенными классами Встроенный контейнер имеет только asp.net core, тут его нету:(
             builder.RegisterType<JsonRepository<User>>().As(typeof(IRepository<User>));
             builder.RegisterType<UserService>().As(typeof(IUserService));
 
