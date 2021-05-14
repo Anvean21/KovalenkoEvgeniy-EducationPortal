@@ -18,7 +18,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public bool Register(User model)
         {
-            if (userRepository.GetAll().Any(x=>x.Email == model.Email))
+            if (userRepository.GetAll().Any(x=>x.Email.ToLower() == model.Email.ToLower()))
             {
                 return false;
             }
@@ -26,6 +26,18 @@ namespace EducationPortal.Infrastructure.Business
             {
                 userRepository.Create(model);
                 return true;
+            }
+        }
+        public bool LogIn(string email,string password)
+        {
+            var dbUser = userRepository.GetAll().FirstOrDefault(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
+            if (dbUser != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

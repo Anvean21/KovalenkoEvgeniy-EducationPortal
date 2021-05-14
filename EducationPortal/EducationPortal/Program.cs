@@ -23,7 +23,7 @@ namespace EducationPortal
             
             while (true)
             {
-                Console.WriteLine("1 - Зарегистрироваться\n2 - Вывести всех пользователей\n3 - Очистить консоль ");
+                Console.WriteLine("1 - Зарегистрироваться\n2 - Войти в систему\n3 - Вывести всех пользователей\n4 - Очистить консоль ");
                 switch (Console.ReadLine())
                 {
                     case "1":
@@ -31,7 +31,7 @@ namespace EducationPortal
                         Console.WriteLine("Введите имя пользователя");
                         userVM.Name = Console.ReadLine();
                         Console.WriteLine("Введите Email");
-                        userVM.Email = Console.ReadLine();
+                        userVM.Email = Console.ReadLine().ToLower();
                         Console.WriteLine("Введите пароль");
                         userVM.Password = Console.ReadLine();
 
@@ -46,13 +46,26 @@ namespace EducationPortal
                             validator.ValidateAndThrow(userVM);
                         break;
                     case "2":
+                        Console.WriteLine("Введите ваш email");
+                        var name = Console.ReadLine();
+                        Console.WriteLine("Введите ваш пароль");
+                        var password = Console.ReadLine();
+                        if (userService.LogIn(name,password))
+                        {
+                            Console.WriteLine("Вы успешно вошли в систему");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Пользователь не найден");
+                        }
+                        break;
+                    case "3":
                         foreach (var item in userService.UsersList())
                         {
                             Console.WriteLine($"Name: {item.Name}, Email: {item.Email}, Password: {item.Password}");
                         }
-                        
                         break;
-                    case "3":
+                    case "4":
                         Console.Clear();
                         break;
                     default:

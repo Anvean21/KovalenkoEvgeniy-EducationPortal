@@ -9,6 +9,6 @@ namespace EducationPortal.Services.Interfaces
     {
         public IEnumerable<User> UsersList();
         public bool Register(User model);
-
+        public bool LogIn(string email, string password);
     }
 }
