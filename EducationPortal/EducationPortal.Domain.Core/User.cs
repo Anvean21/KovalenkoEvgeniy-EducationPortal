@@ -13,6 +13,8 @@ namespace EducationPortal.Domain.Core
 
 
         public ICollection<Skill> Skills { get; set; }
+        public ICollection<Course> Courses { get; set; }
+
         
 
 

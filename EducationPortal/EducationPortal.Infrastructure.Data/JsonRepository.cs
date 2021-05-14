@@ -26,14 +26,21 @@ namespace EducationPortal.Infrastructure.Data
         public void Create(T item)
         {
             Directory.CreateDirectory($"{type.Name}");
-            //Если в директории не будет юзеров, выскочит эксепшн =(
+            int itemId = 0;
             regex = new Regex(@"\d+");
 
-            int itemId = directory.GetFiles("*.json")
-                .Select(x => x.Name)
-                .Select(x => int.Parse(regex.Match(x).Value))
-                .Max() + 1;
-
+            if (directory.GetFiles("*.json").Count() == 0)
+            {
+                itemId++;
+            }
+            else
+            {
+                itemId = directory.GetFiles("*.json")
+                  .Select(x => x.Name)
+                  .Select(x => int.Parse(regex.Match(x).Value))
+                  .Max() + 1;
+            }
+           
             typeof(T).GetProperty("Id")
                 .SetValue(item, itemId);
             
