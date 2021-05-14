@@ -1,10 +1,14 @@
 ﻿using Autofac;
+using AutoMapper;
 using EducationPortal.Autofac;
 using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
+using EducationPortal.FluentValidationModels;
 using EducationPortal.Infrastructure.Business;
 using EducationPortal.Infrastructure.Data;
 using EducationPortal.Services.Interfaces;
+using EducationPortal.ViewModels;
+using FluentValidation;
 using System;
 
 namespace EducationPortal
@@ -13,7 +17,8 @@ namespace EducationPortal
     {
         static void Main(string[] args)
         {
-            UserService user1 = new UserService(new JsonRepository<User>());
+            UserService userService = new UserService(new JsonRepository<User>());
+            UserValidator validator = new UserValidator();
             AutofacConfigure.ConfigureContainer();
             
             while (true)
@@ -22,17 +27,26 @@ namespace EducationPortal
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        User user = new User();
+                        UserVM userVM = new UserVM();
                         Console.WriteLine("Введите имя пользователя");
-                        user.Name = Console.ReadLine();
+                        userVM.Name = Console.ReadLine();
                         Console.WriteLine("Введите Email");
-                        user.Email = Console.ReadLine();
+                        userVM.Email = Console.ReadLine();
                         Console.WriteLine("Введите пароль");
-                        user.Password = Console.ReadLine();
-                        user1.Register(user);
+                        userVM.Password = Console.ReadLine();
+
+                        if (validator.Validate(userVM).IsValid)
+                        {
+                            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<UserVM, User>());
+                            var mapper = new Mapper(configuration);
+                            var user = mapper.Map<UserVM, User>(userVM);
+                            userService.Register(user);
+                        }
+                        else
+                            validator.ValidateAndThrow(userVM);
                         break;
                     case "2":
-                        foreach (var item in user1.UsersList())
+                        foreach (var item in userService.UsersList())
                         {
                             Console.WriteLine($"Name: {item.Name}, Email: {item.Email}, Password: {item.Password}");
                         }
