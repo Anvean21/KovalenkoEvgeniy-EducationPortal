@@ -19,7 +19,7 @@ namespace EducationPortal
         {
             UserService userService = new UserService(new JsonRepository<User>());
             UserValidator validator = new UserValidator();
-            AutofacConfigure.ConfigureContainer();
+            DependecyIngection.ConfigureService();
             
             while (true)
             {
