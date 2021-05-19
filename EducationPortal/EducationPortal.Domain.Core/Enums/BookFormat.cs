@@ -4,9 +4,10 @@ using System.Text;
 
 namespace EducationPortal.Domain.Core
 {
-    public class Skill :BasicEntity
+    public enum BookFormat
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
+        Small,
+        Medium,
+        Large
     }
 }

@@ -1,6 +1,6 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
-using EducationPortal.Infrastructure.Data.Hesher;
+using EducationPortal.Infrastructure.Data.Hasher;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,9 +15,9 @@ namespace EducationPortal.Infrastructure.Data
 {
     public class JsonRepository<T> : IRepository<T> where T : class
     {
-        DirectoryInfo directory;
-        Type type;
-        Regex regex;
+        private DirectoryInfo directory;
+        private Type type;
+        private Regex regex;
 
         public JsonRepository()
         {
@@ -57,11 +57,20 @@ namespace EducationPortal.Infrastructure.Data
         }
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var file = directory.GetFiles($"*{id}.json").FirstOrDefault();
+            file.Delete();
+            Console.WriteLine("Operation completed successfully");
         }
-        public T Get(int id)
+        public T GetById(int id)
         {
-            throw new NotImplementedException();
+            var file = directory.GetFiles($"*{id}.json").FirstOrDefault();
+
+            T jsonItem = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(File.ReadAllText(file.FullName));
+            if (typeof(T).GetProperties().Any(x => x.Name == "Password"))
+            {
+                typeof(T).GetProperty("Password").SetValue(jsonItem, PasswordHasher.Decode(typeof(T).GetProperty("Password").GetValue(jsonItem).ToString()));
+            }
+            return jsonItem;
         }
 
         public IEnumerable<T> GetAll()

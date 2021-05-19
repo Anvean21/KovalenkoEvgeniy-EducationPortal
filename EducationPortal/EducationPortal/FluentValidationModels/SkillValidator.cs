@@ -6,11 +6,11 @@ using System.Text;
 
 namespace EducationPortal.FluentValidationModels
 {
-   public class SkillValidator : AbstractValidator<SkillVM>
+    public class SkillValidator : AbstractValidator<SkillVM>
     {
         public SkillValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().MinimumLength(2).WithMessage("Invalid name");
+            RuleFor(x => x.Name).NotEmpty().Length(2,30);
             RuleFor(x => x.Level).NotEmpty();
         }
     }

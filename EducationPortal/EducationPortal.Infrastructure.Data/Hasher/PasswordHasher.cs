@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
-namespace EducationPortal.Infrastructure.Data.Hesher
+namespace EducationPortal.Infrastructure.Data.Hasher
 {
     public static class PasswordHasher
     {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EducationPortal.ViewModels
 {
-   public class VideoMaterialVM : MaterialVM
+    public class VideoMaterialVM : MaterialVM
     {
         public VideoQualityVM Quality { get; set; }
         public double Duration { get; set; }

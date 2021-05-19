@@ -6,12 +6,12 @@ using System.Text;
 
 namespace EducationPortal.FluentValidationModels
 {
-    public class MaterialValidator:AbstractValidator<MaterialVM>
+    public class MaterialValidator : AbstractValidator<MaterialVM>
     {
         public MaterialValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Passed).NotNull();
+            RuleFor(x => x.Passed).NotEmpty();
         }
     }
 }

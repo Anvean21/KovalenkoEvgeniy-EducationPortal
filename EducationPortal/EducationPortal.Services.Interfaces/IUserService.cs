@@ -5,9 +5,8 @@ using System.Text;
 
 namespace EducationPortal.Services.Interfaces
 {
-   public interface IUserService
+    public interface IUserService
     {
-        public IEnumerable<User> UsersList();
         public bool Register(User model);
         public bool LogIn(string email, string password);
     }

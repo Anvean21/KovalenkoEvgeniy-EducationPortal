@@ -8,7 +8,7 @@ using System.Text;
 
 namespace EducationPortal.Infrastructure.Business
 {
-  public class UserService: IUserService
+    public class UserService : IUserService
     {
         private readonly IRepository<User> userRepository;
         public UserService(IRepository<User> userRepository)
@@ -18,7 +18,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public bool Register(User model)
         {
-            if (userRepository.GetAll().Any(x=>x.Email.ToLower() == model.Email.ToLower()))
+            if (userRepository.GetAll().Any(x => x.Email.ToLower() == model.Email.ToLower()))
             {
                 return false;
             }
@@ -28,7 +28,7 @@ namespace EducationPortal.Infrastructure.Business
                 return true;
             }
         }
-        public bool LogIn(string email,string password)
+        public bool LogIn(string email, string password)
         {
             var dbUser = userRepository.GetAll().FirstOrDefault(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
             if (dbUser != null)
@@ -39,11 +39,6 @@ namespace EducationPortal.Infrastructure.Business
             {
                 return false;
             }
-        }
-
-        public IEnumerable<User> UsersList()
-        {
-            return userRepository.GetAll();
         }
     }
 }

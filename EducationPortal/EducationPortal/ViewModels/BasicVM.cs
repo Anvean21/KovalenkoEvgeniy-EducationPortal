@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EducationPortal.ViewModels
 {
-   public class BasicVM
+    public class BasicVM
     {
         public int Id { get; set; }
     }

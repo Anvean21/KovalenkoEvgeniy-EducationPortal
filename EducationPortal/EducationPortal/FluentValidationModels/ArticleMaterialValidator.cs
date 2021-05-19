@@ -6,16 +6,14 @@ using System.Text;
 
 namespace EducationPortal.FluentValidationModels
 {
-   public class ArticleMaterialValidator:AbstractValidator<ArticleMaterialVM>
+    public class ArticleMaterialValidator : AbstractValidator<ArticleMaterialVM>
     {
         public ArticleMaterialValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Passed).NotNull();
+            RuleFor(x => x.Passed).NotEmpty();
             RuleFor(x => x.Resource).NotEmpty();
-
-            RuleFor(x => x.PublishDate).NotEmpty().Must(x=>x.Date <= DateTime.Today);
-
+            RuleFor(x => x.PublishDate).NotEmpty().Must(x => x.Date <= DateTime.Today);
         }
     }
 }

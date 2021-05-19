@@ -6,12 +6,12 @@ using System.Text;
 
 namespace EducationPortal.FluentValidationModels
 {
-   public class CourseValidator: AbstractValidator<CourseVM>
+    public class CourseValidator : AbstractValidator<CourseVM>
     {
         public CourseValidator()
         {
             RuleFor(x => x.Name).NotEmpty().MinimumLength(2);
-            RuleFor(x => x.Description).NotEmpty().MinimumLength(20).WithMessage("Invalid description. min 20 symbols");
+            RuleFor(x => x.Description).NotEmpty().Length(20,300);
             RuleForEach(x => x.Skills).SetValidator(new SkillValidator());
             RuleForEach(x => x.Materials).SetValidator(new MaterialValidator());
         }

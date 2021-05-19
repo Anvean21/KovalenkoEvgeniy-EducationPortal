@@ -18,55 +18,44 @@ namespace EducationPortal
     {
         static void Main(string[] args)
         {
-            UserService userService = new UserService(new JsonRepository<User>());
+            IUserService userService = new UserService(new JsonRepository<User>());
             UserValidator validator = new UserValidator();
             DependecyIngection.ConfigureService();
 
             while (true)
             {
-                Console.WriteLine("1 - Зарегистрироваться\n2 - Войти в систему\n3 - Вывести всех пользователей\n4 - Очистить консоль ");
+                Console.WriteLine("1 - Registration\n2 - Log In\n3 - Clear ");
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        UserVM userVM = new UserVM();
-                        Console.WriteLine("Введите имя пользователя");
-                        userVM.Name = Console.ReadLine();
-                        Console.WriteLine("Введите Email");
-                        userVM.Email = Console.ReadLine().ToLower();
-                        Console.WriteLine("Введите пароль");
-                        userVM.Password = Console.ReadLine();
+                        var userVM = UserHelper.UserFullData();
 
                         if (validator.Validate(userVM).IsValid)
                         {
                             userService.Register(Map.MapVmToDomain<UserVM, User>(userVM));
                         }
                         else
+                        {
                             validator.ValidateAndThrow(userVM);
+                        }
                         break;
                     case "2":
-                        Console.WriteLine("Введите ваш email");
-                        var name = Console.ReadLine();
-                        Console.WriteLine("Введите ваш пароль");
-                        var password = Console.ReadLine();
-                        if (userService.LogIn(name, password))
+                        var turple = UserHelper.UserLoginData();
+
+                        if (userService.LogIn(turple.Item1, turple.Item2))
                         {
-                            Console.WriteLine("Вы успешно вошли в систему");
+                            Console.WriteLine("Authorized");
                         }
                         else
                         {
-                            Console.WriteLine("Пользователь не найден");
+                            Console.WriteLine("User is not found");
                         }
                         break;
                     case "3":
-                        foreach (var item in userService.UsersList())
-                        {
-                            Console.WriteLine($"Name: {item.Name}, Email: {item.Email}, Password: {item.Password}");
-                        }
-                        break;
-                    case "4":
                         Console.Clear();
                         break;
                     default:
+                        Console.Clear();
                         break;
                 }
             }
