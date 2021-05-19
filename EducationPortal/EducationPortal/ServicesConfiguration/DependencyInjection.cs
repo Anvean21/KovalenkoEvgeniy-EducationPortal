@@ -1,15 +1,11 @@
-﻿using Autofac;
-using EducationPortal.Domain.Core;
-using EducationPortal.Domain.Interfaces;
+﻿using EducationPortal.Domain.Interfaces;
 using EducationPortal.Infrastructure.Business;
 using EducationPortal.Infrastructure.Data;
 using EducationPortal.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace EducationPortal.Autofac
+namespace EducationPortal.DependencyInjection
 {
     public class DependecyIngection
     {

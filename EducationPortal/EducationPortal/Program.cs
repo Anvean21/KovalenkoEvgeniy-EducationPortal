@@ -1,27 +1,20 @@
-﻿using Autofac;
-using AutoMapper;
-using EducationPortal.Autofac;
-using EducationPortal.Domain.Core;
-using EducationPortal.Domain.Interfaces;
+﻿using EducationPortal.Domain.Core;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Helpers;
-using EducationPortal.Infrastructure.Business;
-using EducationPortal.Infrastructure.Data;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.ViewModels;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace EducationPortal
 {
     class Program
     {
+        private static readonly IUserService userService = CustomServiceProvider.Provider.GetRequiredService<IUserService>();
         static void Main(string[] args)
         {
-            IUserService userService = new UserService(new JsonRepository<User>());
             UserValidator validator = new UserValidator();
-            DependecyIngection.ConfigureService();
-
             while (true)
             {
                 Console.WriteLine("1 - Registration\n2 - Log In\n3 - Clear ");
