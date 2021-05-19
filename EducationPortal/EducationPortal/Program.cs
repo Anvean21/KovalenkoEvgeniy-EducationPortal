@@ -4,6 +4,7 @@ using EducationPortal.Autofac;
 using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.FluentValidationModels;
+using EducationPortal.Helpers;
 using EducationPortal.Infrastructure.Business;
 using EducationPortal.Infrastructure.Data;
 using EducationPortal.Services.Interfaces;
@@ -20,7 +21,7 @@ namespace EducationPortal
             UserService userService = new UserService(new JsonRepository<User>());
             UserValidator validator = new UserValidator();
             DependecyIngection.ConfigureService();
-            
+
             while (true)
             {
                 Console.WriteLine("1 - Зарегистрироваться\n2 - Войти в систему\n3 - Вывести всех пользователей\n4 - Очистить консоль ");
@@ -37,10 +38,7 @@ namespace EducationPortal
 
                         if (validator.Validate(userVM).IsValid)
                         {
-                            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<UserVM, User>());
-                            var mapper = new Mapper(configuration);
-                            var user = mapper.Map<UserVM, User>(userVM);
-                            userService.Register(user);
+                            userService.Register(Map.MapVmToDomain<UserVM, User>(userVM));
                         }
                         else
                             validator.ValidateAndThrow(userVM);
@@ -50,7 +48,7 @@ namespace EducationPortal
                         var name = Console.ReadLine();
                         Console.WriteLine("Введите ваш пароль");
                         var password = Console.ReadLine();
-                        if (userService.LogIn(name,password))
+                        if (userService.LogIn(name, password))
                         {
                             Console.WriteLine("Вы успешно вошли в систему");
                         }

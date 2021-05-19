@@ -24,7 +24,7 @@ namespace EducationPortal.Infrastructure.Data
             type = typeof(T);
             directory = new DirectoryInfo($"{type.Name}");
         }
-        public void Create(T item)
+        public void Create(T obj)
         {
             Directory.CreateDirectory($"{type.Name}");
             int itemId = 0;
@@ -42,16 +42,16 @@ namespace EducationPortal.Infrastructure.Data
                   .Max() + 1;
             }
 
-            typeof(T).GetProperty("Id").SetValue(item, itemId);
+            typeof(T).GetProperty("Id").SetValue(obj, itemId);
 
             if (typeof(T).GetProperties().Any(x => x.Name == "Password"))
             {
-                typeof(T).GetProperty("Password").SetValue(item, PasswordHasher.Encode(typeof(T).GetProperty("Password").GetValue(item).ToString()));
+                typeof(T).GetProperty("Password").SetValue(obj, PasswordHasher.Encode(typeof(T).GetProperty("Password").GetValue(obj).ToString()));
             }
 
             using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{itemId}.json", FileMode.Create))
             {
-                JsonSerializer.SerializeAsync(fs, item);
+                JsonSerializer.SerializeAsync(fs, obj);
                 // Console.WriteLine("Data has been saved to file");
             }
         }
