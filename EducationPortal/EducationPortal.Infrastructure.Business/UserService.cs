@@ -10,35 +10,47 @@ namespace EducationPortal.Infrastructure.Business
 {
     public class UserService : IUserService
     {
+        private static User authorizedUser;
+
         private readonly IRepository<User> userRepository;
         public UserService(IRepository<User> userRepository)
         {
             this.userRepository = userRepository;
         }
 
-        public bool Register(User model)
+        public void Register(User model)
         {
-            if (userRepository.GetAll().Any(x => x.Email.ToLower() == model.Email.ToLower()))
-            {
-                return false;
-            }
-            else
+            if (!userRepository.GetAll().Any(x => x.Email.ToLower() == model.Email.ToLower()))
             {
                 userRepository.Create(model);
-                return true;
+                authorizedUser = model;
             }
         }
+
         public bool LogIn(string email, string password)
         {
-            var dbUser = userRepository.GetAll().FirstOrDefault(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
-            if (dbUser != null)
-            {
-                return true;
-            }
-            else
+            var userFromDb = userRepository.GetAll().FirstOrDefault(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
+            if (userFromDb == null)
             {
                 return false;
             }
+            authorizedUser = userFromDb;
+            return true;
+        }
+
+        public bool LogOut()
+        {
+            authorizedUser = null;
+            return true;
+        }
+
+        public bool IsUserAuthorized()
+        {
+            if (authorizedUser != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

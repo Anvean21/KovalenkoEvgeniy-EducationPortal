@@ -7,7 +7,9 @@ namespace EducationPortal.Services.Interfaces
 {
     public interface IUserService
     {
-        public bool Register(User model);
+        public void Register(User model);
         public bool LogIn(string email, string password);
+        public bool LogOut();
+        public bool IsUserAuthorized();
     }
 }

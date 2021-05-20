@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationPortal.Helpers
+namespace EducationPortal.Automapper
 {
     public static class UserHelper
     {

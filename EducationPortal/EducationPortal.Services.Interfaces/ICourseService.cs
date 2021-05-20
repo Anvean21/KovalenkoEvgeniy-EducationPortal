@@ -5,8 +5,8 @@ using System.Text;
 
 namespace EducationPortal.Services.Interfaces
 {
-    public interface ISkillService
+    public interface ICourseService
     {
-        public Skill AddSkill(Skill skill);
+        public Course AddCourse(Course course);
     }
 }

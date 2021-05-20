@@ -13,6 +13,9 @@ namespace EducationPortal.DependencyInjection
         {
             var provider = new ServiceCollection().AddSingleton(typeof(IRepository<>), typeof(JsonRepository<>))
                 .AddTransient<IUserService, UserService>()
+                .AddTransient<ISkillService, SkillService>()
+                .AddTransient<IMaterialService, MaterialService>()
+                .AddTransient<ICourseService, CourseService>()
                 .BuildServiceProvider();
             return provider;
         }
