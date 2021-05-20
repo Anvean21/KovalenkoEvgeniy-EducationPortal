@@ -8,6 +8,5 @@ namespace EducationPortal.ViewModels
     {
         public VideoQualityVM Quality { get; set; }
         public double Duration { get; set; }
-        public string Path { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace EducationPortal.Services.Interfaces
 {
     public interface ICourseService
     {
-        public Course AddCourse(Course course);
+        public void AddCourse(Course course);
     }
 }

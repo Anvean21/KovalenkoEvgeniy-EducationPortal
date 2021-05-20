@@ -14,7 +14,7 @@ namespace EducationPortal.FluentValidationModels
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Pages).NotEmpty();
             RuleFor(x => x.Passed).NotEmpty();
-            RuleFor(x => x.YearOfPublish).NotEmpty().Must(x => x.Year <= DateTime.Today.Year);
+            RuleFor(x => x.YearOfPublish).NotEmpty().Must(x => x <= DateTime.Today.Year);
         }
     }
 }

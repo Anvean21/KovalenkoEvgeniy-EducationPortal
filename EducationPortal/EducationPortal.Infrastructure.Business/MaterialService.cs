@@ -7,6 +7,7 @@ using System.Text;
 
 namespace EducationPortal.Infrastructure.Business
 {
+    //ИНТЕРФЕЙС
     public class MaterialService : IMaterialService
     {
         private IRepository<IMaterialService> materialRepository;
@@ -15,19 +16,19 @@ namespace EducationPortal.Infrastructure.Business
             this.materialRepository = materialRepository;
         }
 
-        public ArticleMaterial AddArticleMaterial(ArticleMaterial articleMaterial)
+        void IMaterialService.AddArticleMaterial(ArticleMaterial articleMaterial)
         {
             throw new NotImplementedException();
         }
 
-        public BookMaterial AddBookMaterial(BookMaterial bookMaterial)
+        void IMaterialService.AddBookMaterial(BookMaterial bookMaterial)
         {
             throw new NotImplementedException();
         }
 
-        public VideoMaterial AddVideoMaterial(VideoMaterial videoMaterial)
+        void IMaterialService.AddVideoMaterial(VideoMaterial videoMaterial)
         {
-            throw new NotImplementedException();
+            materialRepository.Create(videoMaterial);
         }
     }
 }

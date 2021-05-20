@@ -8,7 +8,7 @@ namespace EducationPortal.Domain.Core
     {
         public int Pages { get; set; }
         public string Author { get; set; }
-        public DateTime YearOfPublish { get; set; }
+        public int YearOfPublish { get; set; }
         public BookFormat Format { get; set; }
     }
 }

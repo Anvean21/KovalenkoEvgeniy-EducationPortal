@@ -7,8 +7,8 @@ namespace EducationPortal.Services.Interfaces
 {
     public interface IMaterialService
     {
-        public VideoMaterial AddVideoMaterial(VideoMaterial videoMaterial);
-        public BookMaterial AddBookMaterial(BookMaterial bookMaterial);
-        public ArticleMaterial AddArticleMaterial(ArticleMaterial articleMaterial);
+        public void AddVideoMaterial(VideoMaterial videoMaterial);
+        public void AddBookMaterial(BookMaterial bookMaterial);
+        public void AddArticleMaterial(ArticleMaterial articleMaterial);
     }
 }

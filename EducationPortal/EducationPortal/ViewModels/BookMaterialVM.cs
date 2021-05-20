@@ -8,7 +8,7 @@ namespace EducationPortal.ViewModels
     {
         public int Pages { get; set; }
         public string Author { get; set; }
-        public DateTime YearOfPublish { get; set; }
+        public int YearOfPublish { get; set; }
         public BookFormatVM Format { get; set; }
     }
 }

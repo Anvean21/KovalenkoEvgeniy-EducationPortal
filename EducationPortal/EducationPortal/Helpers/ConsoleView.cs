@@ -1,4 +1,5 @@
 ﻿using EducationPortal.Automapper;
+using EducationPortal.Creator;
 using EducationPortal.Domain.Core;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Services.Interfaces;
@@ -13,8 +14,6 @@ namespace EducationPortal.Helpers
 {
     public static class ConsoleView
     {
-        private static readonly IUserService userService = CustomServiceProvider.Provider.GetRequiredService<IUserService>();
-        static UserValidator validator = new UserValidator();
 
         public static void ViewForUnautorizedUser()
         {
@@ -23,31 +22,11 @@ namespace EducationPortal.Helpers
             {
                 case "1":
                     Console.Clear();
-                    var userVM = UserHelper.UserFullData();
-                    if (validator.Validate(userVM).IsValid)
-                    {
-                        userService.Register(Map.MapVmToDomain<UserVM, User>(userVM));
-                        Console.Clear();
-                        Console.WriteLine("You have successfully registered and authorized");
-                    }
-                    else
-                    {
-                        validator.ValidateAndThrow(userVM);
-                    }
+                    UserCreator.UserCreate();
                     break;
                 case "2":
                     Console.Clear();
-                    var turple = UserHelper.UserLoginData();
-
-                    if (userService.LogIn(turple.Item1, turple.Item2))
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Authorized");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Something went wrong, try again");
-                    }
+                    UserCreator.UserLogIn();
                     break;
                 default:
                     Console.Clear();
@@ -60,12 +39,13 @@ namespace EducationPortal.Helpers
             switch (Console.ReadLine())
             {
                 case "1":
+                    CourseCreator.CourseCreate();
                     break;
                 case "2":
                     break;
                 case "3":
                     Console.Clear();
-                    userService.LogOut();
+                    UserCreator.UserLogOut();
                     break;
                 default:
                     Console.Clear();

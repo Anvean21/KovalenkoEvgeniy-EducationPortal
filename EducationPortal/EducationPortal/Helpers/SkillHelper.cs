@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EducationPortal.Helpers
 {
-   public static class SkillHelper
+    public static class SkillHelper
     {
         public static SkillVM SkillFullData()
         {

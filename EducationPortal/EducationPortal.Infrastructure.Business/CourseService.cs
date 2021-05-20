@@ -12,6 +12,7 @@ namespace EducationPortal.Infrastructure.Business
         private IRepository<Course> courseRepository;
         private IRepository<Skill> skillRepository;
         private IRepository<Material> materialRepository;
+        // убрать лишние репосы, имплемантация интерфейса
         public CourseService(IRepository<Course> courseRepository, IRepository<Skill> skillRepository, IRepository<Material> materialRepository)
         {
             this.courseRepository = courseRepository;
@@ -19,6 +20,11 @@ namespace EducationPortal.Infrastructure.Business
             this.skillRepository = skillRepository;
         }
         public Course AddCourse(Course course)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ICourseService.AddCourse(Course course)
         {
             throw new NotImplementedException();
         }

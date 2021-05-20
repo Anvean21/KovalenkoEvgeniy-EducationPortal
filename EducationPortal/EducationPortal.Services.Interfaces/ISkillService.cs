@@ -7,6 +7,8 @@ namespace EducationPortal.Services.Interfaces
 {
     public interface ISkillService
     {
-        public Skill AddSkill(Skill skill);
+        public void AddSkill(Skill skill);
+        public IEnumerable<Skill> GetSkills();
+        public Skill GetSkillByName(string name);
     }
 }

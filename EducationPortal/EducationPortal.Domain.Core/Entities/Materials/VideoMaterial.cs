@@ -8,6 +8,5 @@ namespace EducationPortal.Domain.Core
     {
         public VideoQuality Quality { get; set; }
         public double Duration { get; set; }
-        public string Path { get; set; }
     }
 }
