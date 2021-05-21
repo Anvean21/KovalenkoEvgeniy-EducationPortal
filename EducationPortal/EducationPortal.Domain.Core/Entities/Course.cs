@@ -8,7 +8,6 @@ namespace EducationPortal.Domain.Core
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
         public ICollection<Skill> Skills { get; set; }
         public ICollection<Material> Materials { get; set; }
     }

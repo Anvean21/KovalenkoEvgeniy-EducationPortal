@@ -67,5 +67,16 @@ namespace EducationPortal.Creator
                 return null;
             }
         }
+        public static void MaterialList()
+        {
+            foreach (var material in materialService.GetMaterials())
+            {
+                Console.WriteLine(string.Join(", ", material.Name));
+            }
+        }
+        public static MaterialVM AddMaterialByName(string name)
+        {
+            return Map.MapVmToDomain<Material, MaterialVM>(materialService.GetMaterialByName(name));
+        }
     }
 }

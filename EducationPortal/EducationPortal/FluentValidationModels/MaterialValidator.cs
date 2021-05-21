@@ -11,7 +11,7 @@ namespace EducationPortal.FluentValidationModels
         public MaterialValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Passed).NotEmpty();
+            RuleFor(x => x.Passed).NotNull();
         }
     }
 }

@@ -30,7 +30,6 @@ namespace EducationPortal.Creator
             else
             {
                 validator.ValidateAndThrow(skillVM);
-                //не забыть
                 return null;
             }
         }

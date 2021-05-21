@@ -3,32 +3,42 @@ using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EducationPortal.Infrastructure.Business
 {
-    //ИНТЕРФЕЙС
     public class MaterialService : IMaterialService
     {
-        private IRepository<IMaterialService> materialRepository;
-        public MaterialService(IRepository<IMaterialService> materialRepository)
+        private IRepository<Material> materialRepository;
+        public MaterialService(IRepository<Material> materialRepository)
         {
             this.materialRepository = materialRepository;
         }
 
-        void IMaterialService.AddArticleMaterial(ArticleMaterial articleMaterial)
+        public void AddArticleMaterial(ArticleMaterial articleMaterial)
         {
-            throw new NotImplementedException();
+            materialRepository.Create(articleMaterial);
         }
 
-        void IMaterialService.AddBookMaterial(BookMaterial bookMaterial)
+        public void AddBookMaterial(BookMaterial bookMaterial)
         {
-            throw new NotImplementedException();
+            materialRepository.Create(bookMaterial);
         }
 
-        void IMaterialService.AddVideoMaterial(VideoMaterial videoMaterial)
+        public void AddVideoMaterial(VideoMaterial videoMaterial)
         {
             materialRepository.Create(videoMaterial);
+        }
+
+        public Material GetMaterialByName(string name)
+        {
+            return materialRepository.GetAll().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+        }
+
+        public IEnumerable<Material> GetMaterials()
+        {
+            return materialRepository.GetAll();
         }
     }
 }

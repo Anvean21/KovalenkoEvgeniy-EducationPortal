@@ -13,9 +13,8 @@ namespace EducationPortal.Helpers
             VideoMaterialVM videoMaterialVM = new VideoMaterialVM();
             Console.WriteLine("Enter video Name");
             videoMaterialVM.Name = Console.ReadLine();
-            //Потестить длинну запятая/точка как правильно
             Console.WriteLine("Enter video Duration (00,00)");
-            videoMaterialVM.Duration = double.Parse(Console.ReadLine());
+            videoMaterialVM.Duration = Console.ReadLine();
             Console.WriteLine("Chose video quality\n1 - High\n2 - Medium\n3 - Low");
 
             switch (Console.ReadLine())
@@ -28,13 +27,11 @@ namespace EducationPortal.Helpers
                     break;
                 case "3":
                     videoMaterialVM.Quality = VideoQualityVM.Low;
-
                     break;
                 default:
                     videoMaterialVM.Quality = VideoQualityVM.Medium;
                     break;
             }
-
             return videoMaterialVM;
         }
         public static ArticleMaterialVM ArticleFullData()
@@ -44,9 +41,9 @@ namespace EducationPortal.Helpers
             arcticleMaterialVM.Name = Console.ReadLine();
             Console.WriteLine(@"Enter article site (https:\\article\path.com)");
             arcticleMaterialVM.Resource = Console.ReadLine().ToLower();
-            Console.WriteLine("Enter article publish date (yyyy,dd,MM)");
+            Console.WriteLine("Enter article publish date (yyyy, dd, MM)");
             CultureInfo provider = CultureInfo.InvariantCulture;
-            arcticleMaterialVM.PublishDate = DateTime.ParseExact(Console.ReadLine().Replace(' ', ','), "yyyy, dd, MM", provider);
+            arcticleMaterialVM.PublishDate = DateTime.ParseExact(Console.ReadLine(), "yyyy, dd, MM", provider);
 
             return arcticleMaterialVM;
         }

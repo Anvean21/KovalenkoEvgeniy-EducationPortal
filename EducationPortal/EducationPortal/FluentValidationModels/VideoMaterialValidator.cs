@@ -11,7 +11,7 @@ namespace EducationPortal.FluentValidationModels
         public VideoMaterialValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Quality).NotEmpty();
+            RuleFor(x => x.Quality).NotNull();
             RuleFor(x => x.Duration).NotEmpty();
         }
     }

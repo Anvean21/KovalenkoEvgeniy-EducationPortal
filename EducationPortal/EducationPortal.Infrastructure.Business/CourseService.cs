@@ -10,23 +10,14 @@ namespace EducationPortal.Infrastructure.Business
     public class CourseService : ICourseService
     {
         private IRepository<Course> courseRepository;
-        private IRepository<Skill> skillRepository;
-        private IRepository<Material> materialRepository;
-        // убрать лишние репосы, имплемантация интерфейса
-        public CourseService(IRepository<Course> courseRepository, IRepository<Skill> skillRepository, IRepository<Material> materialRepository)
+        public CourseService(IRepository<Course> courseRepository)
         {
             this.courseRepository = courseRepository;
-            this.materialRepository = materialRepository;
-            this.skillRepository = skillRepository;
-        }
-        public Course AddCourse(Course course)
-        {
-            throw new NotImplementedException();
         }
 
-        void ICourseService.AddCourse(Course course)
+        public void AddCourse(Course course)
         {
-            throw new NotImplementedException();
+            courseRepository.Create(course);
         }
     }
 }

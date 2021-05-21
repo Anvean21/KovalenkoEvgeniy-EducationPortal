@@ -10,5 +10,7 @@ namespace EducationPortal.Services.Interfaces
         public void AddVideoMaterial(VideoMaterial videoMaterial);
         public void AddBookMaterial(BookMaterial bookMaterial);
         public void AddArticleMaterial(ArticleMaterial articleMaterial);
+        public IEnumerable<Material> GetMaterials();
+        public Material GetMaterialByName(string name);
     }
 }

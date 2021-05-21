@@ -13,7 +13,7 @@ namespace EducationPortal.FluentValidationModels
             RuleFor(x => x.Author).NotEmpty();
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Pages).NotEmpty();
-            RuleFor(x => x.Passed).NotEmpty();
+            RuleFor(x => x.Passed).NotNull();
             RuleFor(x => x.YearOfPublish).NotEmpty().Must(x => x <= DateTime.Today.Year);
         }
     }

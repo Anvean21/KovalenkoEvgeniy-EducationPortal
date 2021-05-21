@@ -10,8 +10,8 @@ namespace EducationPortal.FluentValidationModels
     {
         public SkillValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().Length(2,30);
-            RuleFor(x => x.Level).NotEmpty();
+            RuleFor(x => x.Name).NotEmpty().Length(1,30);
+            RuleFor(x => x.Level).NotNull();
         }
     }
 }

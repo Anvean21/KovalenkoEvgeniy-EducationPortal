@@ -52,7 +52,6 @@ namespace EducationPortal.Infrastructure.Data
             using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{itemId}.json", FileMode.Create))
             {
                 JsonSerializer.SerializeAsync(fs, obj);
-                // Console.WriteLine("Data has been saved to file");
             }
         }
         public void Delete(int id)

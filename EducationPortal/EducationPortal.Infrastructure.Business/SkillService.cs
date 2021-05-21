@@ -27,7 +27,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public IEnumerable<Skill> GetSkills()
         {
-           return skillRepository.GetAll();
+            return skillRepository.GetAll();
         }
     }
 }

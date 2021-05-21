@@ -11,7 +11,7 @@ namespace EducationPortal.FluentValidationModels
         public ArticleMaterialValidator()
         {
             RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Passed).NotEmpty();
+            RuleFor(x => x.Passed).NotNull();
             RuleFor(x => x.Resource).NotEmpty();
             RuleFor(x => x.PublishDate).NotEmpty().Must(x => x.Date <= DateTime.Today);
         }
