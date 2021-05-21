@@ -14,7 +14,7 @@ namespace EducationPortal
             {
                 if (provider == null)
                 {
-                    provider = DependecyIngection.ConfigureService();
+                    provider = DependecyInjection.ConfigureService();
                 }
                 return provider;
             }

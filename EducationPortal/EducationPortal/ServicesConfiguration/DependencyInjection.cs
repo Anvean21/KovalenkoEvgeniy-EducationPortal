@@ -7,7 +7,7 @@ using System;
 
 namespace EducationPortal.DependencyInjection
 {
-    public class DependecyIngection
+    public class DependecyInjection
     {
         public static IServiceProvider ConfigureService()
         {

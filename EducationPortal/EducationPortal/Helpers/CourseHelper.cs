@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EducationPortal.Helpers
 {
-    public static class CourseHelper
+    public class CourseHelper
     {
         public static CourseVM CourseFullData()
         {

@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EducationPortal.Creator
 {
-    public static class CourseCreator
+    public class CourseCreator
     {
         private static readonly ICourseService courseService = CustomServiceProvider.Provider.GetRequiredService<ICourseService>();
         static CourseValidator validator = new CourseValidator();

@@ -12,9 +12,8 @@ using System.Text;
 
 namespace EducationPortal.Helpers
 {
-    public static class ConsoleView
+    public class ConsoleView
     {
-
         public static void ViewForUnautorizedUser()
         {
             Console.WriteLine("1 - Registration\n2 - Log In");

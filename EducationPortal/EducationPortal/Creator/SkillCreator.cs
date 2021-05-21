@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EducationPortal.Creator
 {
-    public static class SkillCreator
+    public class SkillCreator
     {
         private static readonly ISkillService skillService = CustomServiceProvider.Provider.GetRequiredService<ISkillService>();
         static SkillValidator validator = new SkillValidator();
@@ -42,7 +42,7 @@ namespace EducationPortal.Creator
         }
         public static SkillVM AddSkillByName(string name)
         {
-            return  Map.MapVmToDomain<Skill,SkillVM>(skillService.GetSkillByName(name));
+            return Map.MapVmToDomain<Skill, SkillVM>(skillService.GetSkillByName(name));
         }
     }
 }

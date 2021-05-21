@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EducationPortal.Automapper
 {
-    public static class UserHelper
+    public class UserHelper
     {
         public static UserVM UserFullData()
         {

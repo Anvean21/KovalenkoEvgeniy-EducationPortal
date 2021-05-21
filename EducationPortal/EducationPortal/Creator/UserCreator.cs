@@ -11,7 +11,7 @@ using System.Text;
 
 namespace EducationPortal.Creator
 {
-    public static class UserCreator
+    public class UserCreator
     {
         private static readonly IUserService userService = CustomServiceProvider.Provider.GetRequiredService<IUserService>();
         static UserValidator validator = new UserValidator();

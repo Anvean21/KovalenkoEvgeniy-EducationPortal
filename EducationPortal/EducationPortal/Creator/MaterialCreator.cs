@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EducationPortal.Creator
 {
-    public static class MaterialCreator
+    public class MaterialCreator
     {
         private static readonly IMaterialService materialService = CustomServiceProvider.Provider.GetRequiredService<IMaterialService>();
         static ArticleMaterialValidator acticleValidator = new ArticleMaterialValidator();

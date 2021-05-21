@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EducationPortal.Helpers
 {
-    public static class MaterialHelper
+    public class MaterialHelper
     {
         public static VideoMaterialVM VideoFullData()
         {
