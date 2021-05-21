@@ -1,4 +1,5 @@
-﻿using EducationPortal.Automapper;
+﻿using AutoMapper;
+using EducationPortal.Automapper;
 using EducationPortal.Domain.Core;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Helpers;
@@ -15,13 +16,14 @@ namespace EducationPortal.Creator
     public class CourseCreator
     {
         private static readonly ICourseService courseService = CustomServiceProvider.Provider.GetRequiredService<ICourseService>();
+
         static CourseValidator validator = new CourseValidator();
         public static void CourseCreate()
         {
             var courseVM = CourseHelper.CourseFullData();
             if (validator.Validate(courseVM).IsValid)
             {
-                courseService.AddCourse(Map.MapVmToDomain<CourseVM, Course>(courseVM));
+                courseService.AddCourse(Map.CourseVmToDomain(courseVM));
                 Console.Clear();
                 Console.WriteLine("You have successfully added course");
             }
