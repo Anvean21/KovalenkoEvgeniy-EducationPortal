@@ -10,35 +10,56 @@ namespace EducationPortal.Infrastructure.Business
 {
     public class MaterialService : IMaterialService
     {
-        private IRepository<Material> materialRepository;
-        public MaterialService(IRepository<Material> materialRepository)
+        private IRepository<BookMaterial> bookMaterialRepository;
+        private IRepository<ArticleMaterial> articleMaterialRepository;
+        private IRepository<VideoMaterial> videoMaterialRepository;
+        public MaterialService(IRepository<BookMaterial> bookMaterialRepository, IRepository<ArticleMaterial> articleMaterialRepository, IRepository<VideoMaterial> videoMaterialRepository)
         {
-            this.materialRepository = materialRepository;
+            this.bookMaterialRepository = bookMaterialRepository;
+            this.articleMaterialRepository = articleMaterialRepository;
+            this.videoMaterialRepository = videoMaterialRepository;
         }
 
         public void AddArticleMaterial(ArticleMaterial articleMaterial)
         {
-            materialRepository.Create(articleMaterial);
+            articleMaterialRepository.Create(articleMaterial);
         }
 
         public void AddBookMaterial(BookMaterial bookMaterial)
         {
-            materialRepository.Create(bookMaterial);
+            bookMaterialRepository.Create(bookMaterial);
         }
 
         public void AddVideoMaterial(VideoMaterial videoMaterial)
         {
-            materialRepository.Create(videoMaterial);
+            videoMaterialRepository.Create(videoMaterial);
+        }
+        public IEnumerable<VideoMaterial> GetVideoMaterials()
+        {
+            return videoMaterialRepository.GetAll();
+        }
+        public IEnumerable<ArticleMaterial> GetArticleMaterials()
+        {
+            return articleMaterialRepository.GetAll();
+        }
+
+        public IEnumerable<BookMaterial> GetBookMaterials()
+        {
+            return bookMaterialRepository.GetAll();
         }
 
         public Material GetMaterialByName(string name)
         {
-            return materialRepository.GetAll().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            return GetMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
         }
 
         public IEnumerable<Material> GetMaterials()
         {
-            return materialRepository.GetAll();
+            List<Material> materials = new List<Material>();
+            materials.AddRange(GetVideoMaterials());
+            materials.AddRange(GetArticleMaterials());
+            materials.AddRange(GetBookMaterials());
+            return materials;
         }
     }
 }

@@ -23,13 +23,17 @@ namespace EducationPortal.Creator
             if (validator.Validate(skillVM).IsValid)
             {
                 skillService.AddSkill(Map.MapVmToDomain<SkillVM, Skill>(skillVM));
-                Console.Clear();
+                Dye.Succsess();
                 Console.WriteLine("Skill has successfully added");
+                Console.ResetColor();
                 return skillVM;
             }
             else
             {
-                validator.ValidateAndThrow(skillVM);
+                Dye.Fail();
+                Console.WriteLine(validator.Validate(skillVM));
+                Console.ResetColor();
+                SkillCreate();
                 return null;
             }
         }
@@ -37,7 +41,7 @@ namespace EducationPortal.Creator
         {
             foreach (var skill in skillService.GetSkills())
             {
-                Console.WriteLine(string.Join(", ", skill.Name));
+                Console.Write(skill.Name + " , ");
             }
         }
         public static SkillVM AddSkillByName(string name)

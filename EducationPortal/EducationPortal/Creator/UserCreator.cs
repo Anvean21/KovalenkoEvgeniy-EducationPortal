@@ -21,12 +21,15 @@ namespace EducationPortal.Creator
             if (validator.Validate(userVM).IsValid)
             {
                 userService.Register(Map.MapVmToDomain<UserVM, User>(userVM));
-                Console.Clear();
+                Dye.Succsess();
                 Console.WriteLine("You have successfully registered and authorized");
+                Console.ResetColor();
             }
             else
             {
-                validator.ValidateAndThrow(userVM);
+                Dye.Fail();
+                Console.WriteLine(validator.Validate(userVM));
+                Console.ResetColor();
             }
         }
         public static void UserLogIn()
@@ -35,14 +38,15 @@ namespace EducationPortal.Creator
 
             if (userService.LogIn(turple.Item1, turple.Item2))
             {
-                Console.Clear();
+                Dye.Succsess();
                 Console.WriteLine("Authorized");
+                Console.ResetColor();
             }
             else
             {
-                Console.Clear();
+                Dye.Fail();
                 Console.WriteLine("Something went wrong, try again");
-                UserLogIn();
+                Console.ResetColor();
             }
         }
         public static void UserLogOut()

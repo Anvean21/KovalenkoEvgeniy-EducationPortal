@@ -9,6 +9,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EducationPortal.Creator
@@ -24,12 +25,15 @@ namespace EducationPortal.Creator
             if (validator.Validate(courseVM).IsValid)
             {
                 courseService.AddCourse(Map.CourseVmToDomain(courseVM));
-                Console.Clear();
-                Console.WriteLine("You have successfully added course");
+                Dye.Succsess();
+                Console.WriteLine("You have successfully created course");
+                Console.ResetColor();
             }
             else
             {
-                validator.ValidateAndThrow(courseVM);
+                Dye.Fail();
+                Console.WriteLine(validator.Validate(courseVM));
+                Console.ResetColor();
             }
         }
     }

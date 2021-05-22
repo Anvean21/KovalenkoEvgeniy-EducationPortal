@@ -1,7 +1,9 @@
 ﻿using EducationPortal.Creator;
+using EducationPortal.FluentValidationModels;
 using EducationPortal.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EducationPortal.Helpers
@@ -15,7 +17,6 @@ namespace EducationPortal.Helpers
             courseVM.Name = Console.ReadLine();
             Console.WriteLine("Enter course Description");
             courseVM.Description = Console.ReadLine();
-            //Убрать это или придумать базовую инициализацию
             courseVM.Materials = new List<MaterialVM>();
             courseVM.Skills = new List<SkillVM>();
             bool infinity = true;
@@ -25,27 +26,38 @@ namespace EducationPortal.Helpers
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        var videoMaterial = MaterialCreator.VideoCreate();
-                        courseVM.Materials.Add(videoMaterial);
+                        MaterialCreator.VideoCreate();
                         break;
                     case "2":
-
-                        courseVM.Materials.Add(MaterialCreator.BookCreate());
+                        MaterialCreator.BookCreate();
                         break;
                     case "3":
-                        courseVM.Materials.Add(MaterialCreator.ArticleCreate());
+                        MaterialCreator.ArticleCreate();
                         break;
                     case "4":
                         Console.Clear();
                         Console.WriteLine("List existing materials");
                         MaterialCreator.MaterialList();
-                        Console.WriteLine("Enter the name of existing material");
-                        var name = Console.ReadLine();
-                        courseVM.Materials.Add(MaterialCreator.AddMaterialByName(name));
-                        Console.Clear();
-                        Console.WriteLine("Material added successfully");
+                        Console.WriteLine("\nEnter the name of existing material");
+                        var name = Console.ReadLine().ToLower();
+                        if (courseVM.Materials.Any(x => x.Name.ToLower() == name.ToLower()))
+                        {
+                            Dye.Fail();
+                            Console.WriteLine("Invalid name or Material already exists in course");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            courseVM.Materials.Add(MaterialCreator.AddMaterialByName(name));
+                            Dye.Succsess();
+                            Console.WriteLine("Material added successfully");
+                            Console.ResetColor();
+                        }
                         break;
                     case "5":
+                        Dye.Succsess();
+                        Console.WriteLine("Materials added successfully");
+                        Console.ResetColor();
                         infinity = false;
                         break;
                     default:
@@ -60,20 +72,29 @@ namespace EducationPortal.Helpers
                 {
                     case "1":
                         var skill = SkillCreator.SkillCreate();
-                        courseVM.Skills.Add(skill);
-                        Console.Clear();
-                        Console.WriteLine("Skill created and added successfully");
+                        Dye.Succsess();
+                        Console.WriteLine("Skill created successfully, now you can add it to your course");
+                        Console.ResetColor();
                         break;
                     case "2":
                         Console.Clear();
-                        Console.WriteLine("List existing skills");
+                        Console.WriteLine("List existing skills: ");
                         SkillCreator.SkillsList();
-                        Console.WriteLine("Enter the name of existing skill");
-                        var name = Console.ReadLine();
-                        var addSkill = SkillCreator.AddSkillByName(name);
-                        courseVM.Skills.Add(addSkill);
-                        Console.Clear();
-                        Console.WriteLine("Skill added successfully");
+                        Console.WriteLine("\nEnter the name of existing skill");
+                        var name = Console.ReadLine().ToLower();
+                        if (courseVM.Skills.Any(x => x.Name.ToLower() == name.ToLower()))
+                        {
+                            Dye.Fail();
+                            Console.WriteLine("Invalid name or Skill already exists in course");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            courseVM.Skills.Add(SkillCreator.AddSkillByName(name));
+                            Dye.Succsess();
+                            Console.WriteLine("Skill added successfully");
+                            Console.ResetColor();
+                        }
                         break;
                     case "3":
                         return courseVM;

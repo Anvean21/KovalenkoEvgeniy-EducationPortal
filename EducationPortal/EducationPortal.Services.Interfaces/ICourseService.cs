@@ -8,5 +8,6 @@ namespace EducationPortal.Services.Interfaces
     public interface ICourseService
     {
         public void AddCourse(Course course);
+        public IEnumerable<Course> GetCourses();
     }
 }

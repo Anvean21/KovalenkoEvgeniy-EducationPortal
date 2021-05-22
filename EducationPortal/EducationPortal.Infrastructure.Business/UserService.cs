@@ -20,11 +20,8 @@ namespace EducationPortal.Infrastructure.Business
 
         public void Register(User model)
         {
-            if (!userRepository.GetAll().Any(x => x.Email.ToLower() == model.Email.ToLower()))
-            {
                 userRepository.Create(model);
                 authorizedUser = model;
-            }
         }
 
         public bool LogIn(string email, string password)
@@ -51,6 +48,11 @@ namespace EducationPortal.Infrastructure.Business
                 return true;
             }
             return false;
+        }
+
+        public IEnumerable<User> GetUsers()
+        {
+            return userRepository.GetAll();
         }
     }
 }

@@ -25,13 +25,17 @@ namespace EducationPortal.Creator
             if (acticleValidator.Validate(articleVM).IsValid)
             {
                 materialService.AddArticleMaterial(Map.MapVmToDomain<ArticleMaterialVM, ArticleMaterial>(articleVM));
-                Console.Clear();
+                Dye.Succsess();
                 Console.WriteLine("You have add article");
+                Console.ResetColor();
                 return articleVM;
             }
             else
             {
-                acticleValidator.ValidateAndThrow(articleVM);
+                Dye.Fail();
+                Console.WriteLine(acticleValidator.Validate(articleVM));
+                Console.ResetColor();
+                ArticleCreate();
                 return null;
             }
         }
@@ -41,13 +45,17 @@ namespace EducationPortal.Creator
             if (videoValidator.Validate(videoVM).IsValid)
             {
                 materialService.AddVideoMaterial(Map.MapVmToDomain<VideoMaterialVM, VideoMaterial>(videoVM));
-                Console.Clear();
+                Dye.Succsess();
                 Console.WriteLine("You have add video");
+                Console.ResetColor();
                 return videoVM;
             }
             else
             {
-                videoValidator.ValidateAndThrow(videoVM);
+                Dye.Fail();
+                Console.WriteLine(videoValidator.Validate(videoVM));
+                Console.ResetColor();
+                VideoCreate();
                 return null;
             }
         }
@@ -57,13 +65,16 @@ namespace EducationPortal.Creator
             if (bookValidator.Validate(bookVM).IsValid)
             {
                 materialService.AddBookMaterial(Map.MapVmToDomain<BookMaterialVM, BookMaterial>(bookVM));
-                Console.Clear();
+                Dye.Succsess();
                 Console.WriteLine("You have add book");
+                Console.ResetColor();
                 return bookVM;
             }
             else
             {
-                bookValidator.ValidateAndThrow(bookVM);
+                Dye.Fail();
+                Console.WriteLine(bookValidator.Validate(bookVM));
+                Console.ResetColor();
                 return null;
             }
         }
@@ -71,7 +82,7 @@ namespace EducationPortal.Creator
         {
             foreach (var material in materialService.GetMaterials())
             {
-                Console.WriteLine(string.Join(", ", material.Name));
+                Console.Write(material.Name + " , ");
             }
         }
         public static MaterialVM AddMaterialByName(string name)

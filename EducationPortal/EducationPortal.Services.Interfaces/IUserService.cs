@@ -11,5 +11,6 @@ namespace EducationPortal.Services.Interfaces
         public bool LogIn(string email, string password);
         public bool LogOut();
         public bool IsUserAuthorized();
+        public IEnumerable<User> GetUsers();
     }
 }

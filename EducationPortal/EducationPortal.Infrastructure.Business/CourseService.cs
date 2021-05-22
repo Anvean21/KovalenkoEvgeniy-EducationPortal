@@ -19,5 +19,10 @@ namespace EducationPortal.Infrastructure.Business
         {
             courseRepository.Create(course);
         }
+
+        public IEnumerable<Course> GetCourses()
+        {
+            return courseRepository.GetAll();
+        }
     }
 }
