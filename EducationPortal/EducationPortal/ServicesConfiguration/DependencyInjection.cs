@@ -11,7 +11,7 @@ namespace EducationPortal.DependencyInjection
     {
         public static IServiceProvider ConfigureService()
         {
-            var provider = new ServiceCollection().AddSingleton(typeof(IRepository<>), typeof(JsonRepository<>))
+            var provider = new ServiceCollection().AddScoped(typeof(IRepository<>), typeof(JsonRepository<>))
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<ISkillService, SkillService>()
                 .AddTransient<IMaterialService, MaterialService>()

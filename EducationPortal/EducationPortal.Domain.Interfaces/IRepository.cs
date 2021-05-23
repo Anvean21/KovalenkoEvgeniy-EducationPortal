@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EducationPortal.Domain.Interfaces
@@ -11,6 +12,5 @@ namespace EducationPortal.Domain.Interfaces
         void Create(T item);
         void Update(T item);
         void Delete(int id);
-
     }
 }

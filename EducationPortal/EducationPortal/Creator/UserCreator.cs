@@ -36,7 +36,7 @@ namespace EducationPortal.Creator
         {
             var turple = UserHelper.UserLoginData();
 
-            if (userService.LogIn(turple.Item1, turple.Item2))
+            if (userService.LogIn(turple.login, turple.password))
             {
                 Dye.Succsess();
                 Console.WriteLine("Authorized");

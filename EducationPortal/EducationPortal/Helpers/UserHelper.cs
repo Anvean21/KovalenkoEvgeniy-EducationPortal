@@ -19,16 +19,15 @@ namespace EducationPortal.Automapper
 
             return userVM;
         }
-        public static (string, string) UserLoginData()
+        public static (string login, string password) UserLoginData()
         {
-            var turple = (string.Empty, string.Empty);
+            var turple = (login: string.Empty, password: string.Empty);
             Console.WriteLine("Enter your Email");
-            turple.Item1 = Console.ReadLine();
+            turple.login = Console.ReadLine();
             Console.WriteLine("Enter your Password");
-            turple.Item2 = Console.ReadLine();
+            turple.password = Console.ReadLine();
 
             return turple;
         }
-
     }
 }
