@@ -9,7 +9,7 @@ namespace EducationPortal.Infrastructure.Business
 {
     public class CourseService : ICourseService
     {
-        private IRepository<Course> courseRepository;
+        private readonly IRepository<Course> courseRepository;
         public CourseService(IRepository<Course> courseRepository)
         {
             this.courseRepository = courseRepository;

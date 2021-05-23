@@ -14,12 +14,16 @@ namespace EducationPortal.Creator
 {
     public class MaterialCreator
     {
-        private static readonly IMaterialService materialService = CustomServiceProvider.Provider.GetRequiredService<IMaterialService>();
-        static ArticleMaterialValidator acticleValidator = new ArticleMaterialValidator();
-        static VideoMaterialValidator videoValidator = new VideoMaterialValidator();
-        static BookMaterialValidator bookValidator = new BookMaterialValidator();
+        readonly IMaterialService materialService;
+        public MaterialCreator(IMaterialService materialService)
+        {
+            this.materialService = materialService;
+        }
+        readonly ArticleMaterialValidator acticleValidator = new ArticleMaterialValidator();
+        readonly VideoMaterialValidator videoValidator = new VideoMaterialValidator();
+        readonly BookMaterialValidator bookValidator = new BookMaterialValidator();
 
-        public static ArticleMaterialVM ArticleCreate()
+        public ArticleMaterialVM ArticleCreate()
         {
             var articleVM = MaterialHelper.ArticleFullData();
             if (acticleValidator.Validate(articleVM).IsValid)
@@ -39,7 +43,7 @@ namespace EducationPortal.Creator
                 return null;
             }
         }
-        public static VideoMaterialVM VideoCreate()
+        public VideoMaterialVM VideoCreate()
         {
             var videoVM = MaterialHelper.VideoFullData();
             if (videoValidator.Validate(videoVM).IsValid)
@@ -59,7 +63,7 @@ namespace EducationPortal.Creator
                 return null;
             }
         }
-        public static BookMaterialVM BookCreate()
+        public BookMaterialVM BookCreate()
         {
             var bookVM = MaterialHelper.BookFullData();
             if (bookValidator.Validate(bookVM).IsValid)
@@ -78,14 +82,14 @@ namespace EducationPortal.Creator
                 return null;
             }
         }
-        public static void MaterialList()
+        public void MaterialList()
         {
             foreach (var material in materialService.GetMaterials())
             {
                 Console.Write(material.Name + " , ");
             }
         }
-        public static MaterialVM AddMaterialByName(string name)
+        public MaterialVM AddMaterialByName(string name)
         {
             return Map.MapVmToDomain<Material, MaterialVM>(materialService.GetMaterialByName(name));
         }

@@ -10,9 +10,9 @@ namespace EducationPortal.Infrastructure.Business
 {
     public class MaterialService : IMaterialService
     {
-        private IRepository<BookMaterial> bookMaterialRepository;
-        private IRepository<ArticleMaterial> articleMaterialRepository;
-        private IRepository<VideoMaterial> videoMaterialRepository;
+        private readonly IRepository<BookMaterial> bookMaterialRepository;
+        private readonly IRepository<ArticleMaterial> articleMaterialRepository;
+        private readonly IRepository<VideoMaterial> videoMaterialRepository;
         public MaterialService(IRepository<BookMaterial> bookMaterialRepository, IRepository<ArticleMaterial> articleMaterialRepository, IRepository<VideoMaterial> videoMaterialRepository)
         {
             this.bookMaterialRepository = bookMaterialRepository;

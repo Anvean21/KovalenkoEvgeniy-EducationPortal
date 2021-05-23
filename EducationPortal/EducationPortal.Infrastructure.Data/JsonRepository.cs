@@ -15,9 +15,14 @@ namespace EducationPortal.Infrastructure.Data
 {
     public class JsonRepository<T> : IRepository<T> where T : class
     {
-        private DirectoryInfo directory;
-        private Type type;
+        private readonly DirectoryInfo directory;
+        private readonly Type type;
         private Regex regex;
+
+        public JsonRepository(Regex regex)
+        {
+            this.regex = regex;
+        }
 
         public JsonRepository()
         {

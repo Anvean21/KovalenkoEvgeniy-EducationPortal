@@ -14,10 +14,15 @@ namespace EducationPortal.Creator
 {
     public class SkillCreator
     {
-        private static readonly ISkillService skillService = CustomServiceProvider.Provider.GetRequiredService<ISkillService>();
-        static SkillValidator validator = new SkillValidator();
+        readonly ISkillService skillService;
+        public SkillCreator(ISkillService skillService)
+        {
+            this.skillService = skillService;
+        }
 
-        public static SkillVM SkillCreate()
+        readonly SkillValidator validator = new SkillValidator();
+
+        public SkillVM SkillCreate()
         {
             var skillVM = SkillHelper.SkillFullData();
             if (validator.Validate(skillVM).IsValid)
@@ -37,14 +42,14 @@ namespace EducationPortal.Creator
                 return null;
             }
         }
-        public static void SkillsList()
+        public void SkillsList()
         {
             foreach (var skill in skillService.GetSkills())
             {
                 Console.Write(skill.Name + " , ");
             }
         }
-        public static SkillVM AddSkillByName(string name)
+        public SkillVM AddSkillByName(string name)
         {
             return Map.MapVmToDomain<Skill, SkillVM>(skillService.GetSkillByName(name));
         }

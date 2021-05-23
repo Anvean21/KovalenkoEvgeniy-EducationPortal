@@ -1,6 +1,8 @@
 ﻿using EducationPortal.Creator;
 using EducationPortal.FluentValidationModels;
+using EducationPortal.Services.Interfaces;
 using EducationPortal.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,11 @@ namespace EducationPortal.Helpers
 {
     public class CourseHelper
     {
-        public static CourseVM CourseFullData()
+        readonly MaterialCreator MaterialCreator = new MaterialCreator(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>());
+
+        readonly SkillCreator SkillCreator = new SkillCreator(CustomServiceProvider.Provider.GetRequiredService<ISkillService>());
+
+        public CourseVM CourseFullData()
         {
             CourseVM courseVM = new CourseVM();
             Console.WriteLine("Enter course Name");
@@ -48,7 +54,15 @@ namespace EducationPortal.Helpers
                         }
                         else
                         {
-                            courseVM.Materials.Add(MaterialCreator.AddMaterialByName(name));
+                            var materialVM = MaterialCreator.AddMaterialByName(name);
+                            if (materialVM == null)
+                            {
+                                Dye.Fail();
+                                Console.WriteLine("Invalid material name");
+                                Console.ResetColor();
+                                break;
+                            }
+                            courseVM.Materials.Add(materialVM);
                             Dye.Succsess();
                             Console.WriteLine("Material added successfully");
                             Console.ResetColor();
@@ -90,7 +104,15 @@ namespace EducationPortal.Helpers
                         }
                         else
                         {
-                            courseVM.Skills.Add(SkillCreator.AddSkillByName(name));
+                            var skillVM = SkillCreator.AddSkillByName(name);
+                            if (skillVM == null)
+                            {
+                                Dye.Fail();
+                                Console.WriteLine("Invalid skill name");
+                                Console.ResetColor();
+                                break;
+                            }
+                            courseVM.Skills.Add(skillVM);
                             Dye.Succsess();
                             Console.WriteLine("Skill added successfully");
                             Console.ResetColor();
@@ -102,7 +124,6 @@ namespace EducationPortal.Helpers
                         continue;
                 }
             }
-
         }
     }
 }

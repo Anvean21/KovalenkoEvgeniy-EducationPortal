@@ -13,6 +13,7 @@ namespace EducationPortal
     class Program
     {
         private static readonly IUserService userService = CustomServiceProvider.Provider.GetRequiredService<IUserService>();
+        readonly static ConsoleView ConsoleView = new ConsoleView();
         static void Main(string[] args)
         {
             while (true)

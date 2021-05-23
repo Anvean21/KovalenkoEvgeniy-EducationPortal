@@ -7,9 +7,7 @@ namespace EducationPortal.Infrastructure.Data.Hasher
     {
         public static string Encode(string decodedPassword)
         {
-
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(decodedPassword));
-           
         }
         public static string Decode(string encodedPassword)
         {

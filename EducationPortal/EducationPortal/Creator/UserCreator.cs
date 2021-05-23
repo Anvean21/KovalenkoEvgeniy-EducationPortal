@@ -13,9 +13,14 @@ namespace EducationPortal.Creator
 {
     public class UserCreator
     {
-        private static readonly IUserService userService = CustomServiceProvider.Provider.GetRequiredService<IUserService>();
-        static UserValidator validator = new UserValidator();
-        public static void UserCreate()
+        readonly IUserService userService;
+        public UserCreator(IUserService userService)
+        {
+            this.userService = userService;
+        }
+
+        readonly UserValidator validator = new UserValidator();
+        public void UserCreate()
         {
             var userVM = UserHelper.UserFullData();
             if (validator.Validate(userVM).IsValid)
@@ -32,11 +37,11 @@ namespace EducationPortal.Creator
                 Console.ResetColor();
             }
         }
-        public static void UserLogIn()
+        public void UserLogIn()
         {
-            var turple = UserHelper.UserLoginData();
+            var (login, password) = UserHelper.UserLoginData();
 
-            if (userService.LogIn(turple.login, turple.password))
+            if (userService.LogIn(login, password))
             {
                 Dye.Succsess();
                 Console.WriteLine("Authorized");
@@ -49,10 +54,9 @@ namespace EducationPortal.Creator
                 Console.ResetColor();
             }
         }
-        public static void UserLogOut()
+        public void UserLogOut()
         {
             userService.LogOut();
         }
-
     }
 }

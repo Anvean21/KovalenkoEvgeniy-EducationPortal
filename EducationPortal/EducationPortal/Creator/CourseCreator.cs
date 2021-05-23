@@ -16,13 +16,20 @@ namespace EducationPortal.Creator
 {
     public class CourseCreator
     {
-        private static readonly ICourseService courseService = CustomServiceProvider.Provider.GetRequiredService<ICourseService>();
-
-        static CourseValidator validator = new CourseValidator();
-        public static void CourseCreate()
+        readonly ICourseService courseService;
+        public CourseCreator(ICourseService courseService)
         {
-            var courseVM = CourseHelper.CourseFullData();
-            if (validator.Validate(courseVM).IsValid)
+            this.courseService = courseService;
+        }
+
+        readonly CourseHelper courseHelper = new CourseHelper();
+
+        readonly CourseValidator validator = new CourseValidator();
+
+        public void CourseCreate()
+        {
+            var courseVM = courseHelper.CourseFullData();
+            if (validator.Validate(courseVM).IsValid && courseVM.Skills.Count >= 1 && courseVM.Materials.Count >= 1)
             {
                 courseService.AddCourse(Map.CourseVmToDomain(courseVM));
                 Dye.Succsess();

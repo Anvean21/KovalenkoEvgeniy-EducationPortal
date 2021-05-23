@@ -10,7 +10,7 @@ namespace EducationPortal.Infrastructure.Business
 {
     public class SkillService : ISkillService
     {
-        private IRepository<Skill> skillRepository;
+        private readonly IRepository<Skill> skillRepository;
         public SkillService(IRepository<Skill> skillRepository)
         {
             this.skillRepository = skillRepository;
