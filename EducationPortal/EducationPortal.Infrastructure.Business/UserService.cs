@@ -54,5 +54,10 @@ namespace EducationPortal.Infrastructure.Business
         {
             return userRepository.GetAll();
         }
+
+        public void PassCourse(Course course)
+        {
+            
+        }
     }
 }

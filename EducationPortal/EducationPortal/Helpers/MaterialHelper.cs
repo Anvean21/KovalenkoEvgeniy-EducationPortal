@@ -14,24 +14,16 @@ namespace EducationPortal.Helpers
             Console.WriteLine("Enter video Name");
             videoMaterialVM.Name = Console.ReadLine();
             Console.WriteLine("Enter video Duration (00,00)");
-            videoMaterialVM.Duration = Console.ReadLine();
+            videoMaterialVM.Duration = int.Parse(Console.ReadLine()).ToString("F" + 2);
             Console.WriteLine("Chose video quality\n1 - High\n2 - Medium\n3 - Low");
 
-            switch (Console.ReadLine())
+            videoMaterialVM.Quality = (Console.ReadLine()) switch
             {
-                case "1":
-                    videoMaterialVM.Quality = VideoQualityVM.High;
-                    break;
-                case "2":
-                    videoMaterialVM.Quality = VideoQualityVM.Medium;
-                    break;
-                case "3":
-                    videoMaterialVM.Quality = VideoQualityVM.Low;
-                    break;
-                default:
-                    videoMaterialVM.Quality = VideoQualityVM.Medium;
-                    break;
-            }
+                "1" => VideoQualityVM.High,
+                "2" => VideoQualityVM.Medium,
+                "3" => VideoQualityVM.Low,
+                _ => VideoQualityVM.Medium,
+            };
             return videoMaterialVM;
         }
         public static ArticleMaterialVM ArticleFullData()
@@ -59,21 +51,13 @@ namespace EducationPortal.Helpers
             Console.WriteLine("Enter year of publish");
             bookMaterialVM.YearOfPublish = int.Parse(Console.ReadLine());
             Console.WriteLine("Chose book format\n1 - Large\n2 - Medium\n3 - Small");
-            switch (Console.ReadLine())
+            bookMaterialVM.Format = (Console.ReadLine()) switch
             {
-                case "1":
-                    bookMaterialVM.Format = BookFormatVM.Large;
-                    break;
-                case "2":
-                    bookMaterialVM.Format = BookFormatVM.Medium;
-                    break;
-                case "3":
-                    bookMaterialVM.Format = BookFormatVM.Small;
-                    break;
-                default:
-                    bookMaterialVM.Format = BookFormatVM.Medium;
-                    break;
-            }
+                "1" => BookFormatVM.Large,
+                "2" => BookFormatVM.Medium,
+                "3" => BookFormatVM.Small,
+                _ => BookFormatVM.Medium,
+            };
             return bookMaterialVM;
         }
     }

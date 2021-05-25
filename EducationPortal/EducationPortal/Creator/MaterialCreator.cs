@@ -8,6 +8,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EducationPortal.Creator
@@ -84,10 +85,19 @@ namespace EducationPortal.Creator
         }
         public void MaterialList()
         {
-            foreach (var material in materialService.GetMaterials())
-            {
-                Console.Write(material.Name + " , ");
-            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Book materials");
+            Console.WriteLine(string.Join(", ", materialService.GetBookMaterials().Select(x => x.Name)));
+            
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Article materials");
+            Console.WriteLine(string.Join(", ", materialService.GetArticleMaterials().Select(x => x.Name)));
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("Video materials");
+            Console.WriteLine(string.Join(", ", materialService.GetVideoMaterials().Select(x => x.Name)));
+
+            Console.ResetColor();
         }
         public MaterialVM AddMaterialByName(string name)
         {

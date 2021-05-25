@@ -8,9 +8,10 @@ namespace EducationPortal.Services.Interfaces
     public interface IUserService
     {
         public void Register(User model);
-        public bool LogIn(string email, string password);
+        public bool LogIn(string login, string password);
         public bool LogOut();
         public bool IsUserAuthorized();
         public IEnumerable<User> GetUsers();
+        public void PassCourse(Course course);
     }
 }

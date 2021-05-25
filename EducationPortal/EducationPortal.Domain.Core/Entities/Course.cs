@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EducationPortal.Domain.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,5 +11,6 @@ namespace EducationPortal.Domain.Core
         public string Description { get; set; }
         public ICollection<Skill> Skills { get; set; }
         public ICollection<Material> Materials { get; set; }
+        public Test Test { get; set; }
     }
 }

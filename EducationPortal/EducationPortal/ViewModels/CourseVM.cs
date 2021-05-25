@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EducationPortal.ViewModels.TestViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,5 +11,6 @@ namespace EducationPortal.ViewModels
         public string Description { get; set; }
         public ICollection<SkillVM> Skills { get; set; }
         public ICollection<MaterialVM> Materials { get; set; }
+        public TestVM TestVM { get; set; }
     }
 }

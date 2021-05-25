@@ -14,9 +14,9 @@ namespace EducationPortal.Helpers
 {
     public class ConsoleView
     {
-        readonly UserCreator UserCreator = new UserCreator(CustomServiceProvider.Provider.GetRequiredService<IUserService>());
+        readonly UserCreator userCreator = new UserCreator(CustomServiceProvider.Provider.GetRequiredService<IUserService>());
 
-        readonly CourseCreator CourseCreator = new CourseCreator(CustomServiceProvider.Provider.GetRequiredService<ICourseService>());
+        readonly CourseCreator courseCreator = new CourseCreator(CustomServiceProvider.Provider.GetRequiredService<ICourseService>());
 
         public void ViewForUnautorizedUser()
         {
@@ -25,11 +25,11 @@ namespace EducationPortal.Helpers
             {
                 case "1":
                     Console.Clear();
-                    UserCreator.UserCreate();
+                    userCreator.UserCreate();
                     break;
                 case "2":
                     Console.Clear();
-                    UserCreator.UserLogIn();
+                    userCreator.UserLogIn();
                     break;
                 default:
                     Console.Clear();
@@ -42,14 +42,14 @@ namespace EducationPortal.Helpers
             switch (Console.ReadLine())
             {
                 case "1":
-                    CourseCreator.CourseCreate();
+                    courseCreator.CourseCreate();
                     break;
                 case "2":
 
                     break;
                 case "3":
                     Console.Clear();
-                    UserCreator.UserLogOut();
+                    userCreator.UserLogOut();
                     break;
                 default:
                     Console.Clear();
