@@ -23,7 +23,7 @@ namespace EducationPortal.Helpers
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        //Console.Clear();
+                        Console.Clear();
                         var question = questionCreator.QuestionCreate();
                         testVM.Questions.Add(question);
                         break;

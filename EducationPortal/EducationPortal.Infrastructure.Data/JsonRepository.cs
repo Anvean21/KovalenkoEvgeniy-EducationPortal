@@ -54,10 +54,8 @@ namespace EducationPortal.Infrastructure.Data
                 typeof(T).GetProperty("Password").SetValue(obj, PasswordHasher.Encode(typeof(T).GetProperty("Password").GetValue(obj).ToString()));
             }
 
-            using (FileStream fs = new FileStream($"{type.Name}/{type.Name}{itemId}.json", FileMode.Create))
-            {
-                JsonSerializer.SerializeAsync(fs, obj);
-            }
+            using FileStream fs = new FileStream($"{type.Name}/{type.Name}{itemId}.json", FileMode.Create);
+            JsonSerializer.SerializeAsync(fs, obj);
         }
         public void Delete(int id)
         {

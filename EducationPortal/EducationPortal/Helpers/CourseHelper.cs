@@ -131,7 +131,8 @@ namespace EducationPortal.Helpers
                         continue;
                 }
             }
-            courseVM.TestVM = testCreator.TestCreate();
+            courseVM.Test = testCreator.TestCreate();
+            Console.WriteLine();
             return courseVM;
         }
     }

@@ -23,11 +23,11 @@ namespace EducationPortal.Creator
         readonly ArticleMaterialValidator acticleValidator = new ArticleMaterialValidator();
         readonly VideoMaterialValidator videoValidator = new VideoMaterialValidator();
         readonly BookMaterialValidator bookValidator = new BookMaterialValidator();
-
+        readonly MaterialValidator validations = new MaterialValidator();
         public ArticleMaterialVM ArticleCreate()
         {
             var articleVM = MaterialHelper.ArticleFullData();
-            if (acticleValidator.Validate(articleVM).IsValid)
+            if (validations.Validate(articleVM).IsValid && acticleValidator.Validate(articleVM).IsValid)
             {
                 materialService.AddArticleMaterial(Map.MapVmToDomain<ArticleMaterialVM, ArticleMaterial>(articleVM));
                 Dye.Succsess();
@@ -38,7 +38,7 @@ namespace EducationPortal.Creator
             else
             {
                 Dye.Fail();
-                Console.WriteLine(acticleValidator.Validate(articleVM));
+                Console.WriteLine(acticleValidator.Validate(articleVM)+" " +" " + validations.Validate(articleVM));
                 Console.ResetColor();
                 ArticleCreate();
                 return null;
@@ -47,7 +47,7 @@ namespace EducationPortal.Creator
         public VideoMaterialVM VideoCreate()
         {
             var videoVM = MaterialHelper.VideoFullData();
-            if (videoValidator.Validate(videoVM).IsValid)
+            if (validations.Validate(videoVM).IsValid && videoValidator.Validate(videoVM).IsValid)
             {
                 materialService.AddVideoMaterial(Map.MapVmToDomain<VideoMaterialVM, VideoMaterial>(videoVM));
                 Dye.Succsess();
@@ -58,7 +58,7 @@ namespace EducationPortal.Creator
             else
             {
                 Dye.Fail();
-                Console.WriteLine(videoValidator.Validate(videoVM));
+                Console.WriteLine(videoValidator.Validate(videoVM) + " " + " " + validations.Validate(videoVM));
                 Console.ResetColor();
                 VideoCreate();
                 return null;
@@ -67,7 +67,7 @@ namespace EducationPortal.Creator
         public BookMaterialVM BookCreate()
         {
             var bookVM = MaterialHelper.BookFullData();
-            if (bookValidator.Validate(bookVM).IsValid)
+            if (validations.Validate(bookVM).IsValid && bookValidator.Validate(bookVM).IsValid)
             {
                 materialService.AddBookMaterial(Map.MapVmToDomain<BookMaterialVM, BookMaterial>(bookVM));
                 Dye.Succsess();
@@ -78,7 +78,7 @@ namespace EducationPortal.Creator
             else
             {
                 Dye.Fail();
-                Console.WriteLine(bookValidator.Validate(bookVM));
+                Console.WriteLine(bookValidator.Validate(bookVM) + " " + " " + validations.Validate(bookVM));
                 Console.ResetColor();
                 return null;
             }

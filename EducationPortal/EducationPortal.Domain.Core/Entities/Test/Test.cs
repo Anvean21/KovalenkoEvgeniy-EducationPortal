@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EducationPortal.Domain.Core.Entities
 {
-    public class Test
+    public class Test : BasicEntity
     {
         public string Name { get; set; }
         public ICollection<Question> Questions { get; set; }

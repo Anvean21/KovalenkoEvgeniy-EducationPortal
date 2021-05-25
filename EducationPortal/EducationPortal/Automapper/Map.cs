@@ -24,6 +24,8 @@ namespace EducationPortal.Automapper
                 cfg.CreateMap<SkillVM, Skill>();
                 cfg.CreateMap<MaterialVM, Material>();
                 cfg.CreateMap<TestVM, Test>();
+                cfg.CreateMap<QuestionVM, Question>();
+                cfg.CreateMap<AnswerVM, Answer>();
             });
             var mapper = new Mapper(configuration);
             return mapper.Map<CourseVM, Course>(courseVM);

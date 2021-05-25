@@ -40,6 +40,7 @@ namespace EducationPortal.Creator
             {
                 Dye.Fail();
                 Console.WriteLine(validator.Validate(courseVM));
+                Console.WriteLine(new Exception("Course is not added, try again."));
                 Console.ResetColor();
             }
         }

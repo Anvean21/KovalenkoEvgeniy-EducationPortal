@@ -14,7 +14,7 @@ namespace EducationPortal.Helpers
             Console.WriteLine("Enter video Name");
             videoMaterialVM.Name = Console.ReadLine();
             Console.WriteLine("Enter video Duration (00,00)");
-            videoMaterialVM.Duration = int.Parse(Console.ReadLine()).ToString("F" + 2);
+            videoMaterialVM.Duration = double.Parse(Console.ReadLine()).ToString("F" + 2);
             Console.WriteLine("Chose video quality\n1 - High\n2 - Medium\n3 - Low");
 
             videoMaterialVM.Quality = (Console.ReadLine()) switch
