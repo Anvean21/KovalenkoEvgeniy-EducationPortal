@@ -30,6 +30,20 @@ namespace EducationPortal.Automapper
             var mapper = new Mapper(configuration);
             return mapper.Map<CourseVM, Course>(courseVM);
         }
+        public static CourseVM CourseDomainToVM(Course course)
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Course, CourseVM>();
+                cfg.CreateMap<Skill, SkillVM>();
+                cfg.CreateMap<Material, MaterialVM>();
+                cfg.CreateMap<Test, TestVM>();
+                cfg.CreateMap<Question, QuestionVM>();
+                cfg.CreateMap<Answer, AnswerVM>();
+            });
+            var mapper = new Mapper(configuration);
+            return mapper.Map<Course, CourseVM>(course);
+        }
 
         public static Test TestVmToDomain(TestVM testVM)
         {
@@ -41,6 +55,16 @@ namespace EducationPortal.Automapper
             });
             var mapper = new Mapper(configuration);
             return mapper.Map<TestVM, Test>(testVM);
+        }
+        public static Question QuestionVmToDomain(QuestionVM querstionVM)
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<QuestionVM, Question>();
+                cfg.CreateMap<AnswerVM, Answer>();
+            });
+            var mapper = new Mapper(configuration);
+            return mapper.Map<QuestionVM, Question>(querstionVM);
         }
     }
 }

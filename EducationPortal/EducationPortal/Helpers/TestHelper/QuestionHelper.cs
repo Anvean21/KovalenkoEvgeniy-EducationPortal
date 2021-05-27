@@ -9,7 +9,7 @@ namespace EducationPortal.Helpers
     public class QuestionHelper
     {
         readonly AnswerHelper answerHelper = new AnswerHelper();
-        public QuestionVM QuestionData()
+        public QuestionVM QuestionData(int variant)
         {
             QuestionVM questionVM = new QuestionVM();
             Console.WriteLine("Enter question");
@@ -19,14 +19,14 @@ namespace EducationPortal.Helpers
             bool infinity = true;
             while (infinity)
             {
-                Console.WriteLine("1 - Add answer\n2 - Finish adding questions");
+                Console.WriteLine("1 - Add answer\n2 - Finish adding answers");
                 switch (Console.ReadLine())
                 {
                     case "1":
                         Dye.Succsess();
                         Console.WriteLine(questionVM.Name);
                         Console.ResetColor();
-                        var answer = answerHelper.AnswerData();
+                        var answer = answerHelper.AnswerData(variant++);
                         if (questionVM.Answers.Count(x => x.IsTrue == true) == 1 && answer.IsTrue == true)
                         {
                             Dye.Fail();
@@ -51,7 +51,7 @@ namespace EducationPortal.Helpers
                 return questionVM;
             }
             Console.WriteLine(new Exception("Atleast 1 answer must be true. Min. 4 answers. Max. 8 answers"));
-            QuestionData();
+            QuestionData(0);
             return null;
         }
     }

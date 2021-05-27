@@ -12,10 +12,10 @@ using System.Text;
 
 namespace EducationPortal.Creator
 {
-    public class SkillCreator
+    public class SkillConroller
     {
         readonly ISkillService skillService;
-        public SkillCreator(ISkillService skillService)
+        public SkillConroller(ISkillService skillService)
         {
             this.skillService = skillService;
         }

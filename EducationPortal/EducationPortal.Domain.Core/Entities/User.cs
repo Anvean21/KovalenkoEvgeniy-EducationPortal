@@ -12,10 +12,9 @@ namespace EducationPortal.Domain.Core
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public ICollection<Skill> Skills { get; set; }
-        public ICollection<Course> Courses { get; set; }
-        public ICollection<Course> CourseInProgress { get; set; }
-        public ICollection<Material> UserMaterials { get; set; }
+        public ICollection<Skill> Skills { get; set; } = new List<Skill>();
+        public ICollection<Course> Courses { get; set; } = new List<Course>();
+        public ICollection<Course> CourseInProgress { get; set; } = new List<Course>();
 
         [JsonIgnore]
         public IList<ExistingUserSkills> ExistingUserSkills { get; set; }

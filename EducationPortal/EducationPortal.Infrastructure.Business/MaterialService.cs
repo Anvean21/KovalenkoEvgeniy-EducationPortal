@@ -52,6 +52,18 @@ namespace EducationPortal.Infrastructure.Business
         {
             return GetMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
         }
+        public VideoMaterial GetVideoMaterialByName(string name)
+        {
+            return GetVideoMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+        }
+        public BookMaterial GetBookMaterialByName(string name)
+        {
+            return GetBookMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+        }
+        public ArticleMaterial GetArticleMaterialByName(string name)
+        {
+            return GetArticleMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+        }
 
         public IEnumerable<Material> GetMaterials()
         {

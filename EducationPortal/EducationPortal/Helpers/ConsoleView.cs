@@ -1,22 +1,15 @@
-﻿using EducationPortal.Automapper;
-using EducationPortal.Creator;
-using EducationPortal.Domain.Core;
-using EducationPortal.FluentValidationModels;
+﻿using EducationPortal.Creator;
 using EducationPortal.Services.Interfaces;
-using EducationPortal.ViewModels;
-using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EducationPortal.Helpers
 {
     public class ConsoleView
     {
-        readonly UserCreator userCreator = new UserCreator(CustomServiceProvider.Provider.GetRequiredService<IUserService>());
+        readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>());
 
-        readonly CourseCreator courseCreator = new CourseCreator(CustomServiceProvider.Provider.GetRequiredService<ICourseService>());
+        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>());
 
         public void ViewForUnautorizedUser()
         {
@@ -25,11 +18,11 @@ namespace EducationPortal.Helpers
             {
                 case "1":
                     Console.Clear();
-                    userCreator.UserCreate();
+                    userController.UserCreate();
                     break;
                 case "2":
                     Console.Clear();
-                    userCreator.UserLogIn();
+                    userController.UserLogIn();
                     break;
                 default:
                     Console.Clear();
@@ -42,14 +35,21 @@ namespace EducationPortal.Helpers
             switch (Console.ReadLine())
             {
                 case "1":
-                    courseCreator.CourseCreate();
+                    courseController.CourseCreate();
                     break;
                 case "2":
-
+                    courseController.GetAllCourses();
+                    Console.Write("Enter course Id: ");
+                    var id = Int32.Parse(Console.ReadLine());
+                    var courseVM = courseController.GetCourseById(id);
+                    userController.AddCourseToUserProgress(courseVM);
+                    courseController.GetCourseMaterials(courseVM);
+                    courseController.PassCourseMaterials();
+                    userController.UserPassCourse(courseVM);
                     break;
                 case "3":
                     Console.Clear();
-                    userCreator.UserLogOut();
+                    userController.UserLogOut();
                     break;
                 default:
                     Console.Clear();

@@ -8,11 +8,11 @@ using System;
 
 namespace EducationPortal.Creator
 {
-    public class TestCreator
+    public class TestController
     {
         readonly TestHelper testHelper = new TestHelper();
         readonly ITestService testService;
-        public TestCreator(ITestService testService)
+        public TestController(ITestService testService)
         {
             this.testService = testService;
         }
@@ -37,6 +37,10 @@ namespace EducationPortal.Creator
                 TestCreate();
                 return null;
             }
+        }
+        public int AnswersCounting(QuestionVM questionVM, string userVariant, ref int result)
+        {
+            return testService.CountResult(Map.QuestionVmToDomain(questionVM), userVariant, ref result);
         }
     }
 }

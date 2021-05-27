@@ -61,7 +61,6 @@ namespace EducationPortal.Infrastructure.Data
         {
             var file = directory.GetFiles($"*{id}.json").FirstOrDefault();
             file.Delete();
-            Console.WriteLine("Operation completed successfully");
         }
         public T GetById(int id)
         {
@@ -93,7 +92,13 @@ namespace EducationPortal.Infrastructure.Data
         }
         public void Update(T item)
         {
-            throw new NotImplementedException();
+            var id = typeof(T).GetProperty("Id").GetValue(item);
+            if (typeof(T).GetProperties().Any(x => x.Name == "Password"))
+            {
+                typeof(T).GetProperty("Password").SetValue(item, PasswordHasher.Encode(typeof(T).GetProperty("Password").GetValue(item).ToString()));
+            }
+            using FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.json", FileMode.Open);
+            JsonSerializer.SerializeAsync(fs, item);
         }
     }
 }

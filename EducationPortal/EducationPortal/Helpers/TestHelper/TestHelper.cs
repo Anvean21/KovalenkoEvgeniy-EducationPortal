@@ -8,7 +8,7 @@ namespace EducationPortal.Helpers
 {
     public class TestHelper
     {
-        readonly static QuestionCreator questionCreator = new QuestionCreator();
+        readonly static QuestioController questionController = new QuestioController();
         public TestVM TestFullData()
         {
             TestVM testVM = new TestVM();
@@ -24,7 +24,7 @@ namespace EducationPortal.Helpers
                 {
                     case "1":
                         Console.Clear();
-                        var question = questionCreator.QuestionCreate();
+                        var question = questionController.QuestionCreate();
                         testVM.Questions.Add(question);
                         break;
                     case "2":
