@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public bool IsTrue { get; set; }
-        public char[] Variant { get; set; } = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
+        public char[] Variant { get; private set; } = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
     }
 }

@@ -93,10 +93,7 @@ namespace EducationPortal.Infrastructure.Data
         public void Update(T item)
         {
             var id = typeof(T).GetProperty("Id").GetValue(item);
-            if (typeof(T).GetProperties().Any(x => x.Name == "Password"))
-            {
-                typeof(T).GetProperty("Password").SetValue(item, PasswordHasher.Encode(typeof(T).GetProperty("Password").GetValue(item).ToString()));
-            }
+
             using FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.json", FileMode.Open);
             JsonSerializer.SerializeAsync(fs, item);
         }

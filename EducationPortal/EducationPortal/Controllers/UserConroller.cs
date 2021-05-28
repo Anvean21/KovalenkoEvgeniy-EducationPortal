@@ -77,7 +77,7 @@ namespace EducationPortal.Creator
         }
         public void UserPassCourse(CourseVM courseVM)
         {
-            int rightAnswers = 0;
+             int rightAnswers = 0;
             Console.WriteLine(string.Join(". ", courseVM.Name, courseVM.Description));
 
             foreach (var question in courseVM.Test.Questions)

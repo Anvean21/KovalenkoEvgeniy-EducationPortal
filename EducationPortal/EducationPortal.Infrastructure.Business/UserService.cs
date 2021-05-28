@@ -53,11 +53,8 @@ namespace EducationPortal.Infrastructure.Business
         }
         public bool UserSaveChanges(User user)
         {
-            authorizedUser.Name = user.Name ?? authorizedUser.Name;
-            authorizedUser.Email = user.Email ?? authorizedUser.Email;
-            authorizedUser.Password = user.Password ?? authorizedUser.Password;
             authorizedUser.Skills = user.Skills ?? authorizedUser.Skills;
-            authorizedUser.CourseInProgress = user.CourseInProgress ?? authorizedUser.CourseInProgress;
+            authorizedUser.CourseInProgress = user.CourseInProgress;
             authorizedUser.Courses = user.Courses ?? authorizedUser.Courses;
             userRepository.Update(authorizedUser);
             return true;
@@ -71,7 +68,7 @@ namespace EducationPortal.Infrastructure.Business
         {
             if (authorizedUser.Courses.Any(x => x.Equals(course)))
             {
-                Console.WriteLine(new Exception("You have already passed this course"));
+                return false;
             }
             if (authorizedUser.CourseInProgress == null || authorizedUser.CourseInProgress.All(x => x.Name != course.Name))
             {
@@ -94,6 +91,7 @@ namespace EducationPortal.Infrastructure.Business
                 {
                     authorizedUser.Skills.Add(skill);
                 }
+                 authorizedUser.CourseInProgress.Remove(authorizedUser.CourseInProgress.FirstOrDefault(x => x.Name == course.Name));
                 UserSaveChanges(authorizedUser);
                 return true;
             }
