@@ -8,10 +8,9 @@ namespace EducationPortal.Creator
 {
     public class QuestioController
     {
-
         readonly QuestionHelper questionHelper = new QuestionHelper();
         private readonly QuestionValidator validator = new QuestionValidator();
-        int answerLetter = 0;
+        readonly int answerLetter = 0;
         public QuestionVM QuestionCreate()
         {
             var questionVM = questionHelper.QuestionData(answerLetter);

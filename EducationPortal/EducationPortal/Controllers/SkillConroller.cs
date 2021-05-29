@@ -4,11 +4,7 @@ using EducationPortal.FluentValidationModels;
 using EducationPortal.Helpers;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.ViewModels;
-using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EducationPortal.Creator
 {

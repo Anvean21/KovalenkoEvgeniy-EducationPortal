@@ -7,7 +7,7 @@ namespace EducationPortal.Helpers
 {
     public class ConsoleView
     {
-        readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>());
+        readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>(), new TestController(CustomServiceProvider.Provider.GetRequiredService<ITestService>()));
 
         readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>());
 
@@ -42,10 +42,13 @@ namespace EducationPortal.Helpers
                     Console.Write("Enter course Id: ");
                     var id = Int32.Parse(Console.ReadLine());
                     var courseVM = courseController.GetCourseById(id);
-                    userController.AddCourseToUserProgress(courseVM);
-                    courseController.GetCourseMaterials(courseVM);
-                    courseController.PassCourseMaterials();
-                    userController.UserPassCourse(courseVM);
+
+                    if (userController.AddCourseToUserProgress(courseVM))
+                    {
+                        courseController.GetCourseMaterials(courseVM);
+                        courseController.PassCourseMaterials();
+                        userController.UserPassCourse(courseVM);
+                    }
                     break;
                 case "3":
                     Console.Clear();

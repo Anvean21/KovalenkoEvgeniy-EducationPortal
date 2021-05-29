@@ -13,11 +13,9 @@ namespace EducationPortal.Infrastructure.Business
         private static User authorizedUser;
 
         private readonly IRepository<User> userRepository;
-        private readonly IRepository<Course> courseRepository;
-        public UserService(IRepository<User> userRepository, IRepository<Course> courseRepository)
+        public UserService(IRepository<User> userRepository)
         {
             this.userRepository = userRepository;
-            this.courseRepository = courseRepository;
         }
 
         public void Register(User model)
@@ -66,20 +64,13 @@ namespace EducationPortal.Infrastructure.Business
         }
         public bool AddCourseToProgress(Course course)
         {
-            if (authorizedUser.Courses.Any(x => x.Equals(course)))
+            if (authorizedUser.Courses.Any(x => x.Name == course.Name))
             {
                 return false;
             }
-            if (authorizedUser.CourseInProgress == null || authorizedUser.CourseInProgress.All(x => x.Name != course.Name))
-            {
-                authorizedUser.CourseInProgress.Add(course);
-                UserSaveChanges(authorizedUser);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            authorizedUser.CourseInProgress.Add(course);
+            UserSaveChanges(authorizedUser);
+            return true;
         }
         public bool IsCoursePassed(Course course, int rightAnswers)
         {
@@ -89,9 +80,27 @@ namespace EducationPortal.Infrastructure.Business
                 authorizedUser.Courses.Add(course);
                 foreach (var skill in course.Skills)
                 {
-                    authorizedUser.Skills.Add(skill);
+                    if (UserSkillUp(skill))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        authorizedUser.Skills.Add(skill);
+                    }
                 }
-                 authorizedUser.CourseInProgress.Remove(authorizedUser.CourseInProgress.FirstOrDefault(x => x.Name == course.Name));
+
+                authorizedUser.CourseInProgress.Remove(authorizedUser.CourseInProgress.FirstOrDefault(x => x.Name == course.Name));
+                UserSaveChanges(authorizedUser);
+                return true;
+            }
+            return false;
+        }
+        public bool UserSkillUp(Skill skill)
+        {
+            if (authorizedUser.Skills.Any(x => x.Name == skill.Name))
+            {
+                authorizedUser.Skills.FirstOrDefault(x => x.Name == skill.Name).Level++;
                 UserSaveChanges(authorizedUser);
                 return true;
             }

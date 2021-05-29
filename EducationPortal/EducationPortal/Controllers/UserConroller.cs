@@ -15,12 +15,12 @@ namespace EducationPortal.Creator
     public class UserConroller
     {
         readonly IUserService userService;
-        public UserConroller(IUserService userService)
+        readonly TestController testController;
+        public UserConroller(IUserService userService, TestController testController)
         {
             this.userService = userService;
+            this.testController = testController;
         }
-        readonly TestController testController = new TestController(CustomServiceProvider.Provider.GetRequiredService<ITestService>());
-
         readonly UserValidator validator = new UserValidator();
         public void UserCreate()
         {
@@ -60,28 +60,33 @@ namespace EducationPortal.Creator
         {
             userService.LogOut();
         }
-        public void AddCourseToUserProgress(CourseVM courseVM)
+        public bool AddCourseToUserProgress(CourseVM courseVM)
         {
             if (userService.AddCourseToProgress(Map.CourseVmToDomain(courseVM)))
             {
                 Dye.Succsess();
                 Console.WriteLine("Course passing started!");
                 Console.ResetColor();
+                return true;
             }
             else
             {
                 Dye.Inform();
-                Console.WriteLine("Continue passing");
+                Console.WriteLine("You have passed this course early");
                 Console.ResetColor();
+                return false;
             }
         }
         public void UserPassCourse(CourseVM courseVM)
         {
-             int rightAnswers = 0;
+            int rightAnswers = 0;
             Console.WriteLine(string.Join(". ", courseVM.Name, courseVM.Description));
 
             foreach (var question in courseVM.Test.Questions)
             {
+                Dye.Succsess();
+                Console.WriteLine(question.Name);
+                Console.ResetColor();
                 Console.WriteLine("Choose the variant");
                 foreach (var answers in question.Answers)
                 {
