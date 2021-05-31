@@ -12,12 +12,13 @@ namespace EducationPortal.Creator
     {
         readonly TestHelper testHelper = new TestHelper();
         readonly ITestService testService;
+        readonly TestValidator validator = new TestValidator();
+
         public TestController(ITestService testService)
         {
             this.testService = testService;
         }
 
-        readonly TestValidator validator = new TestValidator();
         public TestVM TestCreate()
         {
             var testVM = testHelper.TestFullData();

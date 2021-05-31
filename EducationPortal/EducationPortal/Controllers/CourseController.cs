@@ -1,4 +1,5 @@
 ﻿using EducationPortal.Automapper;
+using EducationPortal.Controllers;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Helpers;
 using EducationPortal.Services.Interfaces;
@@ -14,10 +15,9 @@ namespace EducationPortal.Creator
     public class CourseController
     {
         readonly ICourseService courseService;
-        public CourseController(ICourseService courseService)
-        {
-            this.courseService = courseService;
-        }
+        readonly VideoMaterialController videoMaterialController;
+        readonly ArticleMaterialController articleMaterialController;
+        readonly BookMaterialController bookMaterialController;
 
         readonly List<VideoMaterialVM> videoMaterials = new List<VideoMaterialVM>();
         readonly List<BookMaterialVM> bookMaterials = new List<BookMaterialVM>();
@@ -27,6 +27,14 @@ namespace EducationPortal.Creator
         readonly MaterialHelper materialHelper = new MaterialHelper();
 
         readonly CourseValidator validator = new CourseValidator();
+
+        public CourseController(ICourseService courseService, VideoMaterialController videoMaterialController, ArticleMaterialController articleMaterialController, BookMaterialController bookMaterialController)
+        {
+            this.courseService = courseService;
+            this.videoMaterialController = videoMaterialController;
+            this.articleMaterialController = articleMaterialController;
+            this.bookMaterialController = bookMaterialController;
+        }
 
         public void CourseCreate()
         {
@@ -57,21 +65,20 @@ namespace EducationPortal.Creator
         {
             return Map.CourseDomainToVM(courseService.GetById(id));
         }
-        readonly MaterialController materialController = new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>());
         public void GetCourseMaterials(CourseVM courseVM)
         {
 
             foreach (var material in courseVM.Materials)
             {
-                if (materialController.GetVideoMaterialByName(material.Name) is VideoMaterialVM videoMaterial)
+                if (videoMaterialController.GetVideoMaterialByName(material.Name) is VideoMaterialVM videoMaterial)
                 {
                     videoMaterials.Add(videoMaterial);
                 }
-                if (materialController.GetBookMaterialByName(material.Name) is BookMaterialVM bookMaterial)
+                if (bookMaterialController.GetBookMaterialByName(material.Name) is BookMaterialVM bookMaterial)
                 {
                     bookMaterials.Add(bookMaterial);
                 }
-                if (materialController.GetArticleMaterialByName(material.Name) is ArticleMaterialVM articleMaterial)
+                if (articleMaterialController.GetArticleMaterialByName(material.Name) is ArticleMaterialVM articleMaterial)
                 {
                     articleMaterials.Add(articleMaterial);
                 }

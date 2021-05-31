@@ -1,4 +1,5 @@
-﻿using EducationPortal.Creator;
+﻿using EducationPortal.Controllers;
+using EducationPortal.Creator;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.ViewModels;
@@ -11,7 +12,14 @@ namespace EducationPortal.Helpers
 {
     public class CourseHelper
     {
-        readonly MaterialController materialController = new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>());
+        readonly static VideoMaterialController videoMaterialController = new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>());
+
+        readonly static ArticleMaterialController articleMaterialController = new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>());
+
+        readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>());
+
+        private readonly MaterialController materialController = new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>(), videoMaterialController,
+               articleMaterialController,bookMaterialController);
 
         readonly SkillConroller skillController = new SkillConroller(CustomServiceProvider.Provider.GetRequiredService<ISkillService>());
 
@@ -33,13 +41,13 @@ namespace EducationPortal.Helpers
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        materialController.VideoCreate();
+                        videoMaterialController.VideoCreate();
                         break;
                     case "2":
-                        materialController.BookCreate();
+                        bookMaterialController.BookCreate();
                         break;
                     case "3":
-                        materialController.ArticleCreate();
+                        articleMaterialController.ArticleCreate();
                         break;
                     case "4":
                         Console.Clear();

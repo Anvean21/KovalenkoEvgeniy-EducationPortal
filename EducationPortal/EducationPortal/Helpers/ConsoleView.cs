@@ -1,4 +1,5 @@
-﻿using EducationPortal.Creator;
+﻿using EducationPortal.Controllers;
+using EducationPortal.Creator;
 using EducationPortal.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -7,9 +8,14 @@ namespace EducationPortal.Helpers
 {
     public class ConsoleView
     {
-        readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>(), new TestController(CustomServiceProvider.Provider.GetRequiredService<ITestService>()));
+        
+        readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>(), 
+            new TestController(CustomServiceProvider.Provider.GetRequiredService<ITestService>()));
 
-        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>());
+        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>(), 
+            new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>()), 
+            new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>()),
+            new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>()));
 
         public void ViewForUnautorizedUser()
         {

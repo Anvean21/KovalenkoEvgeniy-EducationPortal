@@ -11,12 +11,12 @@ namespace EducationPortal.Creator
     public class SkillConroller
     {
         readonly ISkillService skillService;
+        readonly SkillValidator validator = new SkillValidator();
+
         public SkillConroller(ISkillService skillService)
         {
             this.skillService = skillService;
         }
-
-        readonly SkillValidator validator = new SkillValidator();
 
         public SkillVM SkillCreate()
         {

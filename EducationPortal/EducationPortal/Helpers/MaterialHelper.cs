@@ -39,7 +39,7 @@ namespace EducationPortal.Helpers
 
             return arcticleMaterialVM;
         }
-        public static BookMaterialVM BookFullData()
+        public BookMaterialVM BookFullData()
         {
             BookMaterialVM bookMaterialVM = new BookMaterialVM();
             Console.WriteLine("Enter book name");

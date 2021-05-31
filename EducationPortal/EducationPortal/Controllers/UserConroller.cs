@@ -16,12 +16,14 @@ namespace EducationPortal.Creator
     {
         readonly IUserService userService;
         readonly TestController testController;
+        readonly UserValidator validator = new UserValidator();
+
         public UserConroller(IUserService userService, TestController testController)
         {
             this.userService = userService;
             this.testController = testController;
         }
-        readonly UserValidator validator = new UserValidator();
+
         public void UserCreate()
         {
             var userVM = UserHelper.UserFullData();
