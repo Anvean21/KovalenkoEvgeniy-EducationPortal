@@ -17,6 +17,7 @@ namespace EducationPortal.Creator
         readonly IUserService userService;
         readonly TestController testController;
         readonly UserValidator validator = new UserValidator();
+        private readonly Map mapper = new Map();
 
         public UserConroller(IUserService userService, TestController testController)
         {
@@ -29,7 +30,7 @@ namespace EducationPortal.Creator
             var userVM = UserHelper.UserFullData();
             if (validator.Validate(userVM).IsValid)
             {
-                userService.Register(Map.MapVmToDomain<UserVM, User>(userVM));
+                userService.Register(mapper.MapVmToDomain<UserVM, User>(userVM));
                 Dye.Succsess();
                 Console.WriteLine("You have successfully registered and authorized");
                 Console.ResetColor();
@@ -64,7 +65,7 @@ namespace EducationPortal.Creator
         }
         public bool AddCourseToUserProgress(CourseVM courseVM)
         {
-            if (userService.AddCourseToProgress(Map.CourseVmToDomain(courseVM)))
+            if (userService.AddCourseToProgress(mapper.CourseVmToDomain(courseVM)))
             {
                 Dye.Succsess();
                 Console.WriteLine("Course passing started!");
@@ -97,7 +98,7 @@ namespace EducationPortal.Creator
                 var userVariatnt = Console.ReadLine().Trim().Split("")[0];
                 testController.AnswersCounting(question, userVariatnt, ref rightAnswers);
             }
-            if (userService.IsCoursePassed(Map.CourseVmToDomain(courseVM), rightAnswers))
+            if (userService.IsCoursePassed(mapper.CourseVmToDomain(courseVM), rightAnswers))
             {
                 Dye.Succsess();
                 Console.WriteLine($"Test - passed. Right answers {rightAnswers}/{courseVM.Test.Questions.Count()} CONGRATULATIONS!!!");

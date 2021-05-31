@@ -14,6 +14,7 @@ namespace EducationPortal.Controllers
     {
         readonly IBookMaterialService bookMaterialService;
 
+        private readonly Map mapper = new Map();
         readonly BookMaterialValidator bookValidator = new BookMaterialValidator();
         readonly MaterialValidator validations = new MaterialValidator();
 
@@ -29,7 +30,7 @@ namespace EducationPortal.Controllers
             var bookVM = materialHelper.BookFullData();
             if (validations.Validate(bookVM).IsValid && bookValidator.Validate(bookVM).IsValid)
             {
-                bookMaterialService.AddBookMaterial(Map.MapVmToDomain<BookMaterialVM, BookMaterial>(bookVM));
+                bookMaterialService.AddBookMaterial(mapper.MapVmToDomain<BookMaterialVM, BookMaterial>(bookVM));
                 Dye.Succsess();
                 Console.WriteLine("You have add book");
                 Console.ResetColor();
@@ -47,7 +48,7 @@ namespace EducationPortal.Controllers
         }
         public BookMaterialVM GetBookMaterialByName(string name)
         {
-            return Map.MapVmToDomain<BookMaterial, BookMaterialVM>(bookMaterialService.GetBookMaterialByName(name));
+            return mapper.MapVmToDomain<BookMaterial, BookMaterialVM>(bookMaterialService.GetBookMaterialByName(name));
         }
         public IEnumerable<BookMaterial> GetBookMaterials()
         {

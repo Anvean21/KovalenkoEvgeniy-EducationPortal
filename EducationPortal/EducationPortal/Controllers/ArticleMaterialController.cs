@@ -14,6 +14,7 @@ namespace EducationPortal.Controllers
     {
         readonly IArticleMaterialService articleMaterialService;
 
+        private readonly Map mapper = new Map();
         readonly ArticleMaterialValidator acticleValidator = new ArticleMaterialValidator();
         readonly MaterialValidator validations = new MaterialValidator();
 
@@ -30,7 +31,7 @@ namespace EducationPortal.Controllers
 
             if (validations.Validate(articleVM).IsValid && acticleValidator.Validate(articleVM).IsValid)
             {
-                articleMaterialService.AddArticleMaterial(Map.MapVmToDomain<ArticleMaterialVM, ArticleMaterial>(articleVM));
+                articleMaterialService.AddArticleMaterial(mapper.MapVmToDomain<ArticleMaterialVM, ArticleMaterial>(articleVM));
                 Dye.Succsess();
                 Console.WriteLine("You have add article");
                 Console.ResetColor();
@@ -47,7 +48,7 @@ namespace EducationPortal.Controllers
         }
         public ArticleMaterialVM GetArticleMaterialByName(string name)
         {
-            return Map.MapVmToDomain<ArticleMaterial, ArticleMaterialVM>(articleMaterialService.GetArticleMaterialByName(name));
+            return mapper.MapVmToDomain<ArticleMaterial, ArticleMaterialVM>(articleMaterialService.GetArticleMaterialByName(name));
         }
         public IEnumerable<ArticleMaterial> GetArticleMaterials()
         {

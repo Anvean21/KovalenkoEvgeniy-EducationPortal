@@ -16,6 +16,9 @@ namespace EducationPortal.Creator
         readonly VideoMaterialController videoMaterialController;
         readonly ArticleMaterialController articleMaterialController;
         readonly BookMaterialController bookMaterialController;
+
+        private readonly Map mapper = new Map();
+
         public MaterialController(IMaterialService materialService, VideoMaterialController videoMaterialController, ArticleMaterialController articleMaterialController, BookMaterialController bookMaterialController)
         {
             this.materialService = materialService;
@@ -41,7 +44,7 @@ namespace EducationPortal.Creator
         }
         public MaterialVM AddMaterialByName(string name)
         {
-            return Map.MapVmToDomain<Material, MaterialVM>(materialService.GetMaterialByName(name));
+            return mapper.MapVmToDomain<Material, MaterialVM>(materialService.GetMaterialByName(name));
         }
     }
 }

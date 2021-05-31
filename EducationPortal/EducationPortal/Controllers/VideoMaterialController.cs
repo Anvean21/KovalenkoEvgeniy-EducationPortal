@@ -17,6 +17,7 @@ namespace EducationPortal.Controllers
         readonly VideoMaterialValidator videoValidator = new VideoMaterialValidator();
         readonly MaterialHelper materialHelper = new MaterialHelper();
         readonly MaterialValidator validations = new MaterialValidator();
+        private readonly Map mapper = new Map();
 
         public VideoMaterialController(IVideoMaterialService videoMaterialService)
         {
@@ -28,7 +29,7 @@ namespace EducationPortal.Controllers
             var videoVM = materialHelper.VideoFullData();
             if (validations.Validate(videoVM).IsValid && videoValidator.Validate(videoVM).IsValid)
             {
-                videoMaterialService.AddVideoMaterial(Map.MapVmToDomain<VideoMaterialVM, VideoMaterial>(videoVM));
+                videoMaterialService.AddVideoMaterial(mapper.MapVmToDomain<VideoMaterialVM, VideoMaterial>(videoVM));
                 Dye.Succsess();
                 Console.WriteLine("You have add video");
                 Console.ResetColor();
@@ -45,7 +46,7 @@ namespace EducationPortal.Controllers
         }
         public VideoMaterialVM GetVideoMaterialByName(string name)
         {
-            return Map.MapVmToDomain<VideoMaterial, VideoMaterialVM>(videoMaterialService.GetVideoMaterialByName(name));
+            return mapper.MapVmToDomain<VideoMaterial, VideoMaterialVM>(videoMaterialService.GetVideoMaterialByName(name));
         }
         public IEnumerable<VideoMaterial> GetVideoMaterials()
         {

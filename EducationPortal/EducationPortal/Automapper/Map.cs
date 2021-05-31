@@ -8,7 +8,7 @@ namespace EducationPortal.Automapper
 {
     public class Map
     {
-        public static DestinationType MapVmToDomain<SourceType, DestinationType>(SourceType viewModel)
+        public DestinationType MapVmToDomain<SourceType, DestinationType>(SourceType viewModel)
         {
             var configuration = new MapperConfiguration(cfg => cfg.CreateMap<SourceType, DestinationType>());
             var mapper = new Mapper(configuration);
@@ -16,7 +16,7 @@ namespace EducationPortal.Automapper
             return mapper.Map<SourceType, DestinationType>(viewModel);
         }
 
-        public static Course CourseVmToDomain(CourseVM courseVM)
+        public Course CourseVmToDomain(CourseVM courseVM)
         {
             var configuration = new MapperConfiguration(cfg =>
             {
@@ -30,7 +30,7 @@ namespace EducationPortal.Automapper
             var mapper = new Mapper(configuration);
             return mapper.Map<CourseVM, Course>(courseVM);
         }
-        public static CourseVM CourseDomainToVM(Course course)
+        public CourseVM CourseDomainToVM(Course course)
         {
             var configuration = new MapperConfiguration(cfg =>
             {
@@ -45,7 +45,7 @@ namespace EducationPortal.Automapper
             return mapper.Map<Course, CourseVM>(course);
         }
 
-        public static Test TestVmToDomain(TestVM testVM)
+        public Test TestVmToDomain(TestVM testVM)
         {
             var configuration = new MapperConfiguration(cfg =>
             {
@@ -56,7 +56,7 @@ namespace EducationPortal.Automapper
             var mapper = new Mapper(configuration);
             return mapper.Map<TestVM, Test>(testVM);
         }
-        public static Question QuestionVmToDomain(QuestionVM querstionVM)
+        public Question QuestionVmToDomain(QuestionVM querstionVM)
         {
             var configuration = new MapperConfiguration(cfg =>
             {

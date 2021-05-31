@@ -25,6 +25,7 @@ namespace EducationPortal.Creator
 
         readonly CourseHelper courseHelper = new CourseHelper();
         readonly MaterialHelper materialHelper = new MaterialHelper();
+        private readonly Map mapper = new Map();
 
         readonly CourseValidator validator = new CourseValidator();
 
@@ -41,7 +42,7 @@ namespace EducationPortal.Creator
             var courseVM = courseHelper.CourseFullData();
             if (validator.Validate(courseVM).IsValid && courseVM.Skills.Count >= 1 && courseVM.Materials.Count >= 1)
             {
-                courseService.AddCourse(Map.CourseVmToDomain(courseVM));
+                courseService.AddCourse(mapper.CourseVmToDomain(courseVM));
                 Dye.Succsess();
                 Console.WriteLine("You have successfully created course");
                 Console.ResetColor();
@@ -63,7 +64,7 @@ namespace EducationPortal.Creator
         }
         public CourseVM GetCourseById(int id)
         {
-            return Map.CourseDomainToVM(courseService.GetById(id));
+            return mapper.CourseDomainToVM(courseService.GetById(id));
         }
         public void GetCourseMaterials(CourseVM courseVM)
         {
