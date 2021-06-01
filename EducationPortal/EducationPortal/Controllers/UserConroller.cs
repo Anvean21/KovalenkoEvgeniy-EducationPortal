@@ -16,48 +16,12 @@ namespace EducationPortal.Creator
     {
         readonly IUserService userService;
         readonly TestController testController;
-        readonly UserValidator validator = new UserValidator();
         private readonly Map mapper = new Map();
 
         public UserConroller(IUserService userService, TestController testController)
         {
             this.userService = userService;
             this.testController = testController;
-        }
-
-        public void UserCreate()
-        {
-            var userVM = UserHelper.UserFullData();
-            if (validator.Validate(userVM).IsValid)
-            {
-                userService.Register(mapper.MapVmToDomain<UserVM, User>(userVM));
-                Dye.Succsess();
-                Console.WriteLine("You have successfully registered and authorized");
-                Console.ResetColor();
-            }
-            else
-            {
-                Dye.Fail();
-                Console.WriteLine(validator.Validate(userVM));
-                Console.ResetColor();
-            }
-        }
-        public void UserLogIn()
-        {
-            var (login, password) = UserHelper.UserLoginData();
-
-            if (userService.LogIn(login, password))
-            {
-                Dye.Succsess();
-                Console.WriteLine("Authorized");
-                Console.ResetColor();
-            }
-            else
-            {
-                Dye.Fail();
-                Console.WriteLine(new Exception("Something went wrong, try again"));
-                Console.ResetColor();
-            }
         }
         public void UserLogOut()
         {
