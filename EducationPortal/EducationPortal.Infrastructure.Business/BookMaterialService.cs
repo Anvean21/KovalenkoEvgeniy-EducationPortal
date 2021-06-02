@@ -11,7 +11,10 @@ namespace EducationPortal.Infrastructure.Business
     public class BookMaterialService : IBookMaterialService
     {
         private readonly IRepository<BookMaterial> bookMaterialRepository;
-
+        public BookMaterialService(IRepository<BookMaterial> bookMaterialRepository)
+        {
+            this.bookMaterialRepository = bookMaterialRepository;
+        }
         public void AddBookMaterial(BookMaterial bookMaterial)
         {
             bookMaterialRepository.Create(bookMaterial);

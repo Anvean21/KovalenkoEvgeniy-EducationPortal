@@ -12,6 +12,10 @@ namespace EducationPortal.Infrastructure.Business
     {
         private readonly IRepository<ArticleMaterial> articleMaterialRepository;
 
+        public ArticleMaterialService(IRepository<ArticleMaterial> articleMaterialRepository)
+        {
+            this.articleMaterialRepository = articleMaterialRepository;
+        }
         public void AddArticleMaterial(ArticleMaterial articleMaterial)
         {
             articleMaterialRepository.Create(articleMaterial);

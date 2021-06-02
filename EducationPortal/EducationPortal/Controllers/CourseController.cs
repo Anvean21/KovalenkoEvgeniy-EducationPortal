@@ -25,6 +25,7 @@ namespace EducationPortal.Creator
 
         readonly CourseHelper courseHelper = new CourseHelper();
         readonly MaterialHelper materialHelper = new MaterialHelper();
+
         private readonly Map mapper = new Map();
 
         readonly CourseValidator validator = new CourseValidator();

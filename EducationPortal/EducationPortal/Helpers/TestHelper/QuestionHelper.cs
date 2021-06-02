@@ -40,18 +40,18 @@ namespace EducationPortal.Helpers
                         questionVM.Answers.Add(answer);
                         break;
                     case "2":
-                        infinity = false;
+                        if (questionVM.Answers.Any(x => x.IsTrue == true) && questionVM.Answers.Count() >= 2 && questionVM.Answers.Count() <= 6)
+                        {
+                            return questionVM;
+                        }
+                        Dye.Fail();
+                        Console.WriteLine(new Exception("Atleast 1 answer must be true. Min. 2 answers. Max. 6 answers"));
+                        Console.ResetColor();
                         break;
                     default:
                         continue;
                 }
             }
-            if (questionVM.Answers.Any(x => x.IsTrue == true) && questionVM.Answers.Count() >=4 && questionVM.Answers.Count() <= 8)
-            {
-                return questionVM;
-            }
-            Console.WriteLine(new Exception("Atleast 1 answer must be true. Min. 4 answers. Max. 8 answers"));
-            QuestionData(0);
             return null;
         }
     }

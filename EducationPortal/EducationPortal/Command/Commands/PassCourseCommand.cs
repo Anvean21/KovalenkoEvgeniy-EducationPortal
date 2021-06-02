@@ -25,6 +25,7 @@ namespace EducationPortal.Command.Commands
 
         public void Execute()
         {
+            Console.Clear();
             courseController.GetAllCourses();
             Console.Write("Enter course Id: ");
             var id = Int32.Parse(Console.ReadLine());

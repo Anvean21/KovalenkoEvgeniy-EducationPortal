@@ -26,6 +26,7 @@ namespace EducationPortal.Command.Commands
 
         public void Execute()
         {
+            Console.Clear();
             var userVM = UserHelper.UserFullData();
             if (validator.Validate(userVM).IsValid)
             {

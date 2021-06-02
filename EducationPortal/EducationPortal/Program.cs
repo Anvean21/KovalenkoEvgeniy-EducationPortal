@@ -8,12 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using EducationPortal.Helpers;
 using EducationPortal.Command;
+using EducationPortal.DependencyInjection;
 
 namespace EducationPortal
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             IUserService userService = CustomServiceProvider.Provider.GetRequiredService<IUserService>();

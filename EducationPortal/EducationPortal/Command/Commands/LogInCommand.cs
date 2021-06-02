@@ -22,6 +22,7 @@ namespace EducationPortal.Command.Commands
 
         public void Execute()
         {
+            Console.Clear();
             var (login, password) = UserHelper.UserLoginData();
 
             if (userService.LogIn(login, password))

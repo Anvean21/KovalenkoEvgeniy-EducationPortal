@@ -21,6 +21,7 @@ namespace EducationPortal.Command.Commands
 
         public void Execute()
         {
+            Console.Clear();
             courseController.CourseCreate();
         }
     }

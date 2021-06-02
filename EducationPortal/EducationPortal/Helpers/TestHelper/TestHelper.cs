@@ -1,7 +1,9 @@
 ﻿using EducationPortal.Creator;
+using EducationPortal.FluentValidationModels;
 using EducationPortal.ViewModels.TestViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EducationPortal.Helpers
@@ -28,13 +30,19 @@ namespace EducationPortal.Helpers
                         testVM.Questions.Add(question);
                         break;
                     case "2":
-                        infinity = false;
+                        if (testVM.Questions.Count() >= 4)
+                        {
+                            return testVM;
+                        }
+                        Dye.Fail();
+                        Console.WriteLine("Count of questions must be greater than 3");
+                        Console.ResetColor();
                         break;
                     default:
                         continue;
                 }
             }
-            return testVM;
+            return null;
         }
     }
 }
