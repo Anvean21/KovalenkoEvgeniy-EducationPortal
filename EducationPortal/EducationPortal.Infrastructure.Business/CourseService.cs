@@ -24,5 +24,10 @@ namespace EducationPortal.Infrastructure.Business
         {
             return courseRepository.GetAll();
         }
+
+        public Course GetById(int id)
+        {
+            return courseRepository.GetById(id);
+        }
     }
 }

@@ -16,5 +16,10 @@ namespace EducationPortal.FluentValidationModels
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
         }
+        public static void Inform()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+        }
     }
 }

@@ -1,15 +1,12 @@
-﻿using EducationPortal.Domain.Core;
-using EducationPortal.Domain.Interfaces;
+﻿using EducationPortal.Domain.Interfaces;
 using EducationPortal.Infrastructure.Data.Hasher;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.Json;
+//using System.Text.Json;
+using Newtonsoft.Json;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Data
 {
@@ -18,6 +15,7 @@ namespace EducationPortal.Infrastructure.Data
         private readonly DirectoryInfo directory;
         private readonly Type type;
         private Regex regex;
+        private readonly JsonSerializer serializer;
 
         public JsonRepository(Regex regex)
         {
@@ -28,6 +26,7 @@ namespace EducationPortal.Infrastructure.Data
         {
             type = typeof(T);
             directory = new DirectoryInfo($"{type.Name}");
+            serializer = new JsonSerializer();
         }
         public void Create(T obj)
         {
@@ -52,16 +51,18 @@ namespace EducationPortal.Infrastructure.Data
             if (typeof(T).GetProperties().Any(x => x.Name == "Password"))
             {
                 typeof(T).GetProperty("Password").SetValue(obj, PasswordHasher.Encode(typeof(T).GetProperty("Password").GetValue(obj).ToString()));
-            }
+            }   
 
-            using FileStream fs = new FileStream($"{type.Name}/{type.Name}{itemId}.json", FileMode.Create);
-            JsonSerializer.SerializeAsync(fs, obj);
+            using (StreamWriter sw = new StreamWriter(@$"{type.Name}/{type.Name}{itemId}.json"))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, obj);
+            }
         }
         public void Delete(int id)
         {
             var file = directory.GetFiles($"*{id}.json").FirstOrDefault();
             file.Delete();
-            Console.WriteLine("Operation completed successfully");
         }
         public T GetById(int id)
         {
@@ -93,7 +94,10 @@ namespace EducationPortal.Infrastructure.Data
         }
         public void Update(T item)
         {
-            throw new NotImplementedException();
+            var id = typeof(T).GetProperty("Id").GetValue(item);
+
+            using FileStream fs = new FileStream($"{type.Name}/{type.Name}{id}.json", FileMode.Open);
+            System.Text.Json.JsonSerializer.SerializeAsync(fs, item);
         }
     }
 }

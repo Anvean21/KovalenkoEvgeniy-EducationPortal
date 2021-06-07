@@ -8,22 +8,24 @@ using System;
 
 namespace EducationPortal.Creator
 {
-    public class TestCreator
+    public class TestController
     {
         readonly TestHelper testHelper = new TestHelper();
         readonly ITestService testService;
-        public TestCreator(ITestService testService)
+        readonly TestValidator validator = new TestValidator();
+        private readonly Map mapper = new Map();
+
+        public TestController(ITestService testService)
         {
             this.testService = testService;
         }
 
-        readonly TestValidator validator = new TestValidator();
         public TestVM TestCreate()
         {
             var testVM = testHelper.TestFullData();
             if (validator.Validate(testVM).IsValid)
             {
-                testService.AddTest(Map.TestVmToDomain(testVM));
+                testService.AddTest(mapper.TestVmToDomain(testVM));
                 Dye.Succsess();
                 Console.WriteLine("You have successfully created test");
                 Console.ResetColor();
@@ -37,6 +39,10 @@ namespace EducationPortal.Creator
                 TestCreate();
                 return null;
             }
+        }
+        public int AnswersCounting(QuestionVM questionVM, string userVariant, ref int result)
+        {
+            return testService.CountResult(mapper.QuestionVmToDomain(questionVM), userVariant, ref result);
         }
     }
 }

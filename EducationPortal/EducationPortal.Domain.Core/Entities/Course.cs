@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace EducationPortal.Domain.Core
 {
@@ -11,6 +12,7 @@ namespace EducationPortal.Domain.Core
         public string Description { get; set; }
         public ICollection<Skill> Skills { get; set; }
         public ICollection<Material> Materials { get; set; }
+        [JsonIgnore]
         public Test Test { get; set; }
     }
 }

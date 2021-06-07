@@ -8,7 +8,7 @@ namespace EducationPortal.Automapper
 {
     public class Map
     {
-        public static DestinationType MapVmToDomain<SourceType, DestinationType>(SourceType viewModel)
+        public DestinationType MapVmToDomain<SourceType, DestinationType>(SourceType viewModel)
         {
             var configuration = new MapperConfiguration(cfg => cfg.CreateMap<SourceType, DestinationType>());
             var mapper = new Mapper(configuration);
@@ -16,7 +16,7 @@ namespace EducationPortal.Automapper
             return mapper.Map<SourceType, DestinationType>(viewModel);
         }
 
-        public static Course CourseVmToDomain(CourseVM courseVM)
+        public Course CourseVmToDomain(CourseVM courseVM)
         {
             var configuration = new MapperConfiguration(cfg =>
             {
@@ -30,8 +30,22 @@ namespace EducationPortal.Automapper
             var mapper = new Mapper(configuration);
             return mapper.Map<CourseVM, Course>(courseVM);
         }
+        public CourseVM CourseDomainToVM(Course course)
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Course, CourseVM>();
+                cfg.CreateMap<Skill, SkillVM>();
+                cfg.CreateMap<Material, MaterialVM>();
+                cfg.CreateMap<Test, TestVM>();
+                cfg.CreateMap<Question, QuestionVM>();
+                cfg.CreateMap<Answer, AnswerVM>();
+            });
+            var mapper = new Mapper(configuration);
+            return mapper.Map<Course, CourseVM>(course);
+        }
 
-        public static Test TestVmToDomain(TestVM testVM)
+        public Test TestVmToDomain(TestVM testVM)
         {
             var configuration = new MapperConfiguration(cfg =>
             {
@@ -41,6 +55,16 @@ namespace EducationPortal.Automapper
             });
             var mapper = new Mapper(configuration);
             return mapper.Map<TestVM, Test>(testVM);
+        }
+        public Question QuestionVmToDomain(QuestionVM querstionVM)
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<QuestionVM, Question>();
+                cfg.CreateMap<AnswerVM, Answer>();
+            });
+            var mapper = new Mapper(configuration);
+            return mapper.Map<QuestionVM, Question>(querstionVM);
         }
     }
 }

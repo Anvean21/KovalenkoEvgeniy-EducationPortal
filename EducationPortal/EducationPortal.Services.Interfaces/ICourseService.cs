@@ -9,5 +9,6 @@ namespace EducationPortal.Services.Interfaces
     {
         public void AddCourse(Course course);
         public IEnumerable<Course> GetCourses();
+        public Course GetById(int id);
     }
 }

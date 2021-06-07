@@ -4,30 +4,28 @@ using EducationPortal.FluentValidationModels;
 using EducationPortal.Helpers;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.ViewModels;
-using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EducationPortal.Creator
 {
-    public class SkillCreator
+    public class SkillConroller
     {
         readonly ISkillService skillService;
-        public SkillCreator(ISkillService skillService)
+        readonly SkillValidator validator = new SkillValidator();
+        private readonly Map mapper = new Map();
+
+
+        public SkillConroller(ISkillService skillService)
         {
             this.skillService = skillService;
         }
-
-        readonly SkillValidator validator = new SkillValidator();
 
         public SkillVM SkillCreate()
         {
             var skillVM = SkillHelper.SkillFullData();
             if (validator.Validate(skillVM).IsValid)
             {
-                skillService.AddSkill(Map.MapVmToDomain<SkillVM, Skill>(skillVM));
+                skillService.AddSkill(mapper.MapVmToDomain<SkillVM, Skill>(skillVM));
                 Dye.Succsess();
                 Console.WriteLine("Skill has successfully added");
                 Console.ResetColor();
@@ -51,7 +49,7 @@ namespace EducationPortal.Creator
         }
         public SkillVM AddSkillByName(string name)
         {
-            return Map.MapVmToDomain<Skill, SkillVM>(skillService.GetSkillByName(name));
+            return mapper.MapVmToDomain<Skill, SkillVM>(skillService.GetSkillByName(name));
         }
     }
 }

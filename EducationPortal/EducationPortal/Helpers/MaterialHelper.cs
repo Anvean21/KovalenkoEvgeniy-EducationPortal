@@ -8,12 +8,12 @@ namespace EducationPortal.Helpers
 {
     public class MaterialHelper
     {
-        public static VideoMaterialVM VideoFullData()
+        public VideoMaterialVM VideoFullData()
         {
             VideoMaterialVM videoMaterialVM = new VideoMaterialVM();
             Console.WriteLine("Enter video Name");
             videoMaterialVM.Name = Console.ReadLine();
-            Console.WriteLine("Enter video Duration (00,00)");
+            Console.WriteLine("Enter video Duration (hh,mm) or (mm,ss)");
             videoMaterialVM.Duration = double.Parse(Console.ReadLine()).ToString("F" + 2);
             Console.WriteLine("Chose video quality\n1 - High\n2 - Medium\n3 - Low");
 
@@ -26,7 +26,7 @@ namespace EducationPortal.Helpers
             };
             return videoMaterialVM;
         }
-        public static ArticleMaterialVM ArticleFullData()
+        public ArticleMaterialVM ArticleFullData()
         {
             ArticleMaterialVM arcticleMaterialVM = new ArticleMaterialVM();
             Console.WriteLine("Enter article Name");
@@ -39,7 +39,7 @@ namespace EducationPortal.Helpers
 
             return arcticleMaterialVM;
         }
-        public static BookMaterialVM BookFullData()
+        public BookMaterialVM BookFullData()
         {
             BookMaterialVM bookMaterialVM = new BookMaterialVM();
             Console.WriteLine("Enter book name");
@@ -59,6 +59,27 @@ namespace EducationPortal.Helpers
                 _ => BookFormatVM.Medium,
             };
             return bookMaterialVM;
+        }
+        public void VideoMaterials(List<VideoMaterialVM> videos)
+        {
+            foreach (var video in videos)
+            {
+                Console.WriteLine($"Video: {video.Name}. Quality: {video.Quality}, Duration: {video.Duration}");
+            }
+        }
+        public void ArticleMaterials(List<ArticleMaterialVM> articles)
+        {
+            foreach (var article in articles)
+            {
+                Console.WriteLine($"Article - {article.Name}, PublishDate: {article.PublishDate.ToShortDateString()}, Resource: {article.Resource}");
+            }
+        }
+        public void BookMaterials(List<BookMaterialVM> books)
+        {
+            foreach (var book in books)
+            {
+                Console.WriteLine($"Book: {book.Name}. Author: {book.Author}, Pages: {book.Pages}, Year: {book.YearOfPublish}. Format: {book.Format}");
+            }
         }
     }
 }
