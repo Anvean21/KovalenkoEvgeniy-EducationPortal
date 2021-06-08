@@ -23,7 +23,7 @@ namespace EducationPortal.Helpers
 
         readonly SkillConroller skillController = new SkillConroller(CustomServiceProvider.Provider.GetRequiredService<ISkillService>());
 
-        readonly TestController testController = new TestController(CustomServiceProvider.Provider.GetRequiredService<ITestService>());
+        readonly TestController testController = new TestController(CustomServiceProvider.Provider.GetRequiredService<ICourseTestService>());
 
         public CourseVM CourseFullData()
         {

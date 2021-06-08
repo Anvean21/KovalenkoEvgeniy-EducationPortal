@@ -5,12 +5,13 @@ using System.Text;
 
 namespace EducationPortal.Domain.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity> where TEntity : class
     {
-        IEnumerable<T> GetAll();
-        T GetById(int id);
-        void Create(T item);
-        void Update(T item);
-        void Delete(int id);
+        IEnumerable<TEntity> GetAsync();
+        IEnumerable<TEntity> GetAsync(Func<TEntity, bool> predicate);
+        TEntity GetById(int id);
+        void Create(TEntity item);
+        void Update(TEntity item);
+        void Remove(TEntity item);
     }
 }

@@ -16,17 +16,20 @@ namespace EducationPortal.Infrastructure.Business
         {
             this.articleMaterialRepository = articleMaterialRepository;
         }
+
         public void AddArticleMaterial(ArticleMaterial articleMaterial)
         {
             articleMaterialRepository.Create(articleMaterial);
         }
+
         public IEnumerable<ArticleMaterial> GetArticleMaterials()
         {
-            return articleMaterialRepository.GetAll();
+            return articleMaterialRepository.GetAsync();
         }
+
         public ArticleMaterial GetArticleMaterialByName(string name)
         {
-            return GetArticleMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            return (ArticleMaterial)articleMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower());
         }
     }
 }

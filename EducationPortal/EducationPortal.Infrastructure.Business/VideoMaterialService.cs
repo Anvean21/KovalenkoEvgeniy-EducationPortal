@@ -11,21 +11,25 @@ namespace EducationPortal.Infrastructure.Business
     public class VideoMaterialService : IVideoMaterialService
     {
         private readonly IRepository<VideoMaterial> videoMaterialRepository;
+
         public VideoMaterialService(IRepository<VideoMaterial> videoMaterialRepository)
         {
             this.videoMaterialRepository = videoMaterialRepository;
         }
+
         public void AddVideoMaterial(VideoMaterial videoMaterial)
         {
             videoMaterialRepository.Create(videoMaterial);
         }
+
         public IEnumerable<VideoMaterial> GetVideoMaterials()
         {
-            return videoMaterialRepository.GetAll();
+            return videoMaterialRepository.GetAsync();
         }
+
         public VideoMaterial GetVideoMaterialByName(string name)
         {
-            return GetVideoMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            return (VideoMaterial)videoMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower());
         }
     }
 }

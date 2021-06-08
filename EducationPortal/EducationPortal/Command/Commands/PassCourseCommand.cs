@@ -11,14 +11,15 @@ namespace EducationPortal.Command.Commands
 {
     public class PassCourseCommand : IAuthCommand
     {
+        readonly static TestController testController = new TestController(CustomServiceProvider.Provider.GetRequiredService<ICourseTestService>());
 
-        readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>(),
-            new TestController(CustomServiceProvider.Provider.GetRequiredService<ITestService>()));
+        readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>(), testController);
 
-        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>(),
-            new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>()),
-            new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>()),
-            new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>()));
+        readonly static VideoMaterialController videoMaterialController = new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>());
+        readonly static ArticleMaterialController articleMaterialController = new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>());
+        readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>());
+
+        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>(), videoMaterialController,articleMaterialController,bookMaterialController);
         public int CommandNumber => 2;
 
         public string CommandName => "Pass course";
@@ -28,8 +29,8 @@ namespace EducationPortal.Command.Commands
             Console.Clear();
             courseController.GetAllCourses();
             Console.Write("Enter course Id: ");
-            var id = Int32.Parse(Console.ReadLine());
-            var courseVM = courseController.GetCourseById(id);
+            var courseId = Int32.Parse(Console.ReadLine());
+            var courseVM = courseController.GetCourseById(courseId);
 
             if (userController.AddCourseToUserProgress(courseVM))
             {

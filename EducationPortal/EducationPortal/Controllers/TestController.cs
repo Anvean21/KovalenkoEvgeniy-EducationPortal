@@ -11,11 +11,11 @@ namespace EducationPortal.Creator
     public class TestController
     {
         readonly TestHelper testHelper = new TestHelper();
-        readonly ITestService testService;
+        readonly ICourseTestService testService;
         readonly TestValidator validator = new TestValidator();
         private readonly Map mapper = new Map();
 
-        public TestController(ITestService testService)
+        public TestController(ICourseTestService testService)
         {
             this.testService = testService;
         }

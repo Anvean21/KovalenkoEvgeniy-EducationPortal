@@ -5,6 +5,7 @@ using EducationPortal.Domain.Interfaces;
 using EducationPortal.Infrastructure.Business;
 using EducationPortal.Infrastructure.Data;
 using EducationPortal.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -16,12 +17,13 @@ namespace EducationPortal.DependencyInjection
         public static IServiceProvider ConfigureService()
         {
             var provider = new ServiceCollection()
-                .AddScoped(typeof(IRepository<>), typeof(JsonRepository<>))
+                .AddScoped(typeof(IRepository<>), typeof(EFRepository<>))
+                .AddScoped<DbContext, EducationContext>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<ISkillService, SkillService>()
                 .AddTransient<IMaterialService, MaterialService>()
                 .AddTransient<ICourseService, CourseService>()
-                .AddTransient<ITestService, TestService>()
+                .AddTransient<ICourseTestService, CourseTestService>()
                 .AddTransient<IVideoMaterialService, VideoMaterialService>()
                 .AddTransient<IBookMaterialService, BookMaterialService>()
                 .AddTransient<IArticleMaterialService, ArticleMaterialService>()

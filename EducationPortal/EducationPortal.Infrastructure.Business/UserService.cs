@@ -1,6 +1,8 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
+using EducationPortal.Infrastructure.Data;
 using EducationPortal.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace EducationPortal.Infrastructure.Business
 {
     public class UserService : IUserService
     {
+        
         private static User authorizedUser;
 
         private readonly IRepository<User> userRepository;
@@ -22,16 +25,19 @@ namespace EducationPortal.Infrastructure.Business
         {
             userRepository.Create(model);
             authorizedUser = model;
+
         }
 
         public bool LogIn(string email, string password)
         {
-            var userFromDb = userRepository.GetAll().FirstOrDefault(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
+            var userFromDb = userRepository.GetAsync(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
+
             if (userFromDb == null)
             {
                 return false;
             }
-            authorizedUser = userFromDb;
+
+            authorizedUser = (User)userFromDb;
             return true;
         }
 
@@ -49,19 +55,20 @@ namespace EducationPortal.Infrastructure.Business
             }
             return false;
         }
-        public bool UserSaveChanges(User user)
-        {
-            authorizedUser.Skills = user.Skills ?? authorizedUser.Skills;
-            authorizedUser.CourseInProgress = user.CourseInProgress;
-            authorizedUser.Courses = user.Courses ?? authorizedUser.Courses;
-            userRepository.Update(authorizedUser);
-            return true;
-        }
+        //public bool UserSaveChanges(User user)
+        //{
+        //    authorizedUser.Skills = user.Skills ?? authorizedUser.Skills;
+        //    authorizedUser.CourseInProgress = user.CourseInProgress;
+        //    authorizedUser.Courses = user.Courses ?? authorizedUser.Courses;
+        //    userRepository.Update(authorizedUser);
+        //    return true;
+        //}
 
         public IEnumerable<User> GetUsers()
         {
-            return userRepository.GetAll();
+            return userRepository.GetAsync();
         }
+
         public bool AddCourseToProgress(Course course)
         {
             if (authorizedUser.Courses.Any(x => x.Name == course.Name))
@@ -69,13 +76,16 @@ namespace EducationPortal.Infrastructure.Business
                 return false;
             }
             authorizedUser.CourseInProgress.Add(course);
-            UserSaveChanges(authorizedUser);
+            //UserSaveChanges(authorizedUser);
             return true;
         }
+
         public bool IsCoursePassed(Course course, int rightAnswers)
         {
+           const double minimumRightAnswersPercent = 0.70;
+
             var countOfQuestions = course.Test.Questions.Count();
-            if (countOfQuestions * 0.70 <= rightAnswers)
+            if (countOfQuestions * minimumRightAnswersPercent <= rightAnswers)
             {
                 authorizedUser.Courses.Add(course);
                 foreach (var skill in course.Skills)
@@ -91,17 +101,18 @@ namespace EducationPortal.Infrastructure.Business
                 }
 
                 authorizedUser.CourseInProgress.Remove(authorizedUser.CourseInProgress.FirstOrDefault(x => x.Name == course.Name));
-                UserSaveChanges(authorizedUser);
+                //UserSaveChanges(authorizedUser);
                 return true;
             }
             return false;
         }
+
         public bool UserSkillUp(Skill skill)
         {
             if (authorizedUser.Skills.Any(x => x.Name == skill.Name))
             {
                 authorizedUser.Skills.FirstOrDefault(x => x.Name == skill.Name).Level++;
-                UserSaveChanges(authorizedUser);
+                //UserSaveChanges(authorizedUser);
                 return true;
             }
             return false;

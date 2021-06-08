@@ -8,17 +8,19 @@ using System.Text;
 
 namespace EducationPortal.Infrastructure.Business
 {
-    public class TestService : ITestService
+    public class CourseTestService : ICourseTestService
     {
         private readonly IRepository<Test> testService;
-        public TestService(IRepository<Test> testService)
+        public CourseTestService(IRepository<Test> testService)
         {
             this.testService = testService;
         }
+
         public void AddTest(Test test)
         {
             testService.Create(test);
         }
+
         public int CountResult(Question question, string userVariant, ref int result)
         {
             if (userVariant == question.Answers.FirstOrDefault(x => x.IsTrue == true).Name.Split(".")[0])

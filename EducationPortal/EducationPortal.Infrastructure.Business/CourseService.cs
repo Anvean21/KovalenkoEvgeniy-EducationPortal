@@ -10,6 +10,7 @@ namespace EducationPortal.Infrastructure.Business
     public class CourseService : ICourseService
     {
         private readonly IRepository<Course> courseRepository;
+
         public CourseService(IRepository<Course> courseRepository)
         {
             this.courseRepository = courseRepository;
@@ -22,7 +23,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public IEnumerable<Course> GetCourses()
         {
-            return courseRepository.GetAll();
+            return courseRepository.GetAsync();
         }
 
         public Course GetById(int id)

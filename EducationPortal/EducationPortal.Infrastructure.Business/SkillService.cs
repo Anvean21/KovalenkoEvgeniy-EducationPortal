@@ -11,10 +11,12 @@ namespace EducationPortal.Infrastructure.Business
     public class SkillService : ISkillService
     {
         private readonly IRepository<Skill> skillRepository;
+
         public SkillService(IRepository<Skill> skillRepository)
         {
             this.skillRepository = skillRepository;
         }
+
         public void AddSkill(Skill skill)
         {
             skillRepository.Create(skill);
@@ -22,12 +24,12 @@ namespace EducationPortal.Infrastructure.Business
 
         public Skill GetSkillByName(string name)
         {
-            return skillRepository.GetAll().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            return (Skill)skillRepository.GetAsync(x => x.Name.ToLower() == name.ToLower());
         }
 
         public IEnumerable<Skill> GetSkills()
         {
-            return skillRepository.GetAll();
+            return skillRepository.GetAsync();
         }
     }
 }

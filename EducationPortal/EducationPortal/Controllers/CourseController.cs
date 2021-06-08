@@ -65,7 +65,9 @@ namespace EducationPortal.Creator
         }
         public CourseVM GetCourseById(int id)
         {
-            return mapper.CourseDomainToVM(courseService.GetById(id));
+            var course = courseService.GetById(id);
+            var mappedCourse = mapper.CourseDomainToVM(course);
+            return mappedCourse;
         }
         public void GetCourseMaterials(CourseVM courseVM)
         {

@@ -25,6 +25,7 @@ namespace EducationPortal.Infrastructure.Business
         {
             return GetMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
         }
+
         public IEnumerable<Material> GetMaterials()
         {
             List<Material> materials = new List<Material>();
