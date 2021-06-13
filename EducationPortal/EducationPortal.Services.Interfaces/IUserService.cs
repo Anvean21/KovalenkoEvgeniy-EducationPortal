@@ -13,7 +13,6 @@ namespace EducationPortal.Services.Interfaces
         public bool IsUserAuthorized();
         public IEnumerable<User> GetUsers();
         public bool AddCourseToProgress(Course course);
-        //public bool UserSaveChanges(User user);
         public bool IsCoursePassed(Course course, int result);
         public bool UserSkillUp(Skill skill);
     }

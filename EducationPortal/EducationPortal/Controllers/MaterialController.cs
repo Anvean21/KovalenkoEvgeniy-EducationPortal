@@ -26,6 +26,7 @@ namespace EducationPortal.Creator
             this.articleMaterialController = articleMaterialController;
             this.bookMaterialController = bookMaterialController;
         }
+
         public void MaterialList()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -42,6 +43,7 @@ namespace EducationPortal.Creator
 
             Console.ResetColor();
         }
+
         public MaterialVM AddMaterialByName(string name)
         {
             return mapper.MapVmToDomain<Material, MaterialVM>(materialService.GetMaterialByName(name));

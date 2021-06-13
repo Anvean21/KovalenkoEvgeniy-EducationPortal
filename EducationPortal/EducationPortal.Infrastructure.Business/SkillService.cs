@@ -24,7 +24,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public Skill GetSkillByName(string name)
         {
-            return (Skill)skillRepository.GetAsync(x => x.Name.ToLower() == name.ToLower());
+            return skillRepository.GetAsync(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault();
         }
 
         public IEnumerable<Skill> GetSkills()

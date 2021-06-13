@@ -9,7 +9,7 @@ using System.Text;
 
 namespace EducationPortal.Infrastructure.Data
 {
-    public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : BasicEntity
+    public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly DbContext context;
         private readonly DbSet<TEntity> dbSet;

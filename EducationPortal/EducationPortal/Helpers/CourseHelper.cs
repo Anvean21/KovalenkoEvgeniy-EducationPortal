@@ -34,6 +34,7 @@ namespace EducationPortal.Helpers
             courseVM.Description = Console.ReadLine();
             courseVM.Materials = new List<MaterialVM>();
             courseVM.Skills = new List<SkillVM>();
+            
             bool infinity = true;
             while (infinity)
             {
@@ -87,6 +88,7 @@ namespace EducationPortal.Helpers
                         continue;
                 }
             }
+
             infinity = true;
             while (infinity)
             {
@@ -138,6 +140,7 @@ namespace EducationPortal.Helpers
                         continue;
                 }
             }
+
             courseVM.Test = testController.TestCreate();
             Console.WriteLine();
             return courseVM;

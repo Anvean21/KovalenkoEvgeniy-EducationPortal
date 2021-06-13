@@ -29,7 +29,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public ArticleMaterial GetArticleMaterialByName(string name)
         {
-            return (ArticleMaterial)articleMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower());
+            return articleMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault();
         }
     }
 }

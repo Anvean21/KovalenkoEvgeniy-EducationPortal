@@ -40,6 +40,7 @@ namespace EducationPortal.Creator
                 return null;
             }
         }
+
         public void SkillsList()
         {
             foreach (var skill in skillService.GetSkills())
@@ -47,6 +48,7 @@ namespace EducationPortal.Creator
                 Console.Write(skill.Name + " , ");
             }
         }
+
         public SkillVM AddSkillByName(string name)
         {
             return mapper.MapVmToDomain<Skill, SkillVM>(skillService.GetSkillByName(name));

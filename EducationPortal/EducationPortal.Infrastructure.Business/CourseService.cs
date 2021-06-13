@@ -23,7 +23,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public IEnumerable<Course> GetCourses()
         {
-            return courseRepository.GetAsync();
+            return courseRepository.GetWithInclude(x => x.Skills);
         }
 
         public Course GetById(int id)

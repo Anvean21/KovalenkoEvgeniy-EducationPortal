@@ -46,10 +46,12 @@ namespace EducationPortal.Controllers
                 return null;
             }
         }
+
         public BookMaterialVM GetBookMaterialByName(string name)
         {
             return mapper.MapVmToDomain<BookMaterial, BookMaterialVM>(bookMaterialService.GetBookMaterialByName(name));
         }
+
         public IEnumerable<BookMaterial> GetBookMaterials()
         {
             return bookMaterialService.GetBookMaterials();

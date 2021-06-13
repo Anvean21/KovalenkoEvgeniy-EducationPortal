@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EducationPortal.ViewModels
 {
-    public class SkillVM : BasicVM
+    public class SkillVM
     {
         public string Name { get; set; }
         public int Level { get; set; }

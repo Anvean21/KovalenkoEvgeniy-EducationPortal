@@ -18,7 +18,7 @@ namespace EducationPortal.DependencyInjection
         {
             var provider = new ServiceCollection()
                 .AddScoped(typeof(IRepository<>), typeof(EFRepository<>))
-                .AddScoped<DbContext, EducationContext>()
+                .AddTransient<DbContext, EducationContext>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<ISkillService, SkillService>()
                 .AddTransient<IMaterialService, MaterialService>()
@@ -27,7 +27,7 @@ namespace EducationPortal.DependencyInjection
                 .AddTransient<IVideoMaterialService, VideoMaterialService>()
                 .AddTransient<IBookMaterialService, BookMaterialService>()
                 .AddTransient<IArticleMaterialService, ArticleMaterialService>()
-                .AddSingleton<ICommandProcessor, CommandProcessor>()
+                .AddScoped<ICommandProcessor, CommandProcessor>()
                 .AddTransient<ICommand, RegisterCommand>()
                 .AddTransient<ICommand, LogInCommand>()
                 .AddTransient<IAuthCommand, AddCourseCommand>()

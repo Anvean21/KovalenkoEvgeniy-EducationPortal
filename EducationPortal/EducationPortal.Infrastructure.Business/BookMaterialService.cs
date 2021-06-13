@@ -24,8 +24,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public BookMaterial GetBookMaterialByName(string name)
         {
-            return (BookMaterial)bookMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower());
-                //.FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            return bookMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault();
         }
 
         public IEnumerable<BookMaterial> GetBookMaterials()

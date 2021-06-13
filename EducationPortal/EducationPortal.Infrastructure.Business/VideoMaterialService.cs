@@ -29,7 +29,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public VideoMaterial GetVideoMaterialByName(string name)
         {
-            return (VideoMaterial)videoMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower());
+            return videoMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault();
         }
     }
 }

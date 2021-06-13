@@ -23,10 +23,12 @@ namespace EducationPortal.Creator
             this.userService = userService;
             this.testController = testController;
         }
+
         public void UserLogOut()
         {
             userService.LogOut();
         }
+
         public bool AddCourseToUserProgress(CourseVM courseVM)
         {
             if (userService.AddCourseToProgress(mapper.CourseVmToDomain(courseVM)))
@@ -44,9 +46,11 @@ namespace EducationPortal.Creator
                 return false;
             }
         }
+
         public void UserPassCourse(CourseVM courseVM)
         {
             int rightAnswers = 0;
+            //Тут null тест приходит, нужен джоин (инклюды)
             Console.WriteLine(string.Join(". ", courseVM.Name, courseVM.Description));
 
             foreach (var question in courseVM.Test.Questions)

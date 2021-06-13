@@ -43,7 +43,8 @@ namespace EducationPortal.Creator
             var courseVM = courseHelper.CourseFullData();
             if (validator.Validate(courseVM).IsValid && courseVM.Skills.Count >= 1 && courseVM.Materials.Count >= 1)
             {
-                courseService.AddCourse(mapper.CourseVmToDomain(courseVM));
+                var map = mapper.CourseVmToDomain(courseVM);
+                courseService.AddCourse(map);
                 Dye.Succsess();
                 Console.WriteLine("You have successfully created course");
                 Console.ResetColor();
@@ -56,6 +57,7 @@ namespace EducationPortal.Creator
                 Console.ResetColor();
             }
         }
+
         public void GetAllCourses()
         {
             foreach (var course in courseService.GetCourses())
@@ -63,12 +65,14 @@ namespace EducationPortal.Creator
                 Console.WriteLine($"Course Id - {course.Id}, Course name - {course.Name}, Course description - {course.Description}, Course skills: {string.Join(", ", course.Skills.Select(x => x.Name))}");
             }
         }
+
         public CourseVM GetCourseById(int id)
         {
             var course = courseService.GetById(id);
             var mappedCourse = mapper.CourseDomainToVM(course);
             return mappedCourse;
         }
+
         public void GetCourseMaterials(CourseVM courseVM)
         {
 
@@ -88,6 +92,7 @@ namespace EducationPortal.Creator
                 }
             }
         }
+
         public void PassCourseMaterials()
         {
             var infinity = true;

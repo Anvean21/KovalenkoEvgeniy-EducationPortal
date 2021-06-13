@@ -30,7 +30,7 @@ namespace EducationPortal.Helpers
                         testVM.Questions.Add(question);
                         break;
                     case "2":
-                        if (testVM.Questions.Count() >= 4)
+                        if (testVM.Questions.Count() >= 0)
                         {
                             return testVM;
                         }
