@@ -1,6 +1,7 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,18 @@ namespace EducationPortal.Infrastructure.Business
 
         public void AddBookMaterial(BookMaterial bookMaterial)
         {
-            bookMaterialRepository.Create(bookMaterial);
+            bookMaterialRepository.AddAsync(bookMaterial);
         }
 
         public BookMaterial GetBookMaterialByName(string name)
         {
-            return bookMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault();
+            var articleSpecification = new Specification<BookMaterial>(x => x.Name.ToLower() == name.ToLower());
+            return bookMaterialRepository.FindAsync(articleSpecification).Result;
         }
 
-        public IEnumerable<BookMaterial> GetBookMaterials()
+        public IEnumerable<BookMaterial> GetBookMaterials(int pageNumber = 1, int itemCount = 10)
         {
-            return bookMaterialRepository.GetAsync();
+            return bookMaterialRepository.GetAsync(new Specification<BookMaterial>(x => x.Id == x.Id), pageNumber, itemCount).Result.Items;
         }
     }
 }

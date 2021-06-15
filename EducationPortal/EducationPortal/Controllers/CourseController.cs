@@ -62,7 +62,7 @@ namespace EducationPortal.Creator
         {
             foreach (var course in courseService.GetCourses())
             {
-                Console.WriteLine($"Course Id - {course.Id}, Course name - {course.Name}, Course description - {course.Description}, Course skills: {string.Join(", ", course.Skills.Select(x => x.Name))}");
+                Console.WriteLine($"Course Id - {course.Id}, Course name - {course.Name}, Course description - {course.Description}");
             }
         }
 
@@ -73,6 +73,7 @@ namespace EducationPortal.Creator
             return mappedCourse;
         }
 
+        //пустые материалы
         public void GetCourseMaterials(CourseVM courseVM)
         {
 
@@ -93,6 +94,7 @@ namespace EducationPortal.Creator
             }
         }
 
+        //пустые материалы
         public void PassCourseMaterials()
         {
             var infinity = true;

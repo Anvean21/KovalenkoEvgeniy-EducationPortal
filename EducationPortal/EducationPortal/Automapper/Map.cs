@@ -56,6 +56,19 @@ namespace EducationPortal.Automapper
             var mapper = new Mapper(configuration);
             return mapper.Map<TestVM, Test>(testVM);
         }
+
+        public TestVM TestDomainToVm(Test test)
+        {
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Test, TestVM>();
+                cfg.CreateMap<Question, QuestionVM>();
+                cfg.CreateMap<Answer, AnswerVM>();
+            });
+            var mapper = new Mapper(configuration);
+            return mapper.Map<Test, TestVM>(test);
+        }
+
         public Question QuestionVmToDomain(QuestionVM querstionVM)
         {
             var configuration = new MapperConfiguration(cfg =>

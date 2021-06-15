@@ -51,9 +51,11 @@ namespace EducationPortal.Creator
         {
             int rightAnswers = 0;
             //Тут null тест приходит, нужен джоин (инклюды)
+
+            var test = testController.GetTestByName(courseVM.Test.Name);
             Console.WriteLine(string.Join(". ", courseVM.Name, courseVM.Description));
 
-            foreach (var question in courseVM.Test.Questions)
+            foreach (var question in test.Questions)
             {
                 Dye.Succsess();
                 Console.WriteLine(question.Name);

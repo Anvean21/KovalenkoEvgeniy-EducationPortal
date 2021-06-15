@@ -1,6 +1,7 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,21 @@ namespace EducationPortal.Infrastructure.Business
 
         public void AddSkill(Skill skill)
         {
-            skillRepository.Create(skill);
+            skillRepository.AddAsync(skill);
         }
 
         public Skill GetSkillByName(string name)
         {
-            return skillRepository.GetAsync(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault();
+            var materialSpecification = new Specification<Skill>(x => x.Name.ToLower() == name.ToLower());
+
+            return skillRepository.FindAsync(materialSpecification).Result;
         }
 
-        public IEnumerable<Skill> GetSkills()
+        public IEnumerable<Skill> GetSkills(int pageNumber = 1, int itemCount = 10)
         {
-            return skillRepository.GetAsync();
+            var materialSpecification = new Specification<Skill>(x => x.Id == x.Id);
+
+            return skillRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace EducationPortal.Infrastructure.Business
@@ -18,17 +21,23 @@ namespace EducationPortal.Infrastructure.Business
 
         public void AddCourse(Course course)
         {
-            courseRepository.Create(course);
+            courseRepository.AddAsync(course);
         }
 
-        public IEnumerable<Course> GetCourses()
+        public IEnumerable<Course> GetCourses(int pageNumber = 1, int itemCount = 10)
         {
-            return courseRepository.GetWithInclude(x => x.Skills);
+            var skillIncludes = new List<Expression<Func<Course, object>>>
+            {
+                y => y.Skills
+            };
+            var courseSpec = new Specification<Course>(x => x.Id == x.Id, skillIncludes);
+
+            return courseRepository.GetAsync(courseSpec, pageNumber, itemCount).Result.Items;
         }
 
         public Course GetById(int id)
         {
-            return courseRepository.GetById(id);
+            return courseRepository.FindAsync(id).Result;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace EducationPortal.Services.Interfaces
         public bool LogIn(string login, string password);
         public bool LogOut();
         public bool IsUserAuthorized();
-        public IEnumerable<User> GetUsers();
+        public IEnumerable<User> GetUsers(int pageNumber = 1, int itemCount = 10);
         public bool AddCourseToProgress(Course course);
         public bool IsCoursePassed(Course course, int result);
         public bool UserSkillUp(Skill skill);

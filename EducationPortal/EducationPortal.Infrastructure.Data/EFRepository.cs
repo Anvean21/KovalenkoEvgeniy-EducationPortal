@@ -1,75 +1,87 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
+using EFlecture.Core.Models;
+using EFlecture.Core.Specifications;
+using EFLecture.Data.EFCore.Extentions;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Data
 {
-    public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : BasicEntity
     {
         private readonly DbContext context;
-        private readonly DbSet<TEntity> dbSet;
+        private readonly DbSet<TEntity> entities;
 
         public EFRepository(DbContext context)
         {
             this.context = context;
-            dbSet = context.Set<TEntity>();
+            entities = context.Set<TEntity>();
         }
 
-        public IEnumerable<TEntity> GetAsync()
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
-            return dbSet.AsNoTracking().ToList();
+            this.entities.Add(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
 
-        public IEnumerable<TEntity> GetAsync(Func<TEntity, bool> predicate)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            return dbSet.AsNoTracking().Where(predicate).ToList();
+            this.entities.Update(entity);
+            await context.SaveChangesAsync();
+            return entity;
+        }
+        public virtual async Task<TEntity> FindAsync(Specification<TEntity> specification)
+        {
+            return await this.entities.FirstOrDefaultAsync(specification.Expression);
         }
 
-        public TEntity GetById(int id)
+        public virtual async void AddAsync(IEnumerable<TEntity> entities)
         {
-            return dbSet.Find(id);
-        }
-
-        public void Create(TEntity item)
-        {
-            dbSet.Add(item);
+            await this.entities.AddRangeAsync(entities);
             context.SaveChanges();
         }
 
-        public void Update(TEntity item)
+        public virtual async Task<TEntity> FindAsync(int id)
         {
-            context.Entry(item).State = EntityState.Modified;
+            return await this.entities.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(Specification<TEntity> specification)
+        {
+            return await this.entities.Where(specification.Expression).ToListAsync().ConfigureAwait(false);
+        }
+
+        public virtual Task<PagedList<TEntity>> GetAsync(Specification<TEntity> specification, int pageNumber, int pageSize)
+        {
+            return this.entities.Where(specification.Expression).ToPagedListAsync(pageNumber, pageSize);
+        }
+
+        public virtual async Task<TEntity> RemoveAsync(TEntity entity)
+        {
+            this.entities.Remove(entity);
+            await context.SaveChangesAsync();
+            return entity;
+        }
+
+        public virtual Task RemoveAsync(IEnumerable<TEntity> entities)
+        {
+            this.entities.RemoveRange(entities);
             context.SaveChanges();
+            return Task.CompletedTask;
         }
 
-        public void Remove(TEntity item)
+
+
+        public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
         {
-            dbSet.Remove(item);
+            this.entities.UpdateRange(entities);
             context.SaveChanges();
-        }
-
-        public IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties)
-        {
-            return Include(includeProperties).ToList();
-        }
-
-        public IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
-            params Expression<Func<TEntity, object>>[] includeProperties)
-        {
-            var query = Include(includeProperties);
-            return query.Where(predicate).ToList();
-        }
-
-        private IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)
-        {
-            IQueryable<TEntity> query = dbSet.AsNoTracking();
-            return includeProperties
-                .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+            return Task.CompletedTask;
         }
     }
 }

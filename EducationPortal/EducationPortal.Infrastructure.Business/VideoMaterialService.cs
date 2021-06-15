@@ -1,6 +1,7 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,17 @@ namespace EducationPortal.Infrastructure.Business
 
         public void AddVideoMaterial(VideoMaterial videoMaterial)
         {
-            videoMaterialRepository.Create(videoMaterial);
+            videoMaterialRepository.AddAsync(videoMaterial);
         }
-
-        public IEnumerable<VideoMaterial> GetVideoMaterials()
+        public IEnumerable<VideoMaterial> GetVideoMaterials(int pageNumber = 1, int itemCount = 10)
         {
-            return videoMaterialRepository.GetAsync();
+            return videoMaterialRepository.GetAsync(new Specification<VideoMaterial>(x => x.Id == x.Id), pageNumber, itemCount).Result.Items;
         }
 
         public VideoMaterial GetVideoMaterialByName(string name)
         {
-            return videoMaterialRepository.GetAsync(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault();
+            var videoSpecification = new Specification<VideoMaterial>(x => x.Name.ToLower() == name.ToLower());
+            return videoMaterialRepository.FindAsync(videoSpecification).Result;
         }
     }
 }

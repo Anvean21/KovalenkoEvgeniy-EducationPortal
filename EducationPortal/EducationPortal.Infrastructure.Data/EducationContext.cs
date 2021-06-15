@@ -24,13 +24,12 @@ namespace EducationPortal.Infrastructure.Data
 
         public EducationContext()
         {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
             optionsBuilder
                 .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EducationPortal;Trusted_Connection=True;")
                 .EnableSensitiveDataLogging();
@@ -50,12 +49,32 @@ namespace EducationPortal.Infrastructure.Data
             modelBuilder.Entity<UserSkills>().HasOne(x => x.Skill).WithMany(x => x.UserSkills).HasForeignKey(x => x.SkillId);
 
             modelBuilder.Entity<UserCoursesInProgress>().HasKey(x => new { x.UserId, x.CourseId });
-            modelBuilder.Entity<UserCoursesInProgress>().HasOne(x => x.User).WithMany(x => x.CourseInProgress).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<UserCoursesInProgress>().HasOne(x => x.Course).WithMany(x => x.UsersInProgresses).HasForeignKey(x => x.CourseId).OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<UserCoursesInProgress>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.CourseInProgress)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserCoursesInProgress>()
+                .HasOne(x => x.Course)
+                .WithMany(x => x.UsersInProgresses)
+                .HasForeignKey(x => x.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserPassedCourses>().HasKey(x => new { x.UserId, x.CourseId });
-            modelBuilder.Entity<UserPassedCourses>().HasOne(x => x.User).WithMany(x => x.PassedCourses).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<UserPassedCourses>().HasOne(x => x.Course).WithMany(x => x.PassedCourses).HasForeignKey(x => x.CourseId).OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<UserPassedCourses>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.PassedCourses)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserPassedCourses>()
+                .HasOne(x => x.Course)
+                .WithMany(x => x.PassedCourses)
+                .HasForeignKey(x => x.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

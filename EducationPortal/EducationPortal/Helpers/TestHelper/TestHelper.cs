@@ -17,7 +17,6 @@ namespace EducationPortal.Helpers
             Console.WriteLine("Enter test Name");
             testVM.Name = Console.ReadLine();
             testVM.Questions = new List<QuestionVM>();
-
             bool infinity = true;
             while (infinity)
             {

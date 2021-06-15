@@ -8,17 +8,16 @@ using System.Text.Json.Serialization;
 
 namespace EducationPortal.Domain.Core
 {
-    public class Course
+    public class Course : BasicEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual ICollection<Skill> Skills { get; set; }
-        public virtual ICollection<UserPassedCourses> PassedCourses { get; set; }
-        public virtual ICollection<UserCoursesInProgress> UsersInProgresses { get; set; }
-        public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<Material> Materials { get; set; }
-        public virtual Test Test { get; set; }
+        public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
+        public virtual ICollection<UserPassedCourses> PassedCourses { get; set; } = new List<UserPassedCourses>();
+        public virtual ICollection<UserCoursesInProgress> UsersInProgresses { get; set; } = new List<UserCoursesInProgress>();
+        public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
+        public Test Test { get; set; }
         public virtual int TestId { get; set; }
     }
 }

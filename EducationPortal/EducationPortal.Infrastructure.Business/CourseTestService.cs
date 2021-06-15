@@ -1,6 +1,7 @@
 ﻿using EducationPortal.Domain.Core.Entities;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,13 @@ namespace EducationPortal.Infrastructure.Business
 
         public void AddTest(Test test)
         {
-            testService.Create(test);
+            testService.AddAsync(test);
+        }
+        
+        public Test GetTest(string name)
+        {
+            var testSpec = new Specification<Test>(x => x.Name.ToLower() == name.ToLower());
+            return testService.FindAsync(testSpec).Result;
         }
 
         public int CountResult(Question question, string userVariant, ref int result)

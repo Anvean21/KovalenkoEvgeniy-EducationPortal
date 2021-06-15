@@ -8,5 +8,7 @@ namespace EducationPortal.ViewModels.TestViewModels
     {
         public string Name { get; set; }
         public ICollection<QuestionVM> Questions { get; set; }
+        public CourseVM Course { get; set; }
+
     }
 }

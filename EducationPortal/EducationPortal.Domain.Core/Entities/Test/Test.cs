@@ -5,11 +5,10 @@ using System.Text.Json.Serialization;
 
 namespace EducationPortal.Domain.Core.Entities
 {
-    public class Test
+    public class Test: BasicEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
         public virtual Course Course { get; set; }
     }
 }

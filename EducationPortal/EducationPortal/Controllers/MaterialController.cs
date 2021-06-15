@@ -31,7 +31,8 @@ namespace EducationPortal.Creator
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Book materials");
-            Console.WriteLine(string.Join(", ", bookMaterialController.GetBookMaterials().Select(x => x.Name)));
+            var books = bookMaterialController.GetBookMaterials().Select(x => x.Name);
+            Console.WriteLine(string.Join(", ", books));
 
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Article materials");

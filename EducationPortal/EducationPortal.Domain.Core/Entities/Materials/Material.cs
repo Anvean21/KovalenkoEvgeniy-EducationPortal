@@ -5,9 +5,8 @@ using System.Text;
 
 namespace EducationPortal.Domain.Core
 {
-    public class Material
+    public class Material : BasicEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public bool Passed { get; set; }
         public virtual ICollection<Course> Courses { get; set; }

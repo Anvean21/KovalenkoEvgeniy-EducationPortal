@@ -1,22 +1,36 @@
-﻿using System;
+﻿using EducationPortal.Domain.Core;
+using EFlecture.Core.Models;
+using EFlecture.Core.Specifications;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Domain.Interfaces
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : BasicEntity
     {
-        //Убрать + настроить пагинацию
-        IEnumerable<TEntity> GetAsync();
-        IEnumerable<TEntity> GetAsync(Func<TEntity, bool> predicate);
-        TEntity GetById(int id);
-        void Create(TEntity item);
-        void Update(TEntity item);
-        void Remove(TEntity item);
-        public IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties);
-        public IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate,
-            params Expression<Func<TEntity, object>>[] includeProperties);
+        Task<TEntity> FindAsync(int id);
+
+        Task<TEntity> FindAsync(Specification<TEntity> specification);
+
+        Task<IEnumerable<TEntity>> GetAsync(Specification<TEntity> specification);
+
+        Task<PagedList<TEntity>> GetAsync(Specification<TEntity> specification, int pageNumber, int pageSize);
+
+        Task<TEntity> AddAsync(TEntity entity);
+
+        void AddAsync(IEnumerable<TEntity> entity);
+
+        Task<TEntity> UpdateAsync(TEntity entity);
+
+        Task UpdateAsync(IEnumerable<TEntity> entity);
+
+        Task<TEntity> RemoveAsync(TEntity entity);
+
+        Task RemoveAsync(IEnumerable<TEntity> entity);
     }
 }

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SkillService.cs~RF1071ce73.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EducationPortal.Domain.Core\EducationPortal.Domain.Core.csproj" />
     <ProjectReference Include="..\EducationPortal.Domain.Interfaces\EducationPortal.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\EducationPortal.Infrastructure.Data\EducationPortal.Infrastructure.Data.csproj" />

@@ -41,6 +41,11 @@ namespace EducationPortal.Creator
             }
         }
 
+        public TestVM GetTestByName(string name)
+        {
+            return mapper.TestDomainToVm(testService.GetTest(name));
+        }
+
         public int AnswersCounting(QuestionVM questionVM, string userVariant, ref int result)
         {
             return testService.CountResult(mapper.QuestionVmToDomain(questionVM), userVariant, ref result);
