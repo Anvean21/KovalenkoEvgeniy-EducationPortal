@@ -44,9 +44,9 @@ namespace EducationPortal.Creator
             }
         }
 
-        public TestVM GetTestByName(string name)
+        public TestVM GetTestById(int id)
         {
-            return mapper.Map<Test, TestVM>(testService.GetTest(name));
+            return mapper.Map<Test, TestVM>(testService.GetTest(id));
         }
 
         public int AnswersCounting(QuestionVM questionVM, string userVariant, ref int result)

@@ -67,6 +67,7 @@ namespace EducationPortal.Creator
             }
         }
 
+        //TODO: includes
         public CourseVM GetCourseById(int id)
         {
             var course = courseService.GetById(id);
@@ -74,11 +75,12 @@ namespace EducationPortal.Creator
             return mappedCourse;
         }
 
-        //пустые материалы
+        //TODO: includes (пустые материалы)
         public void GetCourseMaterials(CourseVM courseVM)
         {
+            var course = GetCourseById(courseVM.Id);
 
-            foreach (var material in courseVM.Materials)
+            foreach (var material in course.Materials)
             {
                 if (videoMaterialController.GetVideoMaterialByName(material.Name) is VideoMaterialVM videoMaterial)
                 {
@@ -95,9 +97,11 @@ namespace EducationPortal.Creator
             }
         }
 
-        //пустые материалы
+        //TODO: includes (путсые материалы)
+
         public void PassCourseMaterials()
         {
+            //Залезть в материалы и настроить вытягивание материалов. или прокинуть в этот метод курс материалы которого нам нкжно пройти и замапить его к домейну
             var infinity = true;
             while (infinity)
             {

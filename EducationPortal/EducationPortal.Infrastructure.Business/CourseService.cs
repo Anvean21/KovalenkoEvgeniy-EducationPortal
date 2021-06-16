@@ -27,18 +27,31 @@ namespace EducationPortal.Infrastructure.Business
 
         public IEnumerable<Course> GetCourses(int pageNumber = 1, int itemCount = 10)
         {
-            var skillIncludes = new List<Expression<Func<Course, object>>>
+            var courseIncludes = new List<Expression<Func<Course, object>>>
             {
-                y => y.Skills
+                //TODO приделать where айдиСкилаКурса = айдиКурса
+                y => y.Skills,
+                y => y.Materials,
+                y => y.Test
             };
-            var courseSpec = new Specification<Course>(x => x.Id == x.Id, skillIncludes);
+
+            var courseSpec = new Specification<Course>(x => x.Id == x.Id, courseIncludes);
 
             return courseRepository.GetAsync(courseSpec, pageNumber, itemCount).Result.Items;
         }
 
         public Course GetById(int id)
         {
-            return courseRepository.FindAsync(id).Result;
+            var courseIncludes = new List<Expression<Func<Course, object>>>
+            {
+                y => y.Skills,
+                y => y.Materials,
+                y => y.Test
+            };
+
+            var courseSpec = new Specification<Course>(x => x.Id == id, courseIncludes);
+
+            return courseRepository.FindAsync(courseSpec).Result;
         }
     }
 }

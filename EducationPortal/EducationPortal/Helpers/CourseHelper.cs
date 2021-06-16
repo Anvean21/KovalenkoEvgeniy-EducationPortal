@@ -20,7 +20,7 @@ namespace EducationPortal.Helpers
         readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
         private readonly MaterialController materialController = new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>(), videoMaterialController,
-               articleMaterialController,bookMaterialController);
+               articleMaterialController, bookMaterialController);
 
         readonly SkillConroller skillController = new SkillConroller(CustomServiceProvider.Provider.GetRequiredService<ISkillService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
@@ -35,7 +35,7 @@ namespace EducationPortal.Helpers
             courseVM.Description = Console.ReadLine();
             courseVM.Materials = new List<MaterialVM>();
             courseVM.Skills = new List<SkillVM>();
-            
+
             bool infinity = true;
             while (infinity)
             {
@@ -51,6 +51,7 @@ namespace EducationPortal.Helpers
                     case "3":
                         articleMaterialController.ArticleCreate();
                         break;
+
                     case "4":
                         Console.Clear();
                         Console.WriteLine("List existing materials");
@@ -66,6 +67,7 @@ namespace EducationPortal.Helpers
                         else
                         {
                             var materialVM = materialController.AddMaterialByName(name);
+
                             if (materialVM == null)
                             {
                                 Dye.Fail();
@@ -73,12 +75,14 @@ namespace EducationPortal.Helpers
                                 Console.ResetColor();
                                 break;
                             }
+
                             courseVM.Materials.Add(materialVM);
                             Dye.Succsess();
                             Console.WriteLine("Material added successfully");
                             Console.ResetColor();
                         }
                         break;
+
                     case "5":
                         Dye.Succsess();
                         Console.WriteLine("Materials added successfully");
@@ -141,9 +145,9 @@ namespace EducationPortal.Helpers
                         continue;
                 }
             }
+            var test = testController.TestCreate();
+            courseVM.Test = test;
 
-            courseVM.Test = testController.TestCreate();
-            Console.WriteLine();
             return courseVM;
         }
     }

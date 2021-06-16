@@ -53,7 +53,7 @@ namespace EducationPortal.Creator
             int rightAnswers = 0;
             //Тут null тест приходит, нужен джоин (инклюды)
 
-            var test = testController.GetTestByName(courseVM.Test.Name);
+            var test = testController.GetTestById(courseVM.Test.Id);
             Console.WriteLine(string.Join(". ", courseVM.Name, courseVM.Description));
 
             foreach (var question in test.Questions)

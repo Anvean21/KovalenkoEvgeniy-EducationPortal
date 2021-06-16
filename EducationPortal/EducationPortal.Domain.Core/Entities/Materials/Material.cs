@@ -8,7 +8,6 @@ namespace EducationPortal.Domain.Core
     public class Material : BasicEntity
     {
         public string Name { get; set; }
-        public bool Passed { get; set; }
-        public virtual ICollection<Course> Courses { get; set; }
+        public virtual IEnumerable<Course> Courses { get; set; }
     }
 }

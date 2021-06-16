@@ -22,11 +22,10 @@ namespace EducationPortal.Infrastructure.Business
             testRepository.AddAsync(test);
             testRepository.SaveAsync();
         }
-        
-        public Test GetTest(string name)
+
+        public Test GetTest(int Id)
         {
-            var testSpec = new Specification<Test>(x => x.Name.ToLower() == name.ToLower());
-            return testRepository.FindAsync(testSpec).Result;
+            return testRepository.FindAsync(Id).Result;
         }
 
         public int CountResult(Question question, string userVariant, ref int result)

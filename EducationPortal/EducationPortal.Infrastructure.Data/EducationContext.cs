@@ -42,7 +42,7 @@ namespace EducationPortal.Infrastructure.Data
 
             modelBuilder.Entity<Material>().HasKey(x => x.Id);
 
-            modelBuilder.Entity<Test>().HasOne(x => x.Course).WithOne(x => x.Test).HasForeignKey<Course>(x => x.TestId);
+            modelBuilder.Entity<Course>().HasOne(x => x.Test).WithOne(x => x.Course).HasForeignKey<Test>(x => x.CourseId);
 
             modelBuilder.Entity<UserSkills>().HasKey(x => new { x.UserId, x.SkillId });
             modelBuilder.Entity<UserSkills>().HasOne(x => x.User).WithMany(x => x.UserSkills).HasForeignKey(x => x.UserId);
@@ -72,9 +72,28 @@ namespace EducationPortal.Infrastructure.Data
 
             modelBuilder.Entity<UserPassedCourses>()
                 .HasOne(x => x.Course)
-                .WithMany(x => x.PassedCourses)
+                .WithMany(x => x.UsersPassed)
                 .HasForeignKey(x => x.CourseId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>().Property(u => u.Name).HasMaxLength(50);
+            modelBuilder.Entity<User>().Property(a => a.Email).HasMaxLength(50);
+            modelBuilder.Entity<User>().Property(a => a.Password).HasMaxLength(128);
+
+            modelBuilder.Entity<Course>().Property(c => c.Name).HasMaxLength(128);
+            modelBuilder.Entity<Course>().Property(c => c.Description).HasMaxLength(250);
+
+            modelBuilder.Entity<Skill>().Property(s => s.Name).HasMaxLength(30);
+
+            modelBuilder.Entity<Material>().Property(m => m.Name).HasMaxLength(50);
+
+            modelBuilder.Entity<ArticleMaterial>().Property(b => b.Name).HasMaxLength(128);
+            modelBuilder.Entity<ArticleMaterial>().Property(b => b.Resource).HasMaxLength(250);
+
+            modelBuilder.Entity<VideoMaterial>().Property(v => v.Name).HasMaxLength(128);
+
+            modelBuilder.Entity<BookMaterial>().Property(v => v.Name).HasMaxLength(128);
+            modelBuilder.Entity<BookMaterial>().Property(v => v.Author).HasMaxLength(128);
         }
     }
 }

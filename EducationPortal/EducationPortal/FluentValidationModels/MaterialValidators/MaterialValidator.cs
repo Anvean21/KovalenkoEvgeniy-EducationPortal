@@ -15,7 +15,6 @@ namespace EducationPortal.FluentValidationModels
         public MaterialValidator()
         {
             RuleFor(x => x.Name).NotEmpty().Must(UniqueMaterial).WithMessage("Material name already taken");
-            RuleFor(x => x.Passed).NotNull();
         }
         private bool UniqueMaterial(string uniqeItem)
         {
