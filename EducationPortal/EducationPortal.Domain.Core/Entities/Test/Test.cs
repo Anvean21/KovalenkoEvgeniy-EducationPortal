@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace EducationPortal.Domain.Core.Entities
 {
-    public class Test: BasicEntity
+    public class Test : BasicEntity
     {
         public string Name { get; set; }
         public virtual ICollection<Question> Questions { get; set; } = new List<Question>();

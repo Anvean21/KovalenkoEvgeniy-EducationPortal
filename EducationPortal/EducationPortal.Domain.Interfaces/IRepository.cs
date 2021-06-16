@@ -13,6 +13,7 @@ namespace EducationPortal.Domain.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : BasicEntity
     {
+        Task SaveAsync();
         Task<TEntity> FindAsync(int id);
 
         Task<TEntity> FindAsync(Specification<TEntity> specification);
@@ -21,15 +22,15 @@ namespace EducationPortal.Domain.Interfaces
 
         Task<PagedList<TEntity>> GetAsync(Specification<TEntity> specification, int pageNumber, int pageSize);
 
-        Task<TEntity> AddAsync(TEntity entity);
+        Task AddAsync(TEntity entity);
 
-        void AddAsync(IEnumerable<TEntity> entity);
+        Task AddAsync(IEnumerable<TEntity> entities);
 
-        Task<TEntity> UpdateAsync(TEntity entity);
+        Task Update(TEntity entity);
 
         Task UpdateAsync(IEnumerable<TEntity> entity);
 
-        Task<TEntity> RemoveAsync(TEntity entity);
+        Task RemoveAsync(int entityId);
 
         Task RemoveAsync(IEnumerable<TEntity> entity);
     }

@@ -16,12 +16,13 @@ namespace EducationPortal.Creator
     {
         readonly IUserService userService;
         readonly TestController testController;
-        private readonly Map mapper = new Map();
+        private readonly IMapper mapper;
 
-        public UserConroller(IUserService userService, TestController testController)
+        public UserConroller(IUserService userService, IMapper mapper, TestController testController)
         {
             this.userService = userService;
             this.testController = testController;
+            this.mapper = mapper;
         }
 
         public void UserLogOut()
@@ -31,7 +32,7 @@ namespace EducationPortal.Creator
 
         public bool AddCourseToUserProgress(CourseVM courseVM)
         {
-            if (userService.AddCourseToProgress(mapper.CourseVmToDomain(courseVM)))
+            if (userService.AddCourseToProgress(mapper.Map<CourseVM,Course>(courseVM)))
             {
                 Dye.Succsess();
                 Console.WriteLine("Course passing started!");
@@ -68,7 +69,7 @@ namespace EducationPortal.Creator
                 var userVariatnt = Console.ReadLine().Trim().Split("")[0];
                 testController.AnswersCounting(question, userVariatnt, ref rightAnswers);
             }
-            if (userService.IsCoursePassed(mapper.CourseVmToDomain(courseVM), rightAnswers))
+            if (userService.IsCoursePassed(mapper.Map<CourseVM,Course>(courseVM), rightAnswers))
             {
                 Dye.Succsess();
                 Console.WriteLine($"Test - passed. Right answers {rightAnswers}/{courseVM.Test.Questions.Count()} CONGRATULATIONS!!!");

@@ -13,18 +13,18 @@ namespace EducationPortal.Creator
     public class MaterialController
     {
         readonly IMaterialService materialService;
+        private readonly IMapper mapper;
         readonly VideoMaterialController videoMaterialController;
         readonly ArticleMaterialController articleMaterialController;
         readonly BookMaterialController bookMaterialController;
 
-        private readonly Map mapper = new Map();
-
-        public MaterialController(IMaterialService materialService, VideoMaterialController videoMaterialController, ArticleMaterialController articleMaterialController, BookMaterialController bookMaterialController)
+        public MaterialController(IMaterialService materialService, IMapper mapper, VideoMaterialController videoMaterialController, ArticleMaterialController articleMaterialController, BookMaterialController bookMaterialController)
         {
             this.materialService = materialService;
             this.videoMaterialController = videoMaterialController;
             this.articleMaterialController = articleMaterialController;
             this.bookMaterialController = bookMaterialController;
+            this.mapper = mapper;
         }
 
         public void MaterialList()
@@ -47,7 +47,7 @@ namespace EducationPortal.Creator
 
         public MaterialVM AddMaterialByName(string name)
         {
-            return mapper.MapVmToDomain<Material, MaterialVM>(materialService.GetMaterialByName(name));
+            return mapper.Map<Material, MaterialVM>(materialService.GetMaterialByName(name));
         }
     }
 }

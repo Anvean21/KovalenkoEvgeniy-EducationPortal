@@ -21,6 +21,7 @@ namespace EducationPortal.Infrastructure.Business
         public void AddBookMaterial(BookMaterial bookMaterial)
         {
             bookMaterialRepository.AddAsync(bookMaterial);
+            bookMaterialRepository.SaveAsync();
         }
 
         public BookMaterial GetBookMaterialByName(string name)

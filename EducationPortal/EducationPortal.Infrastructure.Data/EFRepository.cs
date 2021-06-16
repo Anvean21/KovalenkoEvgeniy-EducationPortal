@@ -21,35 +21,42 @@ namespace EducationPortal.Infrastructure.Data
             entities = context.Set<TEntity>();
         }
 
-        public virtual async Task<TEntity> AddAsync(TEntity entity)
+        public async Task SaveAsync()
         {
-            this.entities.Add(entity);
-            await context.SaveChangesAsync();
-            return entity;
+            await this.context.SaveChangesAsync();
         }
 
-        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity)
+        {
+            await this.entities.AddAsync(entity);
+        }
+
+        public virtual async Task AddAsync(IEnumerable<TEntity> entities)
+        {
+            await this.entities.AddRangeAsync(entities);
+        }
+
+        public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
+        {
+            this.entities.UpdateRange(entities);
+            return Task.CompletedTask;
+        }
+
+        public virtual Task Update(TEntity entity)
         {
             this.entities.Update(entity);
-            await context.SaveChangesAsync();
-            return entity;
+            return Task.CompletedTask;
         }
+
         public virtual async Task<TEntity> FindAsync(Specification<TEntity> specification)
         {
             return await this.entities.FirstOrDefaultAsync(specification.Expression);
-        }
-
-        public virtual async void AddAsync(IEnumerable<TEntity> entities)
-        {
-            await this.entities.AddRangeAsync(entities);
-            context.SaveChanges();
         }
 
         public virtual async Task<TEntity> FindAsync(int id)
         {
             return await this.entities.FirstOrDefaultAsync(x => x.Id == id);
         }
-
 
         public virtual async Task<IEnumerable<TEntity>> GetAsync(Specification<TEntity> specification)
         {
@@ -61,25 +68,16 @@ namespace EducationPortal.Infrastructure.Data
             return this.entities.Where(specification.Expression).ToPagedListAsync(pageNumber, pageSize);
         }
 
-        public virtual async Task<TEntity> RemoveAsync(TEntity entity)
+        public Task RemoveAsync(int entityId)
         {
-            this.entities.Remove(entity);
-            await context.SaveChangesAsync();
-            return entity;
+            var deleteItem = entities.FindAsync(entityId).Result;
+            entities.Remove(deleteItem);
+            return Task.CompletedTask;
         }
 
         public virtual Task RemoveAsync(IEnumerable<TEntity> entities)
         {
             this.entities.RemoveRange(entities);
-            context.SaveChanges();
-            return Task.CompletedTask;
-        }
-
-
-
-        public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
-        {
-            this.entities.UpdateRange(entities);
             context.SaveChanges();
             return Task.CompletedTask;
         }

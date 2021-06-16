@@ -21,6 +21,7 @@ namespace EducationPortal.Infrastructure.Business
         public void AddArticleMaterial(ArticleMaterial articleMaterial)
         {
             articleMaterialRepository.AddAsync(articleMaterial);
+            articleMaterialRepository.SaveAsync();
         }
 
         public IEnumerable<ArticleMaterial> GetArticleMaterials(int pageNumber = 1, int itemCount = 10)

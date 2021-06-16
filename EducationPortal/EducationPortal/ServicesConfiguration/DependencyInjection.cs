@@ -1,4 +1,5 @@
-﻿using EducationPortal.Command;
+﻿using EducationPortal.Automapper;
+using EducationPortal.Command;
 using EducationPortal.Command.Commands;
 using EducationPortal.Command.Interfaces;
 using EducationPortal.Domain.Interfaces;
@@ -19,6 +20,8 @@ namespace EducationPortal.DependencyInjection
             var provider = new ServiceCollection()
                 .AddScoped(typeof(IRepository<>), typeof(EFRepository<>))
                 .AddTransient<DbContext, EducationContext>()
+                .AddAutoMapper(cfg => cfg.AddProfile<MainProfile>())
+                .AddScoped<IMapper,EntityMapper>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<ISkillService, SkillService>()
                 .AddTransient<IMaterialService, MaterialService>()

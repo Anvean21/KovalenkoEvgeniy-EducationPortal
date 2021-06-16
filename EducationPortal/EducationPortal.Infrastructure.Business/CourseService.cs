@@ -22,6 +22,7 @@ namespace EducationPortal.Infrastructure.Business
         public void AddCourse(Course course)
         {
             courseRepository.AddAsync(course);
+            courseRepository.SaveAsync();
         }
 
         public IEnumerable<Course> GetCourses(int pageNumber = 1, int itemCount = 10)

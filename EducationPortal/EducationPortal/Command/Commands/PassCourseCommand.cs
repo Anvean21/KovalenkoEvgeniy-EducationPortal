@@ -1,4 +1,5 @@
-﻿using EducationPortal.Command.Interfaces;
+﻿using EducationPortal.Automapper;
+using EducationPortal.Command.Interfaces;
 using EducationPortal.Controllers;
 using EducationPortal.Creator;
 using EducationPortal.Services.Interfaces;
@@ -11,15 +12,15 @@ namespace EducationPortal.Command.Commands
 {
     public class PassCourseCommand : IAuthCommand
     {
-        readonly static TestController testController = new TestController(CustomServiceProvider.Provider.GetRequiredService<ICourseTestService>());
+        readonly static TestController testController = new TestController(CustomServiceProvider.Provider.GetRequiredService<ICourseTestService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
-        readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>(), testController);
+        readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>(), testController);
 
-        readonly static VideoMaterialController videoMaterialController = new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>());
-        readonly static ArticleMaterialController articleMaterialController = new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>());
-        readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>());
+        readonly static VideoMaterialController videoMaterialController = new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
+        readonly static ArticleMaterialController articleMaterialController = new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
+        readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
-        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>(), videoMaterialController,articleMaterialController,bookMaterialController);
+        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>(), videoMaterialController,articleMaterialController,bookMaterialController);
         public int CommandNumber => 2;
 
         public string CommandName => "Pass course";

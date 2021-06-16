@@ -26,8 +26,8 @@ namespace EducationPortal.Infrastructure.Business
         public void Register(User model)
         {
             userRepository.AddAsync(model);
+            userRepository.SaveAsync();
             authorizedUser = model;
-
         }
 
         public bool LogIn(string email, string password)
@@ -60,25 +60,37 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public IEnumerable<User> GetUsers(int pageNumber = 1, int itemCount = 10)
+        public bool GetUniqueEmail(string email)
         {
-            var userSpecification = new Specification<User>(x => x.Id == x.Id);
+            var userSpecification = new Specification<User>(x => x.Email.ToLower() == email.ToLower());
 
-            return userRepository.GetAsync(userSpecification, pageNumber, itemCount).Result.Items;
+            if (userRepository.FindAsync(userSpecification).Result == null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool AddCourseToProgress(Course course)
         {
-            if (authorizedUser.PassedCourses.Any(x => x.CourseId == course.Id) || authorizedUser.CourseInProgress.Any(x => x.CourseId == course.Id))
+            if (authorizedUser.PassedCourses.Any(x => x.CourseId == course.Id))
             {
                 return false;
             }
 
-            authorizedUser.CourseInProgress.Add(new UserCoursesInProgress { UserId = authorizedUser.Id, CourseId = course.Id, User = authorizedUser, Course = course });
+            if (authorizedUser.CourseInProgress.Any(x => x.CourseId == course.Id))
+            {
 
-            userRepository.UpdateAsync(authorizedUser);
+                return true;
+            }
 
+            authorizedUser.CourseInProgress.Add(new UserCoursesInProgress { UserId = authorizedUser.Id, CourseId = course.Id });
+
+            userRepository.Update(authorizedUser);
+            userRepository.SaveAsync();
             return true;
+
         }
 
         public bool IsCoursePassed(Course course, int rightAnswers)
@@ -89,9 +101,7 @@ namespace EducationPortal.Infrastructure.Business
 
             if (countOfQuestions * minimumRightAnswersPercent <= rightAnswers)
             {
-                authorizedUser.PassedCourses.Add(new UserPassedCourses { UserId = authorizedUser.Id, User = authorizedUser, Course = course, CourseId = course.Id });
-
-                userRepository.UpdateAsync(authorizedUser);
+                authorizedUser.PassedCourses.Add(new UserPassedCourses { UserId = authorizedUser.Id, User = authorizedUser });
 
                 foreach (var skill in course.Skills)
                 {
@@ -101,15 +111,16 @@ namespace EducationPortal.Infrastructure.Business
                     }
                     else
                     {
-                        authorizedUser.UserSkills.Add(new UserSkills { UserId = authorizedUser.Id, Skill = skill, User = authorizedUser, SkillId = skill.Id });
-
-                        userRepository.UpdateAsync(authorizedUser);
+                        authorizedUser.UserSkills.Add(new UserSkills { UserId = authorizedUser.Id, SkillId = skill.Id });
                     }
                 }
 
                 var removedCourse = authorizedUser.CourseInProgress.FirstOrDefault(x => x.CourseId == course.Id);
+
                 authorizedUser.CourseInProgress.Remove(removedCourse);
-                userRepository.UpdateAsync(authorizedUser);
+
+                userRepository.Update(authorizedUser);
+                userRepository.SaveAsync();
 
                 return true;
             }

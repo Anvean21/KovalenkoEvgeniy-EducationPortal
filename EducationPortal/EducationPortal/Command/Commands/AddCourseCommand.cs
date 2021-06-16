@@ -1,4 +1,5 @@
-﻿using EducationPortal.Command.Interfaces;
+﻿using EducationPortal.Automapper;
+using EducationPortal.Command.Interfaces;
 using EducationPortal.Controllers;
 using EducationPortal.Creator;
 using EducationPortal.Services.Interfaces;
@@ -11,10 +12,11 @@ namespace EducationPortal.Command.Commands
 {
     public class AddCourseCommand : IAuthCommand
     {
-        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>(),
-            new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>()),
-            new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>()),
-            new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>()));
+        readonly CourseController courseController = new CourseController(
+            CustomServiceProvider.Provider.GetRequiredService<ICourseService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>(),
+            new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>()),
+            new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>()),
+            new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>()));
         public int CommandNumber => 1;
 
         public string CommandName => "Create course";

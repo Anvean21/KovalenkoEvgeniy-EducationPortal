@@ -11,21 +11,22 @@ namespace EducationPortal.Infrastructure.Business
 {
     public class CourseTestService : ICourseTestService
     {
-        private readonly IRepository<Test> testService;
+        private readonly IRepository<Test> testRepository;
         public CourseTestService(IRepository<Test> testService)
         {
-            this.testService = testService;
+            this.testRepository = testService;
         }
 
         public void AddTest(Test test)
         {
-            testService.AddAsync(test);
+            testRepository.AddAsync(test);
+            testRepository.SaveAsync();
         }
         
         public Test GetTest(string name)
         {
             var testSpec = new Specification<Test>(x => x.Name.ToLower() == name.ToLower());
-            return testService.FindAsync(testSpec).Result;
+            return testRepository.FindAsync(testSpec).Result;
         }
 
         public int CountResult(Question question, string userVariant, ref int result)

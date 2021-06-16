@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace EducationPortal.Helpers
@@ -13,8 +14,8 @@ namespace EducationPortal.Helpers
             VideoMaterialVM videoMaterialVM = new VideoMaterialVM();
             Console.WriteLine("Enter video Name");
             videoMaterialVM.Name = Console.ReadLine();
-            Console.WriteLine("Enter video Duration (hh,mm) or (mm,ss)");
-            videoMaterialVM.Duration = double.Parse(Console.ReadLine()).ToString("F" + 2);
+            Console.WriteLine("Enter video Duration (hh,mm)");
+            videoMaterialVM.Duration = Console.ReadLine();
             Console.WriteLine("Chose video quality\n1 - High\n2 - Medium\n3 - Low");
 
             videoMaterialVM.Quality = (Console.ReadLine()) switch

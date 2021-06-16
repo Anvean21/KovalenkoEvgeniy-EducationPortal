@@ -21,6 +21,7 @@ namespace EducationPortal.Infrastructure.Business
         public void AddSkill(Skill skill)
         {
             skillRepository.AddAsync(skill);
+            skillRepository.SaveAsync();
         }
 
         public Skill GetSkillByName(string name)

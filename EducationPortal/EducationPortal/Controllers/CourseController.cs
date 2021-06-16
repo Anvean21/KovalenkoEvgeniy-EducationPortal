@@ -1,5 +1,6 @@
 ﻿using EducationPortal.Automapper;
 using EducationPortal.Controllers;
+using EducationPortal.Domain.Core;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Helpers;
 using EducationPortal.Services.Interfaces;
@@ -15,6 +16,7 @@ namespace EducationPortal.Creator
     public class CourseController
     {
         readonly ICourseService courseService;
+        private readonly IMapper mapper;
         readonly VideoMaterialController videoMaterialController;
         readonly ArticleMaterialController articleMaterialController;
         readonly BookMaterialController bookMaterialController;
@@ -26,16 +28,15 @@ namespace EducationPortal.Creator
         readonly CourseHelper courseHelper = new CourseHelper();
         readonly MaterialHelper materialHelper = new MaterialHelper();
 
-        private readonly Map mapper = new Map();
-
         readonly CourseValidator validator = new CourseValidator();
 
-        public CourseController(ICourseService courseService, VideoMaterialController videoMaterialController, ArticleMaterialController articleMaterialController, BookMaterialController bookMaterialController)
+        public CourseController(ICourseService courseService, IMapper mapper, VideoMaterialController videoMaterialController, ArticleMaterialController articleMaterialController, BookMaterialController bookMaterialController)
         {
             this.courseService = courseService;
             this.videoMaterialController = videoMaterialController;
             this.articleMaterialController = articleMaterialController;
             this.bookMaterialController = bookMaterialController;
+            this.mapper = mapper;
         }
 
         public void CourseCreate()
@@ -43,7 +44,7 @@ namespace EducationPortal.Creator
             var courseVM = courseHelper.CourseFullData();
             if (validator.Validate(courseVM).IsValid && courseVM.Skills.Count >= 1 && courseVM.Materials.Count >= 1)
             {
-                var map = mapper.CourseVmToDomain(courseVM);
+                var map = mapper.Map<CourseVM, Course>(courseVM);
                 courseService.AddCourse(map);
                 Dye.Succsess();
                 Console.WriteLine("You have successfully created course");
@@ -69,7 +70,7 @@ namespace EducationPortal.Creator
         public CourseVM GetCourseById(int id)
         {
             var course = courseService.GetById(id);
-            var mappedCourse = mapper.CourseDomainToVM(course);
+            var mappedCourse = mapper.Map<Course, CourseVM>(course);
             return mappedCourse;
         }
 

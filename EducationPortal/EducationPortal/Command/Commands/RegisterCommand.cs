@@ -14,11 +14,12 @@ namespace EducationPortal.Command.Commands
     {
         readonly IUserService userService;
         readonly UserValidator validator = new UserValidator();
-        private readonly Map mapper = new Map();
+        private readonly IMapper mapper;
 
-        public RegisterCommand(IUserService userService)
+        public RegisterCommand(IUserService userService, IMapper mapper)
         {
             this.userService = userService;
+            this.mapper = mapper;
         }
 
         public int CommandNumber => 1;
@@ -30,7 +31,7 @@ namespace EducationPortal.Command.Commands
             var userVM = UserHelper.UserFullData();
             if (validator.Validate(userVM).IsValid)
             {
-                userService.Register(mapper.MapVmToDomain<UserVM, User>(userVM));
+                userService.Register(mapper.Map<UserVM, User>(userVM));
                 Dye.Succsess();
                 Console.WriteLine("You have successfully registered and authorized");
                 Console.ResetColor();
