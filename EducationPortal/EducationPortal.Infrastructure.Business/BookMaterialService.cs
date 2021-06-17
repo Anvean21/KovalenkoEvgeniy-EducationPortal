@@ -23,16 +23,5 @@ namespace EducationPortal.Infrastructure.Business
             bookMaterialRepository.AddAsync(bookMaterial);
             bookMaterialRepository.SaveAsync();
         }
-
-        public BookMaterial GetBookMaterialByName(string name)
-        {
-            var articleSpecification = new Specification<BookMaterial>(x => x.Name.ToLower() == name.ToLower());
-            return bookMaterialRepository.FindAsync(articleSpecification).Result;
-        }
-
-        public IEnumerable<BookMaterial> GetBookMaterials(int pageNumber = 1, int itemCount = 10)
-        {
-            return bookMaterialRepository.GetAsync(new Specification<BookMaterial>(x => x.Id == x.Id), pageNumber, itemCount).Result.Items;
-        }
     }
 }

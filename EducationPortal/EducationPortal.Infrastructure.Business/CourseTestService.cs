@@ -5,6 +5,7 @@ using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace EducationPortal.Infrastructure.Business
@@ -23,9 +24,17 @@ namespace EducationPortal.Infrastructure.Business
             testRepository.SaveAsync();
         }
 
-        public Test GetTest(int Id)
+        public Test GetTestById(int Id)
         {
-            return testRepository.FindAsync(Id).Result;
+            var includes = new List<Expression<Func<Test, object>>>
+            {
+                //TODO 
+                y => y.Questions
+            };
+
+            var spec = new Specification<Test>(x => x.Id == Id, includes);
+
+            return testRepository.FindAsync(spec).Result;
         }
 
         public int CountResult(Question question, string userVariant, ref int result)

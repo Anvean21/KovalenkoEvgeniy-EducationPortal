@@ -6,6 +6,7 @@ using EducationPortal.Helpers;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EducationPortal.Creator
@@ -14,16 +15,10 @@ namespace EducationPortal.Creator
     {
         readonly IMaterialService materialService;
         private readonly IMapper mapper;
-        readonly VideoMaterialController videoMaterialController;
-        readonly ArticleMaterialController articleMaterialController;
-        readonly BookMaterialController bookMaterialController;
 
-        public MaterialController(IMaterialService materialService, IMapper mapper, VideoMaterialController videoMaterialController, ArticleMaterialController articleMaterialController, BookMaterialController bookMaterialController)
+        public MaterialController(IMaterialService materialService, IMapper mapper)
         {
             this.materialService = materialService;
-            this.videoMaterialController = videoMaterialController;
-            this.articleMaterialController = articleMaterialController;
-            this.bookMaterialController = bookMaterialController;
             this.mapper = mapper;
         }
 
@@ -31,23 +26,22 @@ namespace EducationPortal.Creator
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Book materials");
-            var books = bookMaterialController.GetBookMaterials().Select(x => x.Name);
-            Console.WriteLine(string.Join(", ", books));
+            Console.WriteLine(string.Join("\n", mapper.Map<Material, MaterialVM>(materialService.GetBookMaterials()).Select(x => $"Id - {x.Id}, Name - {x.Name} ")));
 
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Article materials");
-            Console.WriteLine(string.Join(", ", articleMaterialController.GetArticleMaterials().Select(x => x.Name)));
+            Console.WriteLine(string.Join("\n", mapper.Map<Material, MaterialVM>(materialService.GetArticleMaterials()).Select(x => $"Id - {x.Id}, Name - {x.Name} ")));
 
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Video materials");
-            Console.WriteLine(string.Join(", ", videoMaterialController.GetVideoMaterials().Select(x => x.Name)));
+            Console.WriteLine(string.Join("\n", mapper.Map<Material, MaterialVM>(materialService.GetVideoMaterials()).Select(x => $"Id - {x.Id}, Name - {x.Name} ")));
 
             Console.ResetColor();
         }
 
-        public MaterialVM AddMaterialByName(string name)
+        public MaterialVM AddMaterialById(int Id)
         {
-            return mapper.Map<Material, MaterialVM>(materialService.GetMaterialByName(name));
+            return mapper.Map<Material, MaterialVM>(materialService.GetMaterialById(Id));
         }
     }
 }

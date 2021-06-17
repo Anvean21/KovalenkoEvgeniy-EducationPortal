@@ -47,15 +47,5 @@ namespace EducationPortal.Controllers
                 return null;
             }
         }
-
-        public ArticleMaterialVM GetArticleMaterialByName(string name)
-        {
-            return mapper.Map<ArticleMaterial, ArticleMaterialVM>(articleMaterialService.GetArticleMaterialByName(name));
-        }
-
-        public IEnumerable<ArticleMaterial> GetArticleMaterials()
-        {
-            return articleMaterialService.GetArticleMaterials();
-        }
     }
 }

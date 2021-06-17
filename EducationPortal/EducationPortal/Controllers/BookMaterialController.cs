@@ -47,15 +47,5 @@ namespace EducationPortal.Controllers
                 return null;
             }
         }
-
-        public BookMaterialVM GetBookMaterialByName(string name)
-        {
-            return mapper.Map<BookMaterial, BookMaterialVM>(bookMaterialService.GetBookMaterialByName(name));
-        }
-
-        public IEnumerable<BookMaterial> GetBookMaterials()
-        {
-            return bookMaterialService.GetBookMaterials();
-        }
     }
 }

@@ -45,15 +45,5 @@ namespace EducationPortal.Controllers
                 return null;
             }
         }
-
-        public VideoMaterialVM GetVideoMaterialByName(string name)
-        {
-            return mapper.Map<VideoMaterial, VideoMaterialVM>(videoMaterialService.GetVideoMaterialByName(name));
-        }
-
-        public IEnumerable<VideoMaterial> GetVideoMaterials()
-        {
-            return videoMaterialService.GetVideoMaterials();
-        }
     }
 }

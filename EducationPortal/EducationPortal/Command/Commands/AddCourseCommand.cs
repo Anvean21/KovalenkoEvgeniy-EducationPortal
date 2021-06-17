@@ -12,11 +12,12 @@ namespace EducationPortal.Command.Commands
 {
     public class AddCourseCommand : IAuthCommand
     {
+
         readonly CourseController courseController = new CourseController(
             CustomServiceProvider.Provider.GetRequiredService<ICourseService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>(),
-            new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>()),
-            new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>()),
-            new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>()));
+
+            new MaterialController(
+                 CustomServiceProvider.Provider.GetRequiredService<IMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>()));
         public int CommandNumber => 1;
 
         public string CommandName => "Create course";

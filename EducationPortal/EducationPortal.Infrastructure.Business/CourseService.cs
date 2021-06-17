@@ -29,13 +29,11 @@ namespace EducationPortal.Infrastructure.Business
         {
             var courseIncludes = new List<Expression<Func<Course, object>>>
             {
-                //TODO приделать where айдиСкилаКурса = айдиКурса
-                y => y.Skills,
-                y => y.Materials,
-                y => y.Test
+                //TODO 
+                y => y.Skills
             };
 
-            var courseSpec = new Specification<Course>(x => x.Id == x.Id, courseIncludes);
+            var courseSpec = new Specification<Course>(x => true, courseIncludes);
 
             return courseRepository.GetAsync(courseSpec, pageNumber, itemCount).Result.Items;
         }

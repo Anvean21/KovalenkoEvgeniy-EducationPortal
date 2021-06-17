@@ -50,7 +50,9 @@ namespace EducationPortal.Infrastructure.Data
 
         public virtual async Task<TEntity> FindAsync(Specification<TEntity> specification)
         {
-            return await this.entities.FirstOrDefaultAsync(specification.Expression);
+            var includes = Include(specification);
+
+            return await includes.FirstOrDefaultAsync(specification.Expression);
         }
 
         public virtual async Task<TEntity> FindAsync(int id)
@@ -60,12 +62,16 @@ namespace EducationPortal.Infrastructure.Data
 
         public virtual async Task<IEnumerable<TEntity>> GetAsync(Specification<TEntity> specification)
         {
-            return await this.entities.Where(specification.Expression).ToListAsync().ConfigureAwait(false);
+            var includes = Include(specification);
+
+            return await includes.Where(specification.Expression).ToListAsync().ConfigureAwait(false);
         }
 
         public virtual Task<PagedList<TEntity>> GetAsync(Specification<TEntity> specification, int pageNumber, int pageSize)
         {
-            return this.entities.Where(specification.Expression).ToPagedListAsync(pageNumber, pageSize);
+            var includes = Include(specification);
+
+            return includes.Where(specification.Expression).ToPagedListAsync(pageNumber, pageSize);
         }
 
         public Task RemoveAsync(int entityId)
@@ -80,6 +86,20 @@ namespace EducationPortal.Infrastructure.Data
             this.entities.RemoveRange(entities);
             context.SaveChanges();
             return Task.CompletedTask;
+        }
+
+        private IQueryable<TEntity> Include(Specification<TEntity> specification)
+        {
+            var query = entities.Where(x => true);
+
+            if (specification.Include != null)
+            {
+                foreach (var include in specification.Include)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return query;
         }
     }
 }

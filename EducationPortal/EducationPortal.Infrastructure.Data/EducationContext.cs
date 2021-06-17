@@ -1,11 +1,8 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Core.Entities;
-using EducationPortal.Domain.Core.Entities.RelationModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace EducationPortal.Infrastructure.Data
 {
@@ -24,8 +21,8 @@ namespace EducationPortal.Infrastructure.Data
 
         public EducationContext()
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+          //  Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -44,44 +41,9 @@ namespace EducationPortal.Infrastructure.Data
 
             modelBuilder.Entity<Course>().HasOne(x => x.Test).WithOne(x => x.Course).HasForeignKey<Test>(x => x.CourseId);
 
-            modelBuilder.Entity<UserSkills>().HasKey(x => new { x.UserId, x.SkillId });
-            modelBuilder.Entity<UserSkills>().HasOne(x => x.User).WithMany(x => x.UserSkills).HasForeignKey(x => x.UserId);
-            modelBuilder.Entity<UserSkills>().HasOne(x => x.Skill).WithMany(x => x.UserSkills).HasForeignKey(x => x.SkillId);
-
-            modelBuilder.Entity<UserCoursesInProgress>().HasKey(x => new { x.UserId, x.CourseId });
-
-            modelBuilder.Entity<UserCoursesInProgress>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.CourseInProgress)
-                .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<UserCoursesInProgress>()
-                .HasOne(x => x.Course)
-                .WithMany(x => x.UsersInProgresses)
-                .HasForeignKey(x => x.CourseId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<UserPassedCourses>().HasKey(x => new { x.UserId, x.CourseId });
-
-            modelBuilder.Entity<UserPassedCourses>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.PassedCourses)
-                .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<UserPassedCourses>()
-                .HasOne(x => x.Course)
-                .WithMany(x => x.UsersPassed)
-                .HasForeignKey(x => x.CourseId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<User>().Property(u => u.Name).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(a => a.Email).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(a => a.Password).HasMaxLength(128);
-
-            modelBuilder.Entity<Course>().Property(c => c.Name).HasMaxLength(128);
-            modelBuilder.Entity<Course>().Property(c => c.Description).HasMaxLength(250);
 
             modelBuilder.Entity<Skill>().Property(s => s.Name).HasMaxLength(30);
 
@@ -92,8 +54,63 @@ namespace EducationPortal.Infrastructure.Data
 
             modelBuilder.Entity<VideoMaterial>().Property(v => v.Name).HasMaxLength(128);
 
+
             modelBuilder.Entity<BookMaterial>().Property(v => v.Name).HasMaxLength(128);
             modelBuilder.Entity<BookMaterial>().Property(v => v.Author).HasMaxLength(128);
+
+            modelBuilder.Entity<Test>().Property(c => c.Name).HasMaxLength(30);
+
+            modelBuilder.Entity<Question>().Property(c => c.Name).HasMaxLength(50);
+
+            modelBuilder.Entity<Answer>().Property(c => c.Name).HasMaxLength(50);
+
+            modelBuilder.Entity<Course>().Property(c => c.Name).HasMaxLength(128);
+            modelBuilder.Entity<Course>().Property(c => c.Description).HasMaxLength(250);
+
+           // modelBuilder.Entity<User>().HasData(new User { Id = 1, Name = "Anvean", Email = "anvean@gmail.com", Password = "leitxrf33" });
+
+
+           // var skill = new Skill { Name = "C#", Id = 1 };
+           // modelBuilder.Entity<Skill>().HasData(skill);
+
+           // var article = new ArticleMaterial { Id = 1, Name = "Article 1", PublishDate = DateTime.Now, Resource = "Metanit.com" };
+           // modelBuilder.Entity<ArticleMaterial>().HasData(article);
+
+           // var video = new VideoMaterial { Id = 2, Name = "Extreme Code", Quality = VideoQuality.High, Duration = "19,27" };
+           // modelBuilder.Entity<VideoMaterial>().HasData(video);
+
+           // var book = new BookMaterial { Id = 3, Name = "CLR via C#", Author = "Richetr", Format = BookFormat.Large, Pages = 236, YearOfPublish = 2006 };
+           // modelBuilder.Entity<BookMaterial>().HasData(book);
+
+           // var materials = new List<Material>
+           // {
+           //     book,
+           //     video,
+           //     article
+           // };
+
+           // var skills = new List<Skill>
+           // {
+           //     skill
+           // };
+
+           // var answers = new List<Answer>() {
+           //     new Answer {  Id = 1, Name = "answer 1", IsTrue = true, Variant = "a".ToCharArray() },
+           //     new Answer {  Id = 2, Name = "answer 2", IsTrue = false, Variant = "b".ToCharArray() }
+           // };
+
+           // modelBuilder.Entity<Answer>().HasData(new Answer[]{
+           //new Answer { Id = 1, Name = "answer 1", IsTrue = true, Variant = "a".ToCharArray() },
+           //     new Answer { Id = 2, Name = "answer 2", IsTrue = false, Variant = "b".ToCharArray() }
+           // });
+
+           // var questions = new List<Question>() { new Question { Id = 1, Name = "Question 1" } };
+           // modelBuilder.Entity<Question>().HasData(new Question { Id = 1, Name = "Question 1"});
+
+           // var test = new Test { Id = 2, Name = "Test1" };
+           // modelBuilder.Entity<Test>().HasData(new Test { Id = 2, Name = "Test1", CourseId = 1 });
+
+           // modelBuilder.Entity<Course>().HasData(new Course { Id = 1, Name = "Course", Description = "Description" });
         }
     }
 }

@@ -23,16 +23,5 @@ namespace EducationPortal.Infrastructure.Business
             videoMaterialRepository.AddAsync(videoMaterial);
             videoMaterialRepository.SaveAsync();
         }
-
-        public IEnumerable<VideoMaterial> GetVideoMaterials(int pageNumber = 1, int itemCount = 10)
-        {
-            return videoMaterialRepository.GetAsync(new Specification<VideoMaterial>(x => x.Id == x.Id), pageNumber, itemCount).Result.Items;
-        }
-
-        public VideoMaterial GetVideoMaterialByName(string name)
-        {
-            var videoSpecification = new Specification<VideoMaterial>(x => x.Name.ToLower() == name.ToLower());
-            return videoMaterialRepository.FindAsync(videoSpecification).Result;
-        }
     }
 }

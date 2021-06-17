@@ -9,6 +9,6 @@ namespace EducationPortal.Services.Interfaces
     {
         public void AddTest(Test test);
         public int CountResult(Question question, string userVariant, ref int result);
-        public Test GetTest(int id);
+        public Test GetTestById(int Id);
     }
 }

@@ -23,16 +23,5 @@ namespace EducationPortal.Infrastructure.Business
             articleMaterialRepository.AddAsync(articleMaterial);
             articleMaterialRepository.SaveAsync();
         }
-
-        public IEnumerable<ArticleMaterial> GetArticleMaterials(int pageNumber = 1, int itemCount = 10)
-        {
-            return articleMaterialRepository.GetAsync(new Specification<ArticleMaterial>(x => x.Id == x.Id), pageNumber, itemCount).Result.Items;
-        }
-
-        public ArticleMaterial GetArticleMaterialByName(string name)
-        {
-            var articleSpecification = new Specification<ArticleMaterial>(x => x.Name.ToLower() == name.ToLower());
-            return articleMaterialRepository.FindAsync(articleSpecification).Result;
-        }
     }
 }

@@ -51,9 +51,10 @@ namespace EducationPortal.Creator
         public void UserPassCourse(CourseVM courseVM)
         {
             int rightAnswers = 0;
-            //Тут null тест приходит, нужен джоин (инклюды)
 
+            //нужен джоин thenInclude answers()
             var test = testController.GetTestById(courseVM.Test.Id);
+
             Console.WriteLine(string.Join(". ", courseVM.Name, courseVM.Description));
 
             foreach (var question in test.Questions)

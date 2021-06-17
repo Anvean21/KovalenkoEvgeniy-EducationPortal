@@ -16,11 +16,8 @@ namespace EducationPortal.Command.Commands
 
         readonly UserConroller userController = new UserConroller(CustomServiceProvider.Provider.GetRequiredService<IUserService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>(), testController);
 
-        readonly static VideoMaterialController videoMaterialController = new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
-        readonly static ArticleMaterialController articleMaterialController = new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
-        readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
-
-        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>(), videoMaterialController,articleMaterialController,bookMaterialController);
+        readonly CourseController courseController = new CourseController(CustomServiceProvider.Provider.GetRequiredService<ICourseService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>(),
+            new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>()));
         public int CommandNumber => 2;
 
         public string CommandName => "Pass course";

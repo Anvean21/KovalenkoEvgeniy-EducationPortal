@@ -4,11 +4,11 @@
 
 //namespace EducationPortal.Domain.Core.Entities.RelationModels
 //{
-//    public class UserPassedCourses
+//    public class CourseSkills
 //    {
-//        public int UserId { get; set; }
+//        public int SkillId { get; set; }
+//        public Skill Skill { get; set; }
 //        public int CourseId { get; set; }
-//        public virtual User User { get; set; }
-//        public virtual Course Course { get; set; }
+//        public Course Course { get; set; }
 //    }
 //}

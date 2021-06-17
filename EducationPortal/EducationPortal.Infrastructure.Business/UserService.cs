@@ -1,14 +1,9 @@
 ﻿using EducationPortal.Domain.Core;
-using EducationPortal.Domain.Core.Entities.RelationModels;
 using EducationPortal.Domain.Interfaces;
-using EducationPortal.Infrastructure.Data;
 using EducationPortal.Services.Interfaces;
 using EFlecture.Core.Specifications;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace EducationPortal.Infrastructure.Business
 {
@@ -74,18 +69,18 @@ namespace EducationPortal.Infrastructure.Business
 
         public bool AddCourseToProgress(Course course)
         {
-            if (authorizedUser.PassedCourses.Any(x => x.CourseId == course.Id))
+            if (authorizedUser.PassedCourses.Any(x => x.Id == course.Id))
             {
                 return false;
             }
 
-            if (authorizedUser.CourseInProgress.Any(x => x.CourseId == course.Id))
+            if (authorizedUser.CourseInProgress.Any(x => x.Id == course.Id))
             {
 
                 return true;
             }
 
-            authorizedUser.CourseInProgress.Add(new UserCoursesInProgress { UserId = authorizedUser.Id, CourseId = course.Id });
+            authorizedUser.CourseInProgress.Add(course);
 
             userRepository.Update(authorizedUser);
             userRepository.SaveAsync();
@@ -101,7 +96,7 @@ namespace EducationPortal.Infrastructure.Business
 
             if (countOfQuestions * minimumRightAnswersPercent <= rightAnswers)
             {
-                authorizedUser.PassedCourses.Add(new UserPassedCourses { UserId = authorizedUser.Id, User = authorizedUser });
+                authorizedUser.PassedCourses.Add(course);
 
                 foreach (var skill in course.Skills)
                 {
@@ -111,11 +106,11 @@ namespace EducationPortal.Infrastructure.Business
                     }
                     else
                     {
-                        authorizedUser.UserSkills.Add(new UserSkills { UserId = authorizedUser.Id, SkillId = skill.Id });
+                        authorizedUser.Skills.Add(skill);
                     }
                 }
 
-                var removedCourse = authorizedUser.CourseInProgress.FirstOrDefault(x => x.CourseId == course.Id);
+                var removedCourse = authorizedUser.CourseInProgress.FirstOrDefault(x => x.Id == course.Id);
 
                 authorizedUser.CourseInProgress.Remove(removedCourse);
 
@@ -130,9 +125,9 @@ namespace EducationPortal.Infrastructure.Business
 
         public bool UserSkillUp(Skill skill)
         {
-            if (authorizedUser.UserSkills.Any(x => x.SkillId == skill.Id))
+            if (authorizedUser.Skills.Any(x => x.Id == skill.Id))
             {
-                authorizedUser.UserSkills.FirstOrDefault(x => x.SkillId == skill.Id).Level++;
+                authorizedUser.Skills.FirstOrDefault(x => x.Id == skill.Id).Level++;
                 return true;
             }
 

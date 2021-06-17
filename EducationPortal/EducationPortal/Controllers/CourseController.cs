@@ -17,9 +17,7 @@ namespace EducationPortal.Creator
     {
         readonly ICourseService courseService;
         private readonly IMapper mapper;
-        readonly VideoMaterialController videoMaterialController;
-        readonly ArticleMaterialController articleMaterialController;
-        readonly BookMaterialController bookMaterialController;
+        private readonly MaterialController materialController;
 
         readonly List<VideoMaterialVM> videoMaterials = new List<VideoMaterialVM>();
         readonly List<BookMaterialVM> bookMaterials = new List<BookMaterialVM>();
@@ -30,12 +28,10 @@ namespace EducationPortal.Creator
 
         readonly CourseValidator validator = new CourseValidator();
 
-        public CourseController(ICourseService courseService, IMapper mapper, VideoMaterialController videoMaterialController, ArticleMaterialController articleMaterialController, BookMaterialController bookMaterialController)
+        public CourseController(ICourseService courseService, IMapper mapper, MaterialController materialController)
         {
             this.courseService = courseService;
-            this.videoMaterialController = videoMaterialController;
-            this.articleMaterialController = articleMaterialController;
-            this.bookMaterialController = bookMaterialController;
+            this.materialController = materialController;
             this.mapper = mapper;
         }
 
@@ -63,7 +59,7 @@ namespace EducationPortal.Creator
         {
             foreach (var course in courseService.GetCourses())
             {
-                Console.WriteLine($"Course Id - {course.Id}, Course name - {course.Name}, Course description - {course.Description}");
+                Console.WriteLine($"Course Id - {course.Id}, Course name - {course.Name}, Course description - {course.Description}, Skills - {string.Join(", ", course.Skills.Select(x => x.Name))}");
             }
         }
 
@@ -82,26 +78,25 @@ namespace EducationPortal.Creator
 
             foreach (var material in course.Materials)
             {
-                if (videoMaterialController.GetVideoMaterialByName(material.Name) is VideoMaterialVM videoMaterial)
+                var materialVM = materialController.AddMaterialById(material.Id);
+
+                if (materialVM is VideoMaterialVM videoMaterial)
                 {
                     videoMaterials.Add(videoMaterial);
                 }
-                if (bookMaterialController.GetBookMaterialByName(material.Name) is BookMaterialVM bookMaterial)
+                if (materialVM is BookMaterialVM bookMaterial)
                 {
                     bookMaterials.Add(bookMaterial);
                 }
-                if (articleMaterialController.GetArticleMaterialByName(material.Name) is ArticleMaterialVM articleMaterial)
+                if (materialVM is ArticleMaterialVM articleMaterial)
                 {
                     articleMaterials.Add(articleMaterial);
                 }
             }
         }
 
-        //TODO: includes (путсые материалы)
-
         public void PassCourseMaterials()
         {
-            //Залезть в материалы и настроить вытягивание материалов. или прокинуть в этот метод курс материалы которого нам нкжно пройти и замапить его к домейну
             var infinity = true;
             while (infinity)
             {

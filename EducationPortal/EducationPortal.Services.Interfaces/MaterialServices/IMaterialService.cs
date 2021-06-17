@@ -7,7 +7,10 @@ namespace EducationPortal.Services.Interfaces
 {
     public interface IMaterialService
     {
-        public IEnumerable<Material> GetMaterials();
-        public Material GetMaterialByName(string name);
+        public IEnumerable<Material> GetMaterials(int pageNumber = 1, int itemCount = 10);
+        public Material GetMaterialById(int Id);
+        public IEnumerable<Material> GetVideoMaterials(int pageNumber = 1, int itemCount = 40);
+        public IEnumerable<Material> GetBookMaterials(int pageNumber = 1, int itemCount = 40);
+        public IEnumerable<Material> GetArticleMaterials(int pageNumber = 1, int itemCount = 40);
     }
 }

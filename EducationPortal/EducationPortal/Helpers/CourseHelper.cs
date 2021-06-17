@@ -19,8 +19,7 @@ namespace EducationPortal.Helpers
 
         readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
-        private readonly MaterialController materialController = new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>(), videoMaterialController,
-               articleMaterialController, bookMaterialController);
+        private readonly MaterialController materialController = new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
         readonly SkillConroller skillController = new SkillConroller(CustomServiceProvider.Provider.GetRequiredService<ISkillService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
@@ -56,22 +55,22 @@ namespace EducationPortal.Helpers
                         Console.Clear();
                         Console.WriteLine("List existing materials");
                         materialController.MaterialList();
-                        Console.WriteLine("\nEnter the name of existing material");
-                        var name = Console.ReadLine().ToLower();
-                        if (courseVM.Materials.Any(x => x.Name.ToLower() == name.ToLower()))
+                        Console.WriteLine("\nEnter Id of existing material");
+                        var Id = int.Parse(Console.ReadLine());
+                        if (courseVM.Materials.Any(x => x.Id == Id))
                         {
                             Dye.Fail();
-                            Console.WriteLine("Invalid name or Material already exists in course");
+                            Console.WriteLine("Material already exists in course");
                             Console.ResetColor();
                         }
                         else
                         {
-                            var materialVM = materialController.AddMaterialByName(name);
+                            var materialVM = materialController.AddMaterialById(Id);
 
                             if (materialVM == null)
                             {
                                 Dye.Fail();
-                                Console.WriteLine("Invalid material name");
+                                Console.WriteLine("Invalid material Id");
                                 Console.ResetColor();
                                 break;
                             }
