@@ -18,11 +18,11 @@ namespace EducationPortal.FluentValidationModels
         }
         private bool UniqueMaterial(string uniqeItem)
         {
-            if (materialService.GetMaterials().Any(x => x.Name.ToLower() == uniqeItem.ToLower()))
+            if (materialService.UniqueMaterialName(uniqeItem))
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
     }
 }

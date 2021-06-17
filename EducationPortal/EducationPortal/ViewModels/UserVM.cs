@@ -4,8 +4,9 @@ using System.Text;
 
 namespace EducationPortal.ViewModels
 {
-    public class UserVM : BasicVM
+    public class UserVM
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }

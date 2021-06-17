@@ -24,6 +24,18 @@ namespace EducationPortal.Infrastructure.Business
             testRepository.SaveAsync();
         }
 
+        public bool UniqueTestName(string name)
+        {
+            var courseSpecification = new Specification<Test>(x => x.Name.ToLower() == name.ToLower());
+
+            if (testRepository.FindAsync(courseSpecification).Result == null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public Test GetTestById(int Id)
         {
             var includes = new List<Expression<Func<Test, object>>>

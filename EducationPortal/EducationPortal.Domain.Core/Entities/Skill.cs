@@ -6,7 +6,7 @@ namespace EducationPortal.Domain.Core
     {
         public string Name { get; set; }
         public int Level { get; set; }
-        public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<Course> Courses { get; set; }
+        public ICollection<User> Users { get; set; }
+        public ICollection<Course> Courses { get; set; }
     }
 }

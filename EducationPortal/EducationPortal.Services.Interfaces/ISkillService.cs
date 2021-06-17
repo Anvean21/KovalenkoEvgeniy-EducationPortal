@@ -10,5 +10,6 @@ namespace EducationPortal.Services.Interfaces
         public void AddSkill(Skill skill);
         public IEnumerable<Skill> GetSkills(int pageNumber = 1, int itemCount = 10);
         public Skill GetSkillByName(string name);
+        public bool GetUniqueName(string name);
     }
 }

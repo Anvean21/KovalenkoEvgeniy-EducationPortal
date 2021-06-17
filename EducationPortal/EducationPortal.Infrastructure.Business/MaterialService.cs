@@ -24,6 +24,18 @@ namespace EducationPortal.Infrastructure.Business
             return materialRepository.FindAsync(materialSpecification).Result;
         }
 
+        public bool UniqueMaterialName(string name)
+        {
+            var materialSpecification = new Specification<Material>(x => x.Name.ToLower() == name.ToLower());
+
+            if (materialRepository.FindAsync(materialSpecification).Result == null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public IEnumerable<Material> GetMaterials(int pageNumber = 1, int itemCount = 40)
         {
             var materialSpecification = new Specification<Material>(x => x.Id == x.Id);

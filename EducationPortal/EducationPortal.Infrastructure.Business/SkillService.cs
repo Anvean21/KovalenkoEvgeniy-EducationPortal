@@ -24,6 +24,18 @@ namespace EducationPortal.Infrastructure.Business
             skillRepository.SaveAsync();
         }
 
+        public bool GetUniqueName(string name)
+        {
+            var skillSpecification = new Specification<Skill>(x => x.Name.ToLower() == name.ToLower());
+
+            if (skillRepository.FindAsync(skillSpecification).Result == null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public Skill GetSkillByName(string name)
         {
             var materialSpecification = new Specification<Skill>(x => x.Name.ToLower() == name.ToLower());

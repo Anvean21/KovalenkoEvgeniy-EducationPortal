@@ -20,9 +20,10 @@ namespace EducationPortal.FluentValidationModels
             RuleForEach(x => x.Materials).NotEmpty().NotNull();
             RuleFor(x => x.Test).NotEmpty().NotNull();
         }
+
         private bool UniqueCourse(string uniqeItem)
         {
-            if (!courseService.GetCourses().Any(x => x.Name.ToLower() == uniqeItem.ToLower()))
+            if (courseService.UniqueCourseName(uniqeItem))
             {
                 return true;
             }

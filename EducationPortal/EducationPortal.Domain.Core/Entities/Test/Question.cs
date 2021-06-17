@@ -8,6 +8,6 @@ namespace EducationPortal.Domain.Core.Entities
     public class Question : BasicEntity
     {
         public string Name { get; set; }
-        public virtual ICollection<Answer> Answers { get; set; } 
+        public ICollection<Answer> Answers { get; set; }
     }
 }

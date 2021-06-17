@@ -25,6 +25,18 @@ namespace EducationPortal.Infrastructure.Business
             courseRepository.SaveAsync();
         }
 
+        public bool UniqueCourseName(string name)
+        {
+            var courseSpecification = new Specification<Course>(x => x.Name.ToLower() == name.ToLower());
+
+            if (courseRepository.FindAsync(courseSpecification).Result == null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public IEnumerable<Course> GetCourses(int pageNumber = 1, int itemCount = 10)
         {
             var courseIncludes = new List<Expression<Func<Course, object>>>

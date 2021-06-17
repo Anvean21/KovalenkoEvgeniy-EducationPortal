@@ -44,7 +44,6 @@ namespace EducationPortal.Creator
             }
         }
 
-        //TODO CHANGE ON id
         public TestVM GetTestById(int Id)
         {
             return mapper.Map<Test, TestVM>(testService.GetTestById(Id));
