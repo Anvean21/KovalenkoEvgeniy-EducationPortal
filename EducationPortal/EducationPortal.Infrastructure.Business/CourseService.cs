@@ -22,7 +22,6 @@ namespace EducationPortal.Infrastructure.Business
         public void AddCourse(Course course)
         {
             courseRepository.AddAsync(course);
-            courseRepository.SaveAsync();
         }
 
         public bool UniqueCourseName(string name)

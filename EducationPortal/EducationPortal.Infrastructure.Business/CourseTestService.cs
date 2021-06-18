@@ -21,7 +21,6 @@ namespace EducationPortal.Infrastructure.Business
         public void AddTest(Test test)
         {
             testRepository.AddAsync(test);
-            testRepository.SaveAsync();
         }
 
         public bool UniqueTestName(string name)
@@ -34,6 +33,19 @@ namespace EducationPortal.Infrastructure.Business
             }
 
             return false;
+        }
+
+        public Test GetTestByName(string name)
+        {
+            var includes = new List<Expression<Func<Test, object>>>
+            {
+                //TODO 
+                y => y.Questions
+            };
+
+            var spec = new Specification<Test>(x => x.Name.ToLower() == name.ToLower(), includes);
+
+            return testRepository.FindAsync(spec).Result;
         }
 
         public Test GetTestById(int Id)

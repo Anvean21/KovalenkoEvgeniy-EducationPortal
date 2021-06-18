@@ -21,8 +21,8 @@ namespace EducationPortal.Infrastructure.Data
 
         public EducationContext()
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+        //    Database.EnsureDeleted();
+        //    Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,8 +36,6 @@ namespace EducationPortal.Infrastructure.Data
             modelBuilder.Entity<ArticleMaterial>().ToTable("ArticleMaterial");
             modelBuilder.Entity<VideoMaterial>().ToTable("VideoMaterial");
             modelBuilder.Entity<BookMaterial>().ToTable("BookMaterial");
-
-            modelBuilder.Entity<Material>().HasKey(x => x.Id);
 
             modelBuilder.Entity<User>().Property(u => u.Name).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(a => a.Email).HasMaxLength(50);
@@ -65,26 +63,39 @@ namespace EducationPortal.Infrastructure.Data
             modelBuilder.Entity<Course>().Property(c => c.Name).HasMaxLength(128);
             modelBuilder.Entity<Course>().Property(c => c.Description).HasMaxLength(250);
 
-            //modelBuilder.Entity<User>().HasData(new User { Id = 1, Name = "Anvean", Email = "anvean@gmail.com", Password = "leitxrf33" });
+            //var user = new User { Id = 1, Name = "Anvean", Email = "anvean@gmail.com", Password = "leitxrf33" };
+            //var skill = new Skill { Id = 1, Name = "C#" };
+            //var skill2 = new Skill { Id = 2, Name = ".Net" };
+            //var skillList = new List<Skill>() { skill, skill2 };
 
-            //modelBuilder.Entity<Skill>().HasData(new Skill { Name = "C#", Id = 1 });
+            //var article = new ArticleMaterial { Id = 1, Name = "Article 1", PublishDate = DateTime.Now, Resource = "Metanit.com" };
+            //var video = new VideoMaterial { Id = 2, Name = "Extreme Code", Quality = VideoQuality.High, Duration = "19,27" };
+            //var book = new BookMaterial { Id = 3, Name = "CLR via C#", Author = "Richetr", Format = BookFormat.Large, Pages = 236, YearOfPublish = 2006 };
+            //var materials = new List<Material>() { article, video };
+            //var answers = new List<Answer>()
+            //{
+            //new Answer {  Id = 1, Name = "answer 1", IsTrue = true, Variant = "a".ToCharArray()},
+            //new Answer {  Id = 2, Name = "answer 2", IsTrue = false, Variant = "b".ToCharArray()}
+            //};
+            //var question = new Question { Id = 1, Name = "Question 1" };
+            //var questionList = new List<Question>() { question };
 
-            //modelBuilder.Entity<ArticleMaterial>().HasData(new ArticleMaterial { Id = 1, Name = "Article 1", PublishDate = DateTime.Now, Resource = "Metanit.com" });
+            //var test = new Test { Id = 1, Name = "Test1" };
 
-            //modelBuilder.Entity<VideoMaterial>().HasData(new VideoMaterial { Id = 2, Name = "Extreme Code", Quality = VideoQuality.High, Duration = "19,27" });
+            //var course = new Course { Id = 1, Name = "Course", Description = "Description", TestId = test.Id };
+            
 
-            //modelBuilder.Entity<BookMaterial>().HasData(new BookMaterial { Id = 3, Name = "CLR via C#", Author = "Richetr", Format = BookFormat.Large, Pages = 236, YearOfPublish = 2006 });
+            //modelBuilder.Entity<User>().HasData(user);
+            //modelBuilder.Entity<Skill>().HasData(skill);
+            //modelBuilder.Entity<ArticleMaterial>().HasData(article);
+            //modelBuilder.Entity<VideoMaterial>().HasData(video);
+            //modelBuilder.Entity<BookMaterial>().HasData(book);
+            //modelBuilder.Entity<Answer>().HasData(answers);
+            //modelBuilder.Entity<Question>().HasData(question);
 
-            //modelBuilder.Entity<Answer>().HasData(new Answer[]{
-            //new Answer { Id = 1, Name = "answer 1", IsTrue = true, Variant = "a".ToCharArray()},
-            //new Answer { Id = 2, Name = "answer 2", IsTrue = false, Variant = "b".ToCharArray()}
-            // });
+            //modelBuilder.Entity<Test>().HasData(test);
 
-            //modelBuilder.Entity<Question>().HasData(new Question { Id = 1, Name = "Question 1" });
-
-            //modelBuilder.Entity<Test>().HasData(new Test { Id = 1, Name = "Test1", CourseId = 1 });
-
-            //modelBuilder.Entity<Course>().HasData(new Course { Id = 1, Name = "Course", Description = "Description" });
+            //modelBuilder.Entity<Course>().HasData(course);
         }
     }
 }

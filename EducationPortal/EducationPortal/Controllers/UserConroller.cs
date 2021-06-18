@@ -32,7 +32,9 @@ namespace EducationPortal.Creator
 
         public bool AddCourseToUserProgress(CourseVM courseVM)
         {
-            if (userService.AddCourseToProgress(mapper.Map<CourseVM,Course>(courseVM)))
+            var mappedCourse = mapper.Map<CourseVM, Course>(courseVM);
+
+            if (userService.AddCourseToProgress(mappedCourse))
             {
                 Dye.Succsess();
                 Console.WriteLine("Course passing started!");
@@ -70,7 +72,10 @@ namespace EducationPortal.Creator
                 var userVariatnt = Console.ReadLine().Trim().Split("")[0];
                 testController.AnswersCounting(question, userVariatnt, ref rightAnswers);
             }
-            if (userService.IsCoursePassed(mapper.Map<CourseVM,Course>(courseVM), rightAnswers))
+
+            var mappedCourse = mapper.Map<CourseVM, Course>(courseVM);
+
+            if (userService.IsCoursePassed(mappedCourse, rightAnswers))
             {
                 Dye.Succsess();
                 Console.WriteLine($"Test - passed. Right answers {rightAnswers}/{courseVM.Test.Questions.Count()} CONGRATULATIONS!!!");

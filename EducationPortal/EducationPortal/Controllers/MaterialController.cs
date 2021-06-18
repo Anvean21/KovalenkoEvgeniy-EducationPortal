@@ -26,22 +26,36 @@ namespace EducationPortal.Creator
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Book materials");
-            Console.WriteLine(string.Join("\n", mapper.Map<Material, MaterialVM>(materialService.GetBookMaterials()).Select(x => $"Id - {x.Id}, Name - {x.Name} ")));
+
+            var books = materialService.GetBookMaterials();
+            var mappedBooksVM = mapper.Map<Material, MaterialVM>(books);
+
+            Console.WriteLine(string.Join("\n", mappedBooksVM.Select(x => $"Id - {x.Id}, Name - {x.Name} ")));
 
             Console.ForegroundColor = ConsoleColor.Blue;
+
             Console.WriteLine("Article materials");
-            Console.WriteLine(string.Join("\n", mapper.Map<Material, MaterialVM>(materialService.GetArticleMaterials()).Select(x => $"Id - {x.Id}, Name - {x.Name} ")));
+            var articles = materialService.GetArticleMaterials();
+            var mappedArticlesVM = mapper.Map<Material, MaterialVM>(articles);
+
+            Console.WriteLine(string.Join("\n", mappedArticlesVM.Select(x => $"Id - {x.Id}, Name - {x.Name} ")));
 
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Video materials");
-            Console.WriteLine(string.Join("\n", mapper.Map<Material, MaterialVM>(materialService.GetVideoMaterials()).Select(x => $"Id - {x.Id}, Name - {x.Name} ")));
+
+            var videos = materialService.GetVideoMaterials();
+            var mappedVideosVM = mapper.Map<Material, MaterialVM>(videos);
+
+            Console.WriteLine(string.Join("\n", mappedVideosVM.Select(x => $"Id - {x.Id}, Name - {x.Name} ")));;
 
             Console.ResetColor();
         }
 
         public MaterialVM AddMaterialById(int Id)
         {
-            return mapper.Map<Material, MaterialVM>(materialService.GetMaterialById(Id));
+            var materialById = materialService.GetMaterialById(Id);
+            var mappedMaterial = mapper.Map<Material, MaterialVM>(materialById);
+            return mappedMaterial;
         }
     }
 }

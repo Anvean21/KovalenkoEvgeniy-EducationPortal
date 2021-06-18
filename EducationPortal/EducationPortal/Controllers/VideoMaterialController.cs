@@ -30,7 +30,8 @@ namespace EducationPortal.Controllers
             var videoVM = materialHelper.VideoFullData();
             if (validations.Validate(videoVM).IsValid && videoValidator.Validate(videoVM).IsValid)
             {
-                videoMaterialService.AddVideoMaterial(mapper.Map<VideoMaterialVM, VideoMaterial>(videoVM));
+                var mappedVideo = mapper.Map<VideoMaterialVM, VideoMaterial>(videoVM);
+                videoMaterialService.AddVideoMaterial(mappedVideo);
                 Dye.Succsess();
                 Console.WriteLine("You have add video");
                 Console.ResetColor();

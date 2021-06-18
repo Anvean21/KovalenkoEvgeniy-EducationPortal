@@ -31,7 +31,9 @@ namespace EducationPortal.Controllers
             var bookVM = materialHelper.BookFullData();
             if (validations.Validate(bookVM).IsValid && bookValidator.Validate(bookVM).IsValid)
             {
-                bookMaterialService.AddBookMaterial(mapper.Map<BookMaterialVM, BookMaterial>(bookVM));
+                var mappedBook = mapper.Map<BookMaterialVM, BookMaterial>(bookVM);
+                bookMaterialService.AddBookMaterial(mappedBook);
+
                 Dye.Succsess();
                 Console.WriteLine("You have add book");
                 Console.ResetColor();

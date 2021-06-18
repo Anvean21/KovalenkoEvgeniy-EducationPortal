@@ -1,10 +1,12 @@
 ﻿using EducationPortal.Automapper;
 using EducationPortal.Controllers;
 using EducationPortal.Domain.Core;
+using EducationPortal.Domain.Core.Entities;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Helpers;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.ViewModels;
+using EducationPortal.ViewModels.TestViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
@@ -40,8 +42,11 @@ namespace EducationPortal.Creator
             var courseVM = courseHelper.CourseFullData();
             if (validator.Validate(courseVM).IsValid && courseVM.Skills.Count >= 1 && courseVM.Materials.Count >= 1)
             {
-                var map = mapper.Map<CourseVM, Course>(courseVM);
-                courseService.AddCourse(map);
+                var mappedCourse = mapper.Map<CourseVM, Course>(courseVM);
+                courseService.AddCourse(mappedCourse);
+
+                courseVM.Id = mappedCourse.Id;
+
                 Dye.Succsess();
                 Console.WriteLine("You have successfully created course");
                 Console.ResetColor();

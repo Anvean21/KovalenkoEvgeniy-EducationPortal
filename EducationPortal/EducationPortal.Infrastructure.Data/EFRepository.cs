@@ -21,14 +21,15 @@ namespace EducationPortal.Infrastructure.Data
             entities = context.Set<TEntity>();
         }
 
-        public async Task SaveAsync()
+        public virtual async Task SaveAsync()
         {
             await this.context.SaveChangesAsync();
         }
 
-        public async Task AddAsync(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
             await this.entities.AddAsync(entity);
+            await this.context.SaveChangesAsync();
         }
 
         public virtual async Task AddAsync(IEnumerable<TEntity> entities)

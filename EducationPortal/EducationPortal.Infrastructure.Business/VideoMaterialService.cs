@@ -21,7 +21,6 @@ namespace EducationPortal.Infrastructure.Business
         public void AddVideoMaterial(VideoMaterial videoMaterial)
         {
             videoMaterialRepository.AddAsync(videoMaterial);
-            videoMaterialRepository.SaveAsync();
         }
     }
 }

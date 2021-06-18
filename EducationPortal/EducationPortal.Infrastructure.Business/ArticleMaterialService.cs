@@ -21,7 +21,6 @@ namespace EducationPortal.Infrastructure.Business
         public void AddArticleMaterial(ArticleMaterial articleMaterial)
         {
             articleMaterialRepository.AddAsync(articleMaterial);
-            articleMaterialRepository.SaveAsync();
         }
     }
 }

@@ -26,6 +26,7 @@ namespace EducationPortal.Helpers
                     case "1":
                         Console.Clear();
                         var question = questionController.QuestionCreate();
+                        //Вставить маппинг вопросов
                         testVM.Questions.Add(question);
                         break;
                     case "2":

@@ -37,6 +37,8 @@ namespace EducationPortal.Helpers
                         Dye.Succsess();
                         Console.WriteLine("Answer added");
                         Console.ResetColor();
+
+                        //Вставить маппинг ответов
                         questionVM.Answers.Add(answer);
                         break;
                     case "2":

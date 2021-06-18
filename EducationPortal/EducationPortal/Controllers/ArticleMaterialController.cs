@@ -32,7 +32,9 @@ namespace EducationPortal.Controllers
 
             if (validations.Validate(articleVM).IsValid && acticleValidator.Validate(articleVM).IsValid)
             {
-                articleMaterialService.AddArticleMaterial(mapper.Map<ArticleMaterialVM, ArticleMaterial>(articleVM));
+                var mappedArticle = mapper.Map<ArticleMaterialVM, ArticleMaterial>(articleVM);
+                articleMaterialService.AddArticleMaterial(mappedArticle);
+
                 Dye.Succsess();
                 Console.WriteLine("You have add article");
                 Console.ResetColor();

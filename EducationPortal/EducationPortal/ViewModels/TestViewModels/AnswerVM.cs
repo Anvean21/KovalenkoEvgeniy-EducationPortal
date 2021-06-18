@@ -1,8 +1,7 @@
 ﻿namespace EducationPortal.ViewModels.TestViewModels
 {
-    public class AnswerVM
+    public class AnswerVM : BasicVM
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public bool IsTrue { get; set; }
         public char[] Variant { get; private set; } = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };

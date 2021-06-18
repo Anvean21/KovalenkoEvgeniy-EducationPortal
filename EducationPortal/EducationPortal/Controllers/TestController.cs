@@ -26,12 +26,16 @@ namespace EducationPortal.Creator
         public TestVM TestCreate()
         {
             var testVM = testHelper.TestFullData();
+
             if (validator.Validate(testVM).IsValid)
             {
-                testService.AddTest(mapper.Map<TestVM, Test>(testVM));
+                var mappedTest = mapper.Map<TestVM, Test>(testVM);
+                testService.AddTest(mappedTest);
+
                 Dye.Succsess();
                 Console.WriteLine("You have successfully created test");
                 Console.ResetColor();
+
                 return testVM;
             }
             else
@@ -40,18 +44,32 @@ namespace EducationPortal.Creator
                 Console.WriteLine(validator.Validate(testVM));
                 Console.ResetColor();
                 TestCreate();
+
                 return null;
             }
         }
 
         public TestVM GetTestById(int Id)
         {
-            return mapper.Map<Test, TestVM>(testService.GetTestById(Id));
+            var testById = testService.GetTestById(Id);
+            var mappedTestVM = mapper.Map<Test, TestVM>(testById);
+
+            return mappedTestVM;
+        }
+
+        public TestVM GetTestByName(string name)
+        {
+            var testByName = testService.GetTestByName(name);
+            var mappedTestVM = mapper.Map<Test, TestVM>(testByName);
+
+            return mappedTestVM;
         }
 
         public int AnswersCounting(QuestionVM questionVM, string userVariant, ref int result)
         {
-            return testService.CountResult(mapper.Map<QuestionVM, Question>(questionVM), userVariant, ref result);
+            var mappedQuestion = mapper.Map<QuestionVM, Question>(questionVM);
+
+            return testService.CountResult(mappedQuestion, userVariant, ref result);
         }
     }
 }

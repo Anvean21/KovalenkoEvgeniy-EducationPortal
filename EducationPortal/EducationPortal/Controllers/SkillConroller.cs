@@ -26,7 +26,9 @@ namespace EducationPortal.Creator
             var skillVM = SkillHelper.SkillFullData();
             if (validator.Validate(skillVM).IsValid)
             {
-                skillService.AddSkill(mapper.Map<SkillVM, Skill>(skillVM));
+                var mappedSkill = mapper.Map<SkillVM, Skill>(skillVM);
+                skillService.AddSkill(mappedSkill);
+
                 Dye.Succsess();
                 Console.WriteLine("Skill has successfully added");
                 Console.ResetColor();
@@ -52,7 +54,9 @@ namespace EducationPortal.Creator
 
         public SkillVM AddSkillByName(string name)
         {
-            return mapper.Map<Skill, SkillVM>(skillService.GetSkillByName(name));
+            var skillByName = skillService.GetSkillByName(name);
+            var mappedSkillVM = mapper.Map<Skill, SkillVM>(skillByName);
+            return mappedSkillVM;
         }
     }
 }

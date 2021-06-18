@@ -21,7 +21,6 @@ namespace EducationPortal.Infrastructure.Business
         public void Register(User model)
         {
             userRepository.AddAsync(model);
-            userRepository.SaveAsync();
             authorizedUser = model;
         }
 

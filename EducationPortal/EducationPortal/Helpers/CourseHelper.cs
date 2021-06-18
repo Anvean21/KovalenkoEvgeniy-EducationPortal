@@ -57,6 +57,7 @@ namespace EducationPortal.Helpers
                         materialController.MaterialList();
                         Console.WriteLine("\nEnter Id of existing material");
                         var Id = int.Parse(Console.ReadLine());
+
                         if (courseVM.Materials.Any(x => x.Id == Id))
                         {
                             Dye.Fail();
@@ -144,8 +145,12 @@ namespace EducationPortal.Helpers
                         continue;
                 }
             }
+            //Айдишник теста равен нулю
             var test = testController.TestCreate();
-            courseVM.Test = test;
+            var mappedTest = testController.GetTestByName(test.Name);
+
+            courseVM.Test = mappedTest;
+            courseVM.TestId = mappedTest.Id;
 
             return courseVM;
         }
