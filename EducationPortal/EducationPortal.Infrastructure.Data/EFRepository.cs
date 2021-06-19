@@ -28,8 +28,20 @@ namespace EducationPortal.Infrastructure.Data
 
         public virtual async Task AddAsync(TEntity entity)
         {
+            context.ChangeTracker.TrackGraph(entity, e =>
+            {
+                if (e.Entry.IsKeySet)
+                {
+                    e.Entry.State = EntityState.Unchanged;
+                }
+                else
+                {
+                    e.Entry.State = EntityState.Added;
+                }
+            });
             await this.entities.AddAsync(entity);
             await this.context.SaveChangesAsync();
+            
         }
 
         public virtual async Task AddAsync(IEnumerable<TEntity> entities)
@@ -43,10 +55,21 @@ namespace EducationPortal.Infrastructure.Data
             return Task.CompletedTask;
         }
 
-        public virtual Task Update(TEntity entity)
+        public virtual async Task Update(TEntity entity)
         {
             this.entities.Update(entity);
-            return Task.CompletedTask;
+            context.ChangeTracker.TrackGraph(entity, e =>
+            {
+                if (e.Entry.IsKeySet)
+                {
+                    e.Entry.State = EntityState.Unchanged;
+                }
+                else
+                {
+                    e.Entry.State = EntityState.Added;
+                }
+            });
+            await this.context.SaveChangesAsync();
         }
 
         public virtual async Task<TEntity> FindAsync(Specification<TEntity> specification)

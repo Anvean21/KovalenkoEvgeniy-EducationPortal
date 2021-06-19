@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EducationPortal.Domain.Core.Entities.RelationModels;
+using System.Collections.Generic;
 
 namespace EducationPortal.Domain.Core
 {

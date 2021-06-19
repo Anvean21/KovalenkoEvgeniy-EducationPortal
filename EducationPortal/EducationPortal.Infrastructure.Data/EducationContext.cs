@@ -1,5 +1,6 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Core.Entities;
+using EducationPortal.Domain.Core.Entities.RelationModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,8 @@ namespace EducationPortal.Infrastructure.Data
 
         public EducationContext()
         {
-        //    Database.EnsureDeleted();
-        //    Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -50,7 +51,6 @@ namespace EducationPortal.Infrastructure.Data
 
             modelBuilder.Entity<VideoMaterial>().Property(v => v.Name).HasMaxLength(128);
 
-
             modelBuilder.Entity<BookMaterial>().Property(v => v.Name).HasMaxLength(128);
             modelBuilder.Entity<BookMaterial>().Property(v => v.Author).HasMaxLength(128);
 
@@ -62,6 +62,40 @@ namespace EducationPortal.Infrastructure.Data
 
             modelBuilder.Entity<Course>().Property(c => c.Name).HasMaxLength(128);
             modelBuilder.Entity<Course>().Property(c => c.Description).HasMaxLength(250);
+
+            modelBuilder.Entity<UserSkills>().HasKey(x => new { x.UserId, x.SkillId });
+            modelBuilder.Entity<UserSkills>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserSkills)
+                .HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<UserSkills>()
+                .HasOne(x => x.Skill)
+                .WithMany(x => x.UserSkills)
+                .HasForeignKey(x => x.SkillId);
+
+            modelBuilder.Entity<UserCoursesInProgress>().HasKey(x => new { x.UserId, x.CourseId });
+            modelBuilder.Entity<UserCoursesInProgress>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.CoursesInProgress)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<UserCoursesInProgress>()
+                .HasOne(x => x.Course)
+                .WithMany(x => x.UsersInProgress)
+                .HasForeignKey(x => x.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserPassedCourses>().HasKey(x => new { x.UserId, x.CourseId });
+            modelBuilder.Entity<UserPassedCourses>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.PassedCourses)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<UserPassedCourses>()
+                .HasOne(x => x.Course)
+                .WithMany(x => x.UsersPassed)
+                .HasForeignKey(x => x.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //var user = new User { Id = 1, Name = "Anvean", Email = "anvean@gmail.com", Password = "leitxrf33" };
             //var skill = new Skill { Id = 1, Name = "C#" };
@@ -82,8 +116,9 @@ namespace EducationPortal.Infrastructure.Data
 
             //var test = new Test { Id = 1, Name = "Test1" };
 
-            //var course = new Course { Id = 1, Name = "Course", Description = "Description", TestId = test.Id };
-            
+            //var course = new Course { Id = 1, Name = "Course", Description = "Description" };
+            //course.TestId = test.Id;
+
 
             //modelBuilder.Entity<User>().HasData(user);
             //modelBuilder.Entity<Skill>().HasData(skill);
