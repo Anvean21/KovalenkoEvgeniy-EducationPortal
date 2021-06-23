@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
@@ -35,16 +36,16 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public Skill GetSkillByName(string name)
+        public async Task<Skill> GetSkillByName(string name)
         {
             var materialSpecification = new Specification<Skill>(x => x.Name.ToLower() == name.ToLower());
 
-            return skillRepository.FindAsync(materialSpecification).Result;
+            return await skillRepository.FindAsync(materialSpecification);
         }
 
         public IEnumerable<Skill> GetSkills(int pageNumber = 1, int itemCount = 10)
         {
-            var materialSpecification = new Specification<Skill>(x => x.Id == x.Id);
+            var materialSpecification = new Specification<Skill>(x => true);
 
             return skillRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }

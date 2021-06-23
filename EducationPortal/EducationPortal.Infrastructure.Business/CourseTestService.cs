@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
@@ -35,7 +36,7 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public Test GetTestByName(string name)
+        public async Task<Test> GetTestByName(string name)
         {
             var includes = new List<Expression<Func<Test, object>>>
             {
@@ -45,10 +46,10 @@ namespace EducationPortal.Infrastructure.Business
 
             var spec = new Specification<Test>(x => x.Name.ToLower() == name.ToLower(), includes);
 
-            return testRepository.FindAsync(spec).Result;
+            return await testRepository.FindAsync(spec);
         }
 
-        public Test GetTestById(int Id)
+        public async Task<Test> GetTestById(int Id)
         {
             var includes = new List<Expression<Func<Test, object>>>
             {
@@ -58,7 +59,7 @@ namespace EducationPortal.Infrastructure.Business
 
             var spec = new Specification<Test>(x => x.Id == Id, includes);
 
-            return testRepository.FindAsync(spec).Result;
+            return await testRepository.FindAsync(spec);
         }
 
         public int CountResult(Question question, string userVariant, ref int result)

@@ -51,7 +51,7 @@ namespace EducationPortal.Creator
 
         public TestVM GetTestById(int Id)
         {
-            var testById = testService.GetTestById(Id);
+            var testById = testService.GetTestById(Id).Result;
             var mappedTestVM = mapper.Map<Test, TestVM>(testById);
 
             return mappedTestVM;
@@ -59,7 +59,7 @@ namespace EducationPortal.Creator
 
         public TestVM GetTestByName(string name)
         {
-            var testByName = testService.GetTestByName(name);
+            var testByName = testService.GetTestByName(name).Result;
             var mappedTestVM = mapper.Map<Test, TestVM>(testByName);
 
             return mappedTestVM;

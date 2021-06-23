@@ -3,6 +3,7 @@ using EducationPortal.Domain.Core.Entities.RelationModels;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
 using EFlecture.Core.Specifications;
+using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,30 +15,35 @@ namespace EducationPortal.Infrastructure.Business
         private static User authorizedUser;
 
         private readonly IRepository<User> userRepository;
-        public UserService(IRepository<User> userRepository)
+        private readonly IPasswordHasher passwordHasher;
+        public UserService(IRepository<User> userRepository, IPasswordHasher passwordHasher)
         {
             this.userRepository = userRepository;
+            this.passwordHasher = passwordHasher;
         }
 
         public void Register(User model)
         {
+            model.Password = passwordHasher.HashPassword(model.Password);
             userRepository.AddAsync(model);
             authorizedUser = model;
         }
 
         public bool LogIn(string email, string password)
         {
-            var userSpecification = new Specification<User>(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
+            var userSpecification = new Specification<User>(x => x.Email.ToLower() == email.ToLower());
 
             var userFromDb = userRepository.FindAsync(userSpecification).Result;
 
-            if (userFromDb == null)
+            var res = passwordHasher.VerifyHashedPassword(userFromDb.Password, password);
+
+            if (userFromDb != null && res == PasswordVerificationResult.Success)
             {
-                return false;
+                authorizedUser = userFromDb;
+                return true;
             }
 
-            authorizedUser = userFromDb;
-            return true;
+            return false;
         }
 
         public bool LogOut()
@@ -95,7 +101,7 @@ namespace EducationPortal.Infrastructure.Business
 
             if (countOfQuestions * minimumRightAnswersPercent <= rightAnswers)
             {
-                authorizedUser.PassedCourses.Add(new UserPassedCourses { UserId = authorizedUser.Id, CourseId = course.Id});
+                authorizedUser.PassedCourses.Add(new UserPassedCourses { UserId = authorizedUser.Id, CourseId = course.Id });
 
                 foreach (var skill in course.Skills)
                 {

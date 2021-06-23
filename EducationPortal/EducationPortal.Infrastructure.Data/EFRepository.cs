@@ -39,9 +39,9 @@ namespace EducationPortal.Infrastructure.Data
                     e.Entry.State = EntityState.Added;
                 }
             });
+
             await this.entities.AddAsync(entity);
             await this.context.SaveChangesAsync();
-            
         }
 
         public virtual async Task AddAsync(IEnumerable<TEntity> entities)
@@ -58,6 +58,7 @@ namespace EducationPortal.Infrastructure.Data
         public virtual async Task Update(TEntity entity)
         {
             this.entities.Update(entity);
+
             context.ChangeTracker.TrackGraph(entity, e =>
             {
                 if (e.Entry.IsKeySet)
@@ -69,6 +70,7 @@ namespace EducationPortal.Infrastructure.Data
                     e.Entry.State = EntityState.Added;
                 }
             });
+
             await this.context.SaveChangesAsync();
         }
 

@@ -54,7 +54,7 @@ namespace EducationPortal.Creator
 
         public SkillVM AddSkillByName(string name)
         {
-            var skillByName = skillService.GetSkillByName(name);
+            var skillByName = skillService.GetSkillByName(name).Result;
             var mappedSkillVM = mapper.Map<Skill, SkillVM>(skillByName);
             return mappedSkillVM;
         }

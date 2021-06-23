@@ -68,7 +68,6 @@ namespace EducationPortal.Creator
             }
         }
 
-        //TODO: includes
         public CourseVM GetCourseById(int id)
         {
             var course = courseService.GetById(id);
@@ -76,7 +75,6 @@ namespace EducationPortal.Creator
             return mappedCourse;
         }
 
-        //TODO: includes (пустые материалы)
         public void GetCourseMaterials(CourseVM courseVM)
         {
             var course = GetCourseById(courseVM.Id);

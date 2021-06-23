@@ -33,7 +33,13 @@ namespace EducationPortal.Creator
         public bool AddCourseToUserProgress(CourseVM courseVM)
         {
             var mappedCourse = mapper.Map<CourseVM, Course>(courseVM);
-
+            if (mappedCourse == null)
+            {
+                Dye.Fail();
+                Console.WriteLine("Unknown course Id");
+                Console.ResetColor();
+                return false;
+            }
             if (userService.AddCourseToProgress(mappedCourse))
             {
                 Dye.Succsess();

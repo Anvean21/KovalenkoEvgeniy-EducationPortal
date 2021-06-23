@@ -2,8 +2,6 @@
 using EducationPortal.Domain.Core.Entities;
 using EducationPortal.Domain.Core.Entities.RelationModels;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace EducationPortal.Infrastructure.Data
 {
@@ -22,8 +20,8 @@ namespace EducationPortal.Infrastructure.Data
 
         public EducationContext()
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,6 +30,7 @@ namespace EducationPortal.Infrastructure.Data
                 .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EducationPortal;Trusted_Connection=True;")
                 .EnableSensitiveDataLogging();
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ArticleMaterial>().ToTable("ArticleMaterial");

@@ -1,11 +1,13 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Models;
 using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
@@ -18,10 +20,10 @@ namespace EducationPortal.Infrastructure.Business
             this.materialRepository = materialRepository;
         }
 
-        public Material GetMaterialById(int Id)
+        public async Task<Material> GetMaterialById(int Id)
         {
             var materialSpecification = new Specification<Material>(x => x.Id == Id);
-            return materialRepository.FindAsync(materialSpecification).Result;
+            return await materialRepository.FindAsync(materialSpecification);
         }
 
         public bool UniqueMaterialName(string name)
@@ -38,28 +40,28 @@ namespace EducationPortal.Infrastructure.Business
 
         public IEnumerable<Material> GetMaterials(int pageNumber = 1, int itemCount = 40)
         {
-            var materialSpecification = new Specification<Material>(x => x.Id == x.Id);
+            var materialSpecification = new Specification<Material>(x => true);
 
             return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }
 
         public IEnumerable<Material> GetVideoMaterials(int pageNumber = 1, int itemCount = 40)
         {
-            var materialSpecification = new Specification<Material>(x => x.Id == x.Id && x is VideoMaterial);
+            var materialSpecification = new Specification<Material>(x => true && x is VideoMaterial);
 
             return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }
 
         public IEnumerable<Material> GetBookMaterials(int pageNumber = 1, int itemCount = 40)
         {
-            var materialSpecification = new Specification<Material>(x => x.Id == x.Id && x is BookMaterial);
+            var materialSpecification = new Specification<Material>(x => true && x is BookMaterial);
 
             return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }
 
         public IEnumerable<Material> GetArticleMaterials(int pageNumber = 1, int itemCount = 40)
         {
-            var materialSpecification = new Specification<Material>(x => x.Id == x.Id && x is ArticleMaterial);
+            var materialSpecification = new Specification<Material>(x => true && x is ArticleMaterial);
 
             return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }

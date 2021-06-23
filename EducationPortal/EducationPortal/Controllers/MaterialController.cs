@@ -53,7 +53,7 @@ namespace EducationPortal.Creator
 
         public MaterialVM AddMaterialById(int Id)
         {
-            var materialById = materialService.GetMaterialById(Id);
+            var materialById = materialService.GetMaterialById(Id).Result;
             var mappedMaterial = mapper.Map<Material, MaterialVM>(materialById);
             return mappedMaterial;
         }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Services.Interfaces
 {
@@ -9,7 +10,7 @@ namespace EducationPortal.Services.Interfaces
     {
         public void AddSkill(Skill skill);
         public IEnumerable<Skill> GetSkills(int pageNumber = 1, int itemCount = 10);
-        public Skill GetSkillByName(string name);
+        public Task<Skill> GetSkillByName(string name);
         public bool GetUniqueName(string name);
     }
 }

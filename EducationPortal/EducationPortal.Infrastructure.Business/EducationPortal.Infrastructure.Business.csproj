@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EducationPortal.Domain.Core\EducationPortal.Domain.Core.csproj" />
     <ProjectReference Include="..\EducationPortal.Domain.Interfaces\EducationPortal.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\EducationPortal.Infrastructure.Data\EducationPortal.Infrastructure.Data.csproj" />
