@@ -27,7 +27,7 @@ namespace EducationPortal.Command.Commands
             Console.Clear();
             courseController.GetAllCourses();
             Console.Write("Enter course Id: ");
-            var courseId = Int32.Parse(Console.ReadLine());
+            Int32.TryParse(Console.ReadLine(), out int courseId);
             var courseVM = courseController.GetCourseById(courseId);
 
             if (userController.AddCourseToUserProgress(courseVM))
