@@ -19,11 +19,11 @@ namespace EducationPortal.FluentValidationModels
         }
         private bool UniqueSkill(string uniqeItem)
         {
-            if (skillService.GetSkills().Any(x => x.Name.ToLower() == uniqeItem.ToLower()))
+            if (skillService.GetUniqueName(uniqeItem))
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
     }
 }

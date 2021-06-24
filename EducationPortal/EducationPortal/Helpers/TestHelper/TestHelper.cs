@@ -17,7 +17,6 @@ namespace EducationPortal.Helpers
             Console.WriteLine("Enter test Name");
             testVM.Name = Console.ReadLine();
             testVM.Questions = new List<QuestionVM>();
-
             bool infinity = true;
             while (infinity)
             {
@@ -27,10 +26,11 @@ namespace EducationPortal.Helpers
                     case "1":
                         Console.Clear();
                         var question = questionController.QuestionCreate();
+                        //Вставить маппинг вопросов
                         testVM.Questions.Add(question);
                         break;
                     case "2":
-                        if (testVM.Questions.Count() >= 4)
+                        if (testVM.Questions.Count() >= 0)
                         {
                             return testVM;
                         }

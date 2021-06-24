@@ -16,20 +16,31 @@ namespace EducationPortal.Creator
     {
         readonly IUserService userService;
         readonly TestController testController;
-        private readonly Map mapper = new Map();
+        private readonly IMapper mapper;
 
-        public UserConroller(IUserService userService, TestController testController)
+        public UserConroller(IUserService userService, IMapper mapper, TestController testController)
         {
             this.userService = userService;
             this.testController = testController;
+            this.mapper = mapper;
         }
+
         public void UserLogOut()
         {
             userService.LogOut();
         }
+
         public bool AddCourseToUserProgress(CourseVM courseVM)
         {
-            if (userService.AddCourseToProgress(mapper.CourseVmToDomain(courseVM)))
+            var mappedCourse = mapper.Map<CourseVM, Course>(courseVM);
+            if (mappedCourse == null)
+            {
+                Dye.Fail();
+                Console.WriteLine("Unknown course Id");
+                Console.ResetColor();
+                return false;
+            }
+            if (userService.AddCourseToProgress(mappedCourse))
             {
                 Dye.Succsess();
                 Console.WriteLine("Course passing started!");
@@ -44,12 +55,17 @@ namespace EducationPortal.Creator
                 return false;
             }
         }
+
         public void UserPassCourse(CourseVM courseVM)
         {
             int rightAnswers = 0;
+
+            //нужен джоин thenInclude answers()
+            var test = testController.GetTestById(courseVM.Test.Id);
+
             Console.WriteLine(string.Join(". ", courseVM.Name, courseVM.Description));
 
-            foreach (var question in courseVM.Test.Questions)
+            foreach (var question in test.Questions)
             {
                 Dye.Succsess();
                 Console.WriteLine(question.Name);
@@ -62,7 +78,10 @@ namespace EducationPortal.Creator
                 var userVariatnt = Console.ReadLine().Trim().Split("")[0];
                 testController.AnswersCounting(question, userVariatnt, ref rightAnswers);
             }
-            if (userService.IsCoursePassed(mapper.CourseVmToDomain(courseVM), rightAnswers))
+
+            var mappedCourse = mapper.Map<CourseVM, Course>(courseVM);
+
+            if (userService.IsCoursePassed(mappedCourse, rightAnswers))
             {
                 Dye.Succsess();
                 Console.WriteLine($"Test - passed. Right answers {rightAnswers}/{courseVM.Test.Questions.Count()} CONGRATULATIONS!!!");

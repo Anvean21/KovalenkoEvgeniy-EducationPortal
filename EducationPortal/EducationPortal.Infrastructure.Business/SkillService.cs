@@ -1,33 +1,53 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
     public class SkillService : ISkillService
     {
         private readonly IRepository<Skill> skillRepository;
+
         public SkillService(IRepository<Skill> skillRepository)
         {
             this.skillRepository = skillRepository;
         }
+
         public void AddSkill(Skill skill)
         {
-            skillRepository.Create(skill);
+            skillRepository.AddAsync(skill);
         }
 
-        public Skill GetSkillByName(string name)
+        public bool GetUniqueName(string name)
         {
-            return skillRepository.GetAll().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            var skillSpecification = new Specification<Skill>(x => x.Name.ToLower() == name.ToLower());
+
+            if (skillRepository.FindAsync(skillSpecification).Result == null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public IEnumerable<Skill> GetSkills()
+        public async Task<Skill> GetSkillByName(string name)
         {
-            return skillRepository.GetAll();
+            var materialSpecification = new Specification<Skill>(x => x.Name.ToLower() == name.ToLower());
+
+            return await skillRepository.FindAsync(materialSpecification);
+        }
+
+        public IEnumerable<Skill> GetSkills(int pageNumber = 1, int itemCount = 10)
+        {
+            var materialSpecification = new Specification<Skill>(x => true);
+
+            return skillRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }
     }
 }

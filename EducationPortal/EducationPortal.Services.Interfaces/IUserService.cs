@@ -11,10 +11,9 @@ namespace EducationPortal.Services.Interfaces
         public bool LogIn(string login, string password);
         public bool LogOut();
         public bool IsUserAuthorized();
-        public IEnumerable<User> GetUsers();
         public bool AddCourseToProgress(Course course);
-        public bool UserSaveChanges(User user);
         public bool IsCoursePassed(Course course, int result);
         public bool UserSkillUp(Skill skill);
+        public bool GetUniqueEmail(string email);
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using EducationPortal.Domain.Core.Entities.RelationModels;
+using System.Collections.Generic;
 
 namespace EducationPortal.Domain.Core
 {
@@ -8,9 +8,8 @@ namespace EducationPortal.Domain.Core
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public ICollection<Skill> Skills { get; set; } = new List<Skill>();
-        public ICollection<Course> Courses { get; set; } = new List<Course>();
-        public ICollection<Course> CourseInProgress { get; set; } = new List<Course>();
-
+        public ICollection<UserCoursesInProgress> CoursesInProgress { get; set; } = new List<UserCoursesInProgress>();
+        public ICollection<UserPassedCourses> PassedCourses { get; set; } = new List<UserPassedCourses>();
+        public ICollection<UserSkills> UserSkills { get; set; } = new List<UserSkills>();
     }
 }

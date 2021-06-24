@@ -1,6 +1,6 @@
 ﻿namespace EducationPortal.ViewModels.TestViewModels
 {
-    public class AnswerVM
+    public class AnswerVM : BasicVM
     {
         public string Name { get; set; }
         public bool IsTrue { get; set; }

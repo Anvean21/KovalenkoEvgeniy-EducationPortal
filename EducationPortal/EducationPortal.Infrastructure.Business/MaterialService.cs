@@ -1,37 +1,69 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Models;
+using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
     public class MaterialService : IMaterialService
     {
-        private readonly IVideoMaterialService videoMaterialService;
-        private readonly IBookMaterialService bookMaterialService;
-        private readonly IArticleMaterialService articleMaterialService;
+        private readonly IRepository<Material> materialRepository;
 
-        public MaterialService(IBookMaterialService bookMaterialService, IArticleMaterialService articleMaterialService, IVideoMaterialService videoMaterialService)
+        public MaterialService(IRepository<Material> materialRepository)
         {
-            this.articleMaterialService = articleMaterialService;
-            this.videoMaterialService = videoMaterialService;
-            this.bookMaterialService = bookMaterialService;
+            this.materialRepository = materialRepository;
         }
 
-        public Material GetMaterialByName(string name)
+        public async Task<Material> GetMaterialById(int Id)
         {
-            return GetMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            var materialSpecification = new Specification<Material>(x => x.Id == Id);
+            return await materialRepository.FindAsync(materialSpecification);
         }
-        public IEnumerable<Material> GetMaterials()
+
+        public bool UniqueMaterialName(string name)
         {
-            List<Material> materials = new List<Material>();
-            materials.AddRange(videoMaterialService.GetVideoMaterials());
-            materials.AddRange(articleMaterialService.GetArticleMaterials());
-            materials.AddRange(bookMaterialService.GetBookMaterials());
-            return materials;
+            var materialSpecification = new Specification<Material>(x => x.Name.ToLower() == name.ToLower());
+
+            if (materialRepository.FindAsync(materialSpecification).Result == null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public IEnumerable<Material> GetMaterials(int pageNumber = 1, int itemCount = 40)
+        {
+            var materialSpecification = new Specification<Material>(x => true);
+
+            return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
+        }
+
+        public IEnumerable<Material> GetVideoMaterials(int pageNumber = 1, int itemCount = 40)
+        {
+            var materialSpecification = new Specification<Material>(x => true && x is VideoMaterial);
+
+            return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
+        }
+
+        public IEnumerable<Material> GetBookMaterials(int pageNumber = 1, int itemCount = 40)
+        {
+            var materialSpecification = new Specification<Material>(x => true && x is BookMaterial);
+
+            return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
+        }
+
+        public IEnumerable<Material> GetArticleMaterials(int pageNumber = 1, int itemCount = 40)
+        {
+            var materialSpecification = new Specification<Material>(x => true && x is ArticleMaterial);
+
+            return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }
     }
 }

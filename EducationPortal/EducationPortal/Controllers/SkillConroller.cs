@@ -12,12 +12,13 @@ namespace EducationPortal.Creator
     {
         readonly ISkillService skillService;
         readonly SkillValidator validator = new SkillValidator();
-        private readonly Map mapper = new Map();
+        private readonly IMapper mapper;
 
 
-        public SkillConroller(ISkillService skillService)
+        public SkillConroller(ISkillService skillService, IMapper mapper)
         {
             this.skillService = skillService;
+            this.mapper = mapper;
         }
 
         public SkillVM SkillCreate()
@@ -25,7 +26,9 @@ namespace EducationPortal.Creator
             var skillVM = SkillHelper.SkillFullData();
             if (validator.Validate(skillVM).IsValid)
             {
-                skillService.AddSkill(mapper.MapVmToDomain<SkillVM, Skill>(skillVM));
+                var mappedSkill = mapper.Map<SkillVM, Skill>(skillVM);
+                skillService.AddSkill(mappedSkill);
+
                 Dye.Succsess();
                 Console.WriteLine("Skill has successfully added");
                 Console.ResetColor();
@@ -40,6 +43,7 @@ namespace EducationPortal.Creator
                 return null;
             }
         }
+
         public void SkillsList()
         {
             foreach (var skill in skillService.GetSkills())
@@ -47,9 +51,12 @@ namespace EducationPortal.Creator
                 Console.Write(skill.Name + " , ");
             }
         }
+
         public SkillVM AddSkillByName(string name)
         {
-            return mapper.MapVmToDomain<Skill, SkillVM>(skillService.GetSkillByName(name));
+            var skillByName = skillService.GetSkillByName(name).Result;
+            var mappedSkillVM = mapper.Map<Skill, SkillVM>(skillByName);
+            return mappedSkillVM;
         }
     }
 }

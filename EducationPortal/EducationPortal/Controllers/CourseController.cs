@@ -1,9 +1,12 @@
 ﻿using EducationPortal.Automapper;
 using EducationPortal.Controllers;
+using EducationPortal.Domain.Core;
+using EducationPortal.Domain.Core.Entities;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Helpers;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.ViewModels;
+using EducationPortal.ViewModels.TestViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
@@ -15,9 +18,8 @@ namespace EducationPortal.Creator
     public class CourseController
     {
         readonly ICourseService courseService;
-        readonly VideoMaterialController videoMaterialController;
-        readonly ArticleMaterialController articleMaterialController;
-        readonly BookMaterialController bookMaterialController;
+        private readonly IMapper mapper;
+        private readonly MaterialController materialController;
 
         readonly List<VideoMaterialVM> videoMaterials = new List<VideoMaterialVM>();
         readonly List<BookMaterialVM> bookMaterials = new List<BookMaterialVM>();
@@ -26,16 +28,13 @@ namespace EducationPortal.Creator
         readonly CourseHelper courseHelper = new CourseHelper();
         readonly MaterialHelper materialHelper = new MaterialHelper();
 
-        private readonly Map mapper = new Map();
-
         readonly CourseValidator validator = new CourseValidator();
 
-        public CourseController(ICourseService courseService, VideoMaterialController videoMaterialController, ArticleMaterialController articleMaterialController, BookMaterialController bookMaterialController)
+        public CourseController(ICourseService courseService, IMapper mapper, MaterialController materialController)
         {
             this.courseService = courseService;
-            this.videoMaterialController = videoMaterialController;
-            this.articleMaterialController = articleMaterialController;
-            this.bookMaterialController = bookMaterialController;
+            this.materialController = materialController;
+            this.mapper = mapper;
         }
 
         public void CourseCreate()
@@ -43,7 +42,11 @@ namespace EducationPortal.Creator
             var courseVM = courseHelper.CourseFullData();
             if (validator.Validate(courseVM).IsValid && courseVM.Skills.Count >= 1 && courseVM.Materials.Count >= 1)
             {
-                courseService.AddCourse(mapper.CourseVmToDomain(courseVM));
+                var mappedCourse = mapper.Map<CourseVM, Course>(courseVM);
+                courseService.AddCourse(mappedCourse);
+
+                courseVM.Id = mappedCourse.Id;
+
                 Dye.Succsess();
                 Console.WriteLine("You have successfully created course");
                 Console.ResetColor();
@@ -56,36 +59,45 @@ namespace EducationPortal.Creator
                 Console.ResetColor();
             }
         }
+
         public void GetAllCourses()
         {
             foreach (var course in courseService.GetCourses())
             {
-                Console.WriteLine($"Course Id - {course.Id}, Course name - {course.Name}, Course description - {course.Description}, Course skills: {string.Join(", ", course.Skills.Select(x => x.Name))}");
+                Console.WriteLine($"Course Id - {course.Id}, Course name - {course.Name}, Course description - {course.Description}, Skills - {string.Join(", ", course.Skills.Select(x => x.Name))}");
             }
         }
+
         public CourseVM GetCourseById(int id)
         {
-            return mapper.CourseDomainToVM(courseService.GetById(id));
+            var course = courseService.GetById(id);
+            var mappedCourse = mapper.Map<Course, CourseVM>(course);
+            return mappedCourse;
         }
+
         public void GetCourseMaterials(CourseVM courseVM)
         {
+            var course = GetCourseById(courseVM.Id);
 
-            foreach (var material in courseVM.Materials)
+            foreach (var material in course.Materials)
             {
-                if (videoMaterialController.GetVideoMaterialByName(material.Name) is VideoMaterialVM videoMaterial)
+                var materialVM = materialController.AddMaterialById(material.Id);
+
+                if (materialVM is VideoMaterialVM videoMaterial)
                 {
                     videoMaterials.Add(videoMaterial);
                 }
-                if (bookMaterialController.GetBookMaterialByName(material.Name) is BookMaterialVM bookMaterial)
+                if (materialVM is BookMaterialVM bookMaterial)
                 {
                     bookMaterials.Add(bookMaterial);
                 }
-                if (articleMaterialController.GetArticleMaterialByName(material.Name) is ArticleMaterialVM articleMaterial)
+                if (materialVM is ArticleMaterialVM articleMaterial)
                 {
                     articleMaterials.Add(articleMaterial);
                 }
             }
         }
+
         public void PassCourseMaterials()
         {
             var infinity = true;

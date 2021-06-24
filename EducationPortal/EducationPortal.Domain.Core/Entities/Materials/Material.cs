@@ -1,12 +1,11 @@
-﻿using System;
+﻿using EducationPortal.Domain.Core.Entities.RelationModels;
 using System.Collections.Generic;
-using System.Text;
 
 namespace EducationPortal.Domain.Core
 {
     public class Material : BasicEntity
     {
         public string Name { get; set; }
-        public bool Passed { get; set; }
+        public ICollection<Course> Courses { get; set; } = new List<Course>();
     }
 }

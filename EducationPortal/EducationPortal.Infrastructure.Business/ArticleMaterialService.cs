@@ -1,6 +1,7 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,17 +17,10 @@ namespace EducationPortal.Infrastructure.Business
         {
             this.articleMaterialRepository = articleMaterialRepository;
         }
+
         public void AddArticleMaterial(ArticleMaterial articleMaterial)
         {
-            articleMaterialRepository.Create(articleMaterial);
-        }
-        public IEnumerable<ArticleMaterial> GetArticleMaterials()
-        {
-            return articleMaterialRepository.GetAll();
-        }
-        public ArticleMaterial GetArticleMaterialByName(string name)
-        {
-            return GetArticleMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            articleMaterialRepository.AddAsync(articleMaterial);
         }
     }
 }

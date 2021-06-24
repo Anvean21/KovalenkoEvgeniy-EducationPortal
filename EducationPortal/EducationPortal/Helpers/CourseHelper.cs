@@ -1,4 +1,5 @@
-﻿using EducationPortal.Controllers;
+﻿using EducationPortal.Automapper;
+using EducationPortal.Controllers;
 using EducationPortal.Creator;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Services.Interfaces;
@@ -12,18 +13,17 @@ namespace EducationPortal.Helpers
 {
     public class CourseHelper
     {
-        readonly static VideoMaterialController videoMaterialController = new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>());
+        readonly static VideoMaterialController videoMaterialController = new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
-        readonly static ArticleMaterialController articleMaterialController = new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>());
+        readonly static ArticleMaterialController articleMaterialController = new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
-        readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>());
+        readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
-        private readonly MaterialController materialController = new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>(), videoMaterialController,
-               articleMaterialController,bookMaterialController);
+        private readonly MaterialController materialController = new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
-        readonly SkillConroller skillController = new SkillConroller(CustomServiceProvider.Provider.GetRequiredService<ISkillService>());
+        readonly SkillConroller skillController = new SkillConroller(CustomServiceProvider.Provider.GetRequiredService<ISkillService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
-        readonly TestController testController = new TestController(CustomServiceProvider.Provider.GetRequiredService<ITestService>());
+        readonly TestController testController = new TestController(CustomServiceProvider.Provider.GetRequiredService<ICourseTestService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
         public CourseVM CourseFullData()
         {
@@ -34,6 +34,7 @@ namespace EducationPortal.Helpers
             courseVM.Description = Console.ReadLine();
             courseVM.Materials = new List<MaterialVM>();
             courseVM.Skills = new List<SkillVM>();
+
             bool infinity = true;
             while (infinity)
             {
@@ -49,34 +50,39 @@ namespace EducationPortal.Helpers
                     case "3":
                         articleMaterialController.ArticleCreate();
                         break;
+
                     case "4":
                         Console.Clear();
                         Console.WriteLine("List existing materials");
                         materialController.MaterialList();
-                        Console.WriteLine("\nEnter the name of existing material");
-                        var name = Console.ReadLine().ToLower();
-                        if (courseVM.Materials.Any(x => x.Name.ToLower() == name.ToLower()))
+                        Console.WriteLine("\nEnter Id of existing material");
+                        var Id = int.Parse(Console.ReadLine());
+
+                        if (courseVM.Materials.Any(x => x.Id == Id))
                         {
                             Dye.Fail();
-                            Console.WriteLine("Invalid name or Material already exists in course");
+                            Console.WriteLine("Material already exists in course");
                             Console.ResetColor();
                         }
                         else
                         {
-                            var materialVM = materialController.AddMaterialByName(name);
+                            var materialVM = materialController.AddMaterialById(Id);
+
                             if (materialVM == null)
                             {
                                 Dye.Fail();
-                                Console.WriteLine("Invalid material name");
+                                Console.WriteLine("Invalid material Id");
                                 Console.ResetColor();
                                 break;
                             }
+
                             courseVM.Materials.Add(materialVM);
                             Dye.Succsess();
                             Console.WriteLine("Material added successfully");
                             Console.ResetColor();
                         }
                         break;
+
                     case "5":
                         Dye.Succsess();
                         Console.WriteLine("Materials added successfully");
@@ -87,6 +93,7 @@ namespace EducationPortal.Helpers
                         continue;
                 }
             }
+
             infinity = true;
             while (infinity)
             {
@@ -138,8 +145,13 @@ namespace EducationPortal.Helpers
                         continue;
                 }
             }
-            courseVM.Test = testController.TestCreate();
-            Console.WriteLine();
+            //Айдишник теста равен нулю
+            var test = testController.TestCreate();
+            var mappedTest = testController.GetTestByName(test.Name);
+
+            courseVM.Test = mappedTest;
+            courseVM.TestId = mappedTest.Id;
+
             return courseVM;
         }
     }

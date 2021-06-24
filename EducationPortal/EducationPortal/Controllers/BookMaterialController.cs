@@ -13,16 +13,17 @@ namespace EducationPortal.Controllers
     public class BookMaterialController
     {
         readonly IBookMaterialService bookMaterialService;
+        private readonly IMapper mapper;
 
-        private readonly Map mapper = new Map();
         readonly BookMaterialValidator bookValidator = new BookMaterialValidator();
         readonly MaterialValidator validations = new MaterialValidator();
 
         readonly MaterialHelper materialHelper = new MaterialHelper();
 
-        public BookMaterialController(IBookMaterialService bookMaterialService)
+        public BookMaterialController(IBookMaterialService bookMaterialService, IMapper mapper)
         {
             this.bookMaterialService = bookMaterialService;
+            this.mapper = mapper;
         }
 
         public BookMaterialVM BookCreate()
@@ -30,7 +31,9 @@ namespace EducationPortal.Controllers
             var bookVM = materialHelper.BookFullData();
             if (validations.Validate(bookVM).IsValid && bookValidator.Validate(bookVM).IsValid)
             {
-                bookMaterialService.AddBookMaterial(mapper.MapVmToDomain<BookMaterialVM, BookMaterial>(bookVM));
+                var mappedBook = mapper.Map<BookMaterialVM, BookMaterial>(bookVM);
+                bookMaterialService.AddBookMaterial(mappedBook);
+
                 Dye.Succsess();
                 Console.WriteLine("You have add book");
                 Console.ResetColor();
@@ -45,14 +48,6 @@ namespace EducationPortal.Controllers
 
                 return null;
             }
-        }
-        public BookMaterialVM GetBookMaterialByName(string name)
-        {
-            return mapper.MapVmToDomain<BookMaterial, BookMaterialVM>(bookMaterialService.GetBookMaterialByName(name));
-        }
-        public IEnumerable<BookMaterial> GetBookMaterials()
-        {
-            return bookMaterialService.GetBookMaterials();
         }
     }
 }

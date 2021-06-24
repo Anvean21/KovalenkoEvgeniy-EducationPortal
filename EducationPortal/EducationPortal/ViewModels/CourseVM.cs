@@ -12,5 +12,6 @@ namespace EducationPortal.ViewModels
         public ICollection<SkillVM> Skills { get; set; }
         public ICollection<MaterialVM> Materials { get; set; }
         public TestVM Test { get; set; }
+        public int TestId { get; set; }
     }
 }
