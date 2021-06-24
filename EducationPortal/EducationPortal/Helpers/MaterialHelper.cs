@@ -27,6 +27,7 @@ namespace EducationPortal.Helpers
             };
             return videoMaterialVM;
         }
+
         public ArticleMaterialVM ArticleFullData()
         {
             ArticleMaterialVM arcticleMaterialVM = new ArticleMaterialVM();
@@ -40,6 +41,7 @@ namespace EducationPortal.Helpers
 
             return arcticleMaterialVM;
         }
+
         public BookMaterialVM BookFullData()
         {
             BookMaterialVM bookMaterialVM = new BookMaterialVM();
@@ -48,9 +50,11 @@ namespace EducationPortal.Helpers
             Console.WriteLine("Enter book author");
             bookMaterialVM.Author = Console.ReadLine();
             Console.WriteLine("Enter count of pages");
-            bookMaterialVM.Pages = int.Parse(Console.ReadLine());
+            Int32.TryParse(Console.ReadLine(), out int countOfPages);
+            bookMaterialVM.Pages = countOfPages;
             Console.WriteLine("Enter year of publish");
-            bookMaterialVM.YearOfPublish = int.Parse(Console.ReadLine());
+            Int32.TryParse(Console.ReadLine(), out int yearOfPublish);
+            bookMaterialVM.YearOfPublish = yearOfPublish;
             Console.WriteLine("Chose book format\n1 - Large\n2 - Medium\n3 - Small");
             bookMaterialVM.Format = (Console.ReadLine()) switch
             {
@@ -61,6 +65,7 @@ namespace EducationPortal.Helpers
             };
             return bookMaterialVM;
         }
+
         public void VideoMaterials(List<VideoMaterialVM> videos)
         {
             foreach (var video in videos)
@@ -68,6 +73,7 @@ namespace EducationPortal.Helpers
                 Console.WriteLine($"Video: {video.Name}. Quality: {video.Quality}, Duration: {video.Duration}");
             }
         }
+
         public void ArticleMaterials(List<ArticleMaterialVM> articles)
         {
             foreach (var article in articles)
@@ -75,6 +81,7 @@ namespace EducationPortal.Helpers
                 Console.WriteLine($"Article - {article.Name}, PublishDate: {article.PublishDate.ToShortDateString()}, Resource: {article.Resource}");
             }
         }
+
         public void BookMaterials(List<BookMaterialVM> books)
         {
             foreach (var book in books)
