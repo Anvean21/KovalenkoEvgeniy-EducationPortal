@@ -1,5 +1,4 @@
-﻿using EducationPortal.UI.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using EducationPortal.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,9 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EducationPortal.UI.Controllers
+namespace EducationPortal.MVC.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -29,7 +27,7 @@ namespace EducationPortal.UI.Controllers
         {
             return View();
         }
-        [AllowAnonymous]
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

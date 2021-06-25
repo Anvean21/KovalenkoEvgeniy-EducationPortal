@@ -10,8 +10,10 @@ using EducationPortal.UI.Models;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,13 +33,23 @@ namespace EducationPortal.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<EducationContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login");
+                });
+
+
             services
                 .AddScoped(typeof(IRepository<>), typeof(EFRepository<>))
-                .AddTransient<DbContext, EducationContext>()
+                .AddScoped<DbContext, EducationContext>()
                 .AddScoped<IPasswordHasher, MD5PasswordHasher>()
                 .AddAutoMapper(cfg => cfg.AddProfile<MainProfile>())
                 .AddScoped<IMapper, EntityMapper>()
-                .AddTransient<IUserService, UserService>()
+                .AddScoped<IUserService, UserService>()
                 .AddFluentValidation()
                 .AddTransient<IValidator<UserVM>, FluentUserValidator>()
                 .AddControllersWithViews();
@@ -59,6 +71,9 @@ namespace EducationPortal.UI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -67,7 +82,7 @@ namespace EducationPortal.UI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=User}/{action=Login}/{id?}");
             });
         }
     }

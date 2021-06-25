@@ -35,9 +35,13 @@ namespace EducationPortal.Infrastructure.Business
 
             var userFromDb = userRepository.FindAsync(userSpecification).Result;
 
+            if (userFromDb == null)
+            {
+                return false;
+            }
             var res = passwordHasher.VerifyHashedPassword(userFromDb.Password, password);
 
-            if (userFromDb != null && res == PasswordVerificationResult.Success)
+            if (res == PasswordVerificationResult.Success)
             {
                 authorizedUser = userFromDb;
                 return true;
