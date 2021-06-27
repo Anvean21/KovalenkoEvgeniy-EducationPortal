@@ -1,28 +1,31 @@
-﻿@model EducationPortal.UI.Models.SkillVM
+﻿@model EducationPortal.UI.Models.TestViewModels.TestVM
 
 @{
-    ViewData["Title"] = "CreateSkill";
+    ViewData["Title"] = "CreateTest";
 }
 
-<h1>Add Skill</h1>
+<h1>CreateTest</h1>
 
+<h4>TestVM</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateSkill">
+        <form asp-action="CreateTest">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            @{await Html.RenderPartialAsync("CreateQuestion", Model);}
             <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

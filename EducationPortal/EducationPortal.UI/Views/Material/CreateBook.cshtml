@@ -3,40 +3,44 @@
 @{
     ViewData["Title"] = "Add Book";
 }
+@{ 
+    Layout = "BookMaterialLayout";
+}
 
-<h1>Add Book</h1>
+<h1 class="mainWord">Add Book</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateBook">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Pages" class="control-label"></label>
-                <input asp-for="Pages" class="form-control" />
-                <span asp-validation-for="Pages" class="text-danger"></span>
+                <label asp-for="Name" class="control-label backgroundcolor"></label>
+                <input asp-for="Name" class="form-control inputcolor" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
+                <label asp-for="Author" class="control-label backgroundcolor"></label>
+                <input asp-for="Author" class="form-control inputcolor" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="YearOfPublish" class="control-label"></label>
-                <input asp-for="YearOfPublish" class="form-control" />
+                <label asp-for="Pages" class="control-label backgroundcolor"></label>
+                <input asp-for="Pages" class="form-control inputcolor" />
+                <span asp-validation-for="Pages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearOfPublish" class="control-label backgroundcolor"></label>
+                <input asp-for="YearOfPublish" class="form-control inputcolor" />
                 <span asp-validation-for="YearOfPublish" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Format" class="control-label"></label>
+                <label asp-for="Format" class="control-label backgroundcolor"></label>
                 @Html.DropDownListFor(Model => Model.Format, Html.GetEnumSelectList(typeof(VideoQualityVM)))
                 <span asp-validation-for="Format" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
+                <input type="submit" value="Add Book" class="btn btn-light" />
             </div>
         </form>
     </div>

@@ -1,0 +1,41 @@
+﻿@inject EducationPortal.Services.Interfaces.IMaterialService Material
+
+@{
+    ViewData["Title"] = "CreateMaterials";
+}
+
+<h1>CreateMaterials</h1>
+<div class="row">
+    <div class="col-md-4">
+        <dl>
+            <dt>Videos</dt>
+            @foreach (var video in Material.GetVideoMaterials())
+            {
+                <dd>Id - @video.Id, @video.Name</dd>
+            }
+        </dl>
+        <div>@Html.ActionLink("Add new video", "CreateVideo", "Material")</div>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Articles</dt>
+            @foreach (var article in Material.GetArticleMaterials())
+            {
+                <dd>Id - @article.Id, @article.Name</dd>
+            }
+            <div>@Html.ActionLink("Add new article", "CreateArticle", "Material")</div>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Books</dt>
+            @foreach (var book in Material.GetBookMaterials())
+            {
+                <dd>Id - @book.Id, @book.Name</dd>
+            }
+            <div>@Html.ActionLink("Add new book", "CreateBook", "Material")</div>
+        </dl>
+    </div>
+</div>
+<div>@Html.ActionLink("I WILL USE EXISTING MATERIALS", "SkillList", "Skill")</div>
+

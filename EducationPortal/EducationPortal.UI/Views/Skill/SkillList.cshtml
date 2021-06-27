@@ -1,0 +1,20 @@
+﻿@inject EducationPortal.Services.Interfaces.ISkillService Skill
+
+@{
+    ViewData["Title"] = "SkillList";
+}
+
+<h1>SkillList</h1>
+<div class="row">
+    <div class="col-md-9">
+        <dl>
+            <dt>Skills</dt>
+            @foreach (var skill in Skill.GetSkills())
+            {
+                <dd>Id - @skill.Id, @skill.Name</dd>
+            }
+        </dl>
+        <div>@Html.ActionLink("Add new skill", "CreateSkill", "Skill")</div>
+    </div>
+</div>
+<div>@Html.ActionLink("I WILL USE EXISTING SKILLS", "CreateTest", "Test")</div>

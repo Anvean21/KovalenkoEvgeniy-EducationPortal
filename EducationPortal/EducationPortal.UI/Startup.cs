@@ -7,6 +7,7 @@ using EducationPortal.Services.Interfaces;
 using EducationPortal.UI.Automapper;
 using EducationPortal.UI.FluentValidation;
 using EducationPortal.UI.Models;
+using EducationPortal.UI.Models.TestViewModels;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNet.Identity;
@@ -64,6 +65,9 @@ namespace EducationPortal.UI
                 .AddTransient<IValidator<ArticleMaterialVM>, FluentArticleMaterialValidator>()
                 .AddTransient<IValidator<BookMaterialVM>, FluentBookMaterialValidator>()
                 .AddTransient<IValidator<SkillVM>, FluentSkillValidator>()
+                .AddTransient<IValidator<TestVM>, FluentTestValidator>()
+                .AddTransient<IValidator<QuestionVM>, FluentQuestionValidator>()
+                .AddTransient<IValidator<AnswerVM>, FluentAnswerValidator>()
                 .AddControllersWithViews();
         }
 
@@ -94,7 +98,7 @@ namespace EducationPortal.UI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=User}/{action=Login}/{id?}");
+                    pattern: "{controller=Material}/{action=CreateBook}/{id?}");
             });
         }
     }
