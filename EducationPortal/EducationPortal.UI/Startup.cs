@@ -50,8 +50,20 @@ namespace EducationPortal.UI
                 .AddAutoMapper(cfg => cfg.AddProfile<MainProfile>())
                 .AddScoped<IMapper, EntityMapper>()
                 .AddScoped<IUserService, UserService>()
+                .AddTransient<ISkillService, SkillService>()
+                .AddTransient<IMaterialService, MaterialService>()
+                .AddTransient<ICourseService, CourseService>()
+                .AddTransient<ICourseTestService, CourseTestService>()
+                .AddTransient<IVideoMaterialService, VideoMaterialService>()
+                .AddTransient<IBookMaterialService, BookMaterialService>()
+                .AddTransient<IArticleMaterialService, ArticleMaterialService>()
                 .AddFluentValidation()
                 .AddTransient<IValidator<UserVM>, FluentUserValidator>()
+                .AddTransient<IValidator<CourseVM>, FluentCourseValidator>()
+                .AddTransient<IValidator<VideoMaterialVM>, FluentVideoMaterialValidator>()
+                .AddTransient<IValidator<ArticleMaterialVM>, FluentArticleMaterialValidator>()
+                .AddTransient<IValidator<BookMaterialVM>, FluentBookMaterialValidator>()
+                .AddTransient<IValidator<SkillVM>, FluentSkillValidator>()
                 .AddControllersWithViews();
         }
 

@@ -38,13 +38,6 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public IEnumerable<Material> GetMaterials(int pageNumber = 1, int itemCount = 40)
-        {
-            var materialSpecification = new Specification<Material>(x => true);
-
-            return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
-        }
-
         public IEnumerable<Material> GetVideoMaterials(int pageNumber = 1, int itemCount = 40)
         {
             var materialSpecification = new Specification<Material>(x => true && x is VideoMaterial);

@@ -19,9 +19,9 @@ namespace EducationPortal.Infrastructure.Business
             this.skillRepository = skillRepository;
         }
 
-        public void AddSkill(Skill skill)
+        public async Task AddSkill(Skill skill)
         {
-            skillRepository.AddAsync(skill);
+            await skillRepository.AddAsync(skill);
         }
 
         public bool GetUniqueName(string name)

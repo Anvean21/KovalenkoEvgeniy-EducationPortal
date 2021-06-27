@@ -19,9 +19,9 @@ namespace EducationPortal.Infrastructure.Business
             this.testRepository = testService;
         }
 
-        public void AddTest(Test test)
+        public async Task AddTest(Test test)
         {
-            testRepository.AddAsync(test);
+            await testRepository.AddAsync(test);
         }
 
         public bool UniqueTestName(string name)

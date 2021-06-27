@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Services.Interfaces
 {
     public interface IUserService
     {
-        public void Register(User model);
+        public Task Register(User model);
         public bool LogIn(string login, string password);
         public bool LogOut();
         public bool IsUserAuthorized();

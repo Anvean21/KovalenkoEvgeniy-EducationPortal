@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
@@ -19,9 +20,9 @@ namespace EducationPortal.Infrastructure.Business
             this.courseRepository = courseRepository;
         }
 
-        public void AddCourse(Course course)
+        public async Task AddCourse(Course course)
         {
-            courseRepository.AddAsync(course);
+           await courseRepository.AddAsync(course);
         }
 
         public bool UniqueCourseName(string name)

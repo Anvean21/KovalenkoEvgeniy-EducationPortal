@@ -8,7 +8,6 @@ namespace EducationPortal.Services.Interfaces
 {
     public interface IMaterialService
     {
-        public IEnumerable<Material> GetMaterials(int pageNumber = 1, int itemCount = 10);
         public Task<Material> GetMaterialById(int Id);
         public bool UniqueMaterialName(string name);
         public IEnumerable<Material> GetVideoMaterials(int pageNumber = 1, int itemCount = 40);

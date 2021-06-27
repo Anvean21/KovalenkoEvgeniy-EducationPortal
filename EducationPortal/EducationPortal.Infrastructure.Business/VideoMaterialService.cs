@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
@@ -18,9 +19,9 @@ namespace EducationPortal.Infrastructure.Business
             this.videoMaterialRepository = videoMaterialRepository;
         }
 
-        public void AddVideoMaterial(VideoMaterial videoMaterial)
+        public async Task AddVideoMaterial(VideoMaterial videoMaterial)
         {
-            videoMaterialRepository.AddAsync(videoMaterial);
+            await videoMaterialRepository.AddAsync(videoMaterial);
         }
     }
 }

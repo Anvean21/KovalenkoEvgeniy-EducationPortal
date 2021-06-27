@@ -8,7 +8,7 @@ namespace EducationPortal.Services.Interfaces
 {
     public interface ICourseTestService
     {
-        public void AddTest(Test test);
+        public Task AddTest(Test test);
         public int CountResult(Question question, string userVariant, ref int result);
         public Task<Test> GetTestById(int Id);
         public Task<Test> GetTestByName(string name);

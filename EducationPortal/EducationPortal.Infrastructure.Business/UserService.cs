@@ -6,6 +6,7 @@ using EFlecture.Core.Specifications;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
@@ -22,10 +23,10 @@ namespace EducationPortal.Infrastructure.Business
             this.passwordHasher = passwordHasher;
         }
 
-        public void Register(User model)
+        public async Task Register(User model)
         {
             model.Password = passwordHasher.HashPassword(model.Password);
-            userRepository.AddAsync(model);
+           await userRepository.AddAsync(model);
             authorizedUser = model;
         }
 

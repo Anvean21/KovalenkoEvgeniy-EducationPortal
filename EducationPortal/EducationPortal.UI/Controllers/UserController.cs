@@ -41,11 +41,11 @@ namespace EducationPortal.UI.Controllers
             }
 
             var mappedUser = mapper.Map<UserVM, User>(userVM);
-            userService.Register(mappedUser);
+            await userService.Register(mappedUser);
 
             await Authenticate(mappedUser.Email);
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult Index()
         {

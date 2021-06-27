@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
@@ -18,9 +19,9 @@ namespace EducationPortal.Infrastructure.Business
             this.bookMaterialRepository = bookMaterialRepository;
         }
 
-        public void AddBookMaterial(BookMaterial bookMaterial)
+        public async Task AddBookMaterial(BookMaterial bookMaterial)
         {
-            bookMaterialRepository.AddAsync(bookMaterial);
+            await bookMaterialRepository.AddAsync(bookMaterial);
         }
     }
 }

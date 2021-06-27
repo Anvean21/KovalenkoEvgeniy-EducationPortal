@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Services.Interfaces
 {
     public interface IBookMaterialService
     {
-        public void AddBookMaterial(BookMaterial bookMaterial);
+        public Task AddBookMaterial(BookMaterial bookMaterial);
     }
 }

@@ -49,9 +49,9 @@ namespace EducationPortal.Infrastructure.Data
 
             modelBuilder.Entity<Test>().Property(c => c.Name).HasMaxLength(30);
 
-            modelBuilder.Entity<Question>().Property(c => c.Name).HasMaxLength(50);
+            modelBuilder.Entity<Question>().Property(c => c.Name).HasMaxLength(128);
 
-            modelBuilder.Entity<Answer>().Property(c => c.Name).HasMaxLength(50);
+            modelBuilder.Entity<Answer>().Property(c => c.Name).HasMaxLength(60);
 
             modelBuilder.Entity<Course>().Property(c => c.Name).HasMaxLength(128);
             modelBuilder.Entity<Course>().Property(c => c.Description).HasMaxLength(250);
