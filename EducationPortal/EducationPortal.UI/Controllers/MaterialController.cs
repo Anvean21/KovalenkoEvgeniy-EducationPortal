@@ -53,7 +53,7 @@ namespace EducationPortal.UI.Controllers
             var mappedVideo = mapper.Map<VideoMaterialVM, VideoMaterial>(videoMaterialVM);
 
             await videoMaterialService.AddVideoMaterial(mappedVideo);
-            return RedirectToAction("CreateMaterials", "Material");
+            return RedirectToAction("MaterialList", "Material");
         }
 
         [HttpGet]
@@ -73,7 +73,7 @@ namespace EducationPortal.UI.Controllers
             var mappedArticle = mapper.Map<ArticleMaterialVM, ArticleMaterial>(articleMaterialVM);
 
             await articleMaterialService.AddArticleMaterial(mappedArticle); 
-            return RedirectToAction("CreateMaterials", "Material");
+            return RedirectToAction("MaterialList", "Material");
 
         }
 
@@ -94,7 +94,7 @@ namespace EducationPortal.UI.Controllers
             var mappedBook = mapper.Map<BookMaterialVM, BookMaterial>(bookMaterialVM);
 
             await bookMaterialService.AddBookMaterial(mappedBook);
-            return RedirectToAction("CreateMaterials", "Material");
+            return RedirectToAction("MaterialList", "Material");
         }
     }
 }

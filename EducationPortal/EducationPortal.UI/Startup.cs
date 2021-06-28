@@ -98,7 +98,7 @@ namespace EducationPortal.UI
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Material}/{action=CreateBook}/{id?}");
+                    pattern: "{controller=Skill}/{action=SkillList}/{id?}");
             });
         }
     }

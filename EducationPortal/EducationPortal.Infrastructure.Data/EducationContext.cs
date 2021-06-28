@@ -40,9 +40,10 @@ namespace EducationPortal.Infrastructure.Data
             modelBuilder.Entity<Material>().Property(m => m.Name).HasMaxLength(50);
 
             modelBuilder.Entity<ArticleMaterial>().Property(b => b.Name).HasMaxLength(128);
-            modelBuilder.Entity<ArticleMaterial>().Property(b => b.Resource).HasMaxLength(250);
+            modelBuilder.Entity<ArticleMaterial>().Property(b => b.Resource).HasMaxLength(500);
 
             modelBuilder.Entity<VideoMaterial>().Property(v => v.Name).HasMaxLength(128);
+            modelBuilder.Entity<VideoMaterial>().Property(v => v.Link).HasMaxLength(500);
 
             modelBuilder.Entity<BookMaterial>().Property(v => v.Name).HasMaxLength(128);
             modelBuilder.Entity<BookMaterial>().Property(v => v.Author).HasMaxLength(128);
@@ -95,7 +96,7 @@ namespace EducationPortal.Infrastructure.Data
             var skills = new List<Skill>() { skill, skill2 };
 
             var article = new ArticleMaterial { Id = 1, Name = "Article 1", PublishDate = DateTime.Now, Resource = "Metanit.com" };
-            var video = new VideoMaterial { Id = 2, Name = "Extreme Code", Quality = VideoQuality.High, Duration = "19,27" };
+            var video = new VideoMaterial { Id = 2, Name = "Extreme Code - CLR", Quality = VideoQuality.High, Duration = "19,27", Link = "https://www.youtube.com/watch?v=neu6M576RWo" };
             var book = new BookMaterial { Id = 3, Name = "CLR via C#", Author = "Richetr", Format = BookFormat.Large, Pages = 236, YearOfPublish = 2006 };
 
             modelBuilder.Entity<Skill>().HasData(skills);

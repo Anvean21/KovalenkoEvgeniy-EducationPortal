@@ -11,7 +11,10 @@ a.navbar-brand {
 a {
   color: #0366d6;
 }
-
+.linkDecor{
+    text-decoration:none;
+    color:black;
+}
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

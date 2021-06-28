@@ -23,20 +23,20 @@ namespace EducationPortal.UI.Controllers
         [HttpGet]
         public IActionResult CreateSkill()
         {
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateSkill(SkillVM skillVM)
         {
-            //skillVM.Level = 0;
             if (!(ModelState.IsValid && skillService.GetUniqueName(skillVM.Name)))
             {
-                return View("CreateSkill", skillVM);
+                ModelState.AddModelError("","Invalid name or skill already exists");
+                return RedirectToAction("SkillList");
             }
             var mappedSkill = mapper.Map<SkillVM, Skill>(skillVM);
             await skillService.AddSkill(mappedSkill);
-            return View();
+            return RedirectToAction("SkillList");
         }
 
         public IActionResult SkillList()

@@ -1,52 +1,25 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-.mainWord {
-    text-align: center;
-    color: black;
-    font-family: "Times New Roman";
+/*Book styles*/
+
+.skillList {
+    background-image: url(/images/thunderstorm-3441687_1920.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.clsd {
-    margin: 0 0 0 auto;
-    background-color: #f8f9fa;
-    width: 20%;
-    opacity: 0.95;
-    border-radius: 2px;
-}
-.inputColor{
-    background-color:white;
-    opacity: 0.95;
-}
-.backgroundcolor{
+.skillColor {
     color: white;
-    opacity: 0.95;
 }
-.library {
-    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Graz_University-Library_reading-room.jpg/1200px-Graz_University-Library_reading-room.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.article {
-    background-image: url(https://fogsoft.ru/wp-content/uploads/2018/11/%D0%BF%D1%80%D0%B5%D0%B2%D1%8C%D1%8E.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-
 a {
     color: #0366d6;
+    text-decoration: none;
 }
 
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
-
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -54,6 +27,7 @@ a {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
+
 html {
     font-size: 14px;
 }
@@ -89,9 +63,11 @@ html {
 body {
     margin-bottom: 60px;
 }
+
 header {
     opacity: 0.95;
 }
+
 .footer {
     opacity: 0.95;
     position: absolute;
