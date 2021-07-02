@@ -12,6 +12,7 @@ namespace EducationPortal.Services.Interfaces
         public int CountResult(Question question, string userVariant, ref int result);
         public Task<Test> GetTestById(int Id);
         public Task<Test> GetTestByName(string name);
+        public IEnumerable<Test> GetTests();
         public bool UniqueTestName(string uniqeItem);
     }
 }

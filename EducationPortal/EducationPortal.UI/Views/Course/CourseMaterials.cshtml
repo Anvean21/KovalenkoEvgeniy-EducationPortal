@@ -1,0 +1,48 @@
+﻿@model EducationPortal.UI.Models.CourseVM
+
+@{
+    ViewData["Title"] = "CourseMaterials";
+}
+
+<h1>CourseMaterials</h1>
+@TempData["success"]
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @foreach (var item in ViewBag.Videos)
+            {
+                @item.Name <a class="btn btn-outline-info" asp-action="AddMaterial" asp-route-courseId=@Model.Id asp-route-materialId=@item.Id>Add</a>
+            }
+        </div>
+        <div class="col">
+
+            @foreach (var item in ViewBag.Articles)
+            {
+                @item.Name <a class="btn btn-outline-dark" asp-action="AddMaterial" asp-route-courseId=@Model.Id asp-route-materialId=@item.Id>Add</a>
+            }
+        </div>
+        <div class="col">
+            @foreach (var item in ViewBag.Books)
+            {
+                @item.Name <a class="btn btn-outline-secondary" asp-action="AddMaterial" asp-route-courseId=@Model.Id asp-route-materialId=@item.Id>Add</a>
+            }
+        </div>
+    </div>
+</div>
+<div> @Html.ActionLink("Add Skills", "CourseSkills", "Course",new {id = Model.Id })</div>
+
+

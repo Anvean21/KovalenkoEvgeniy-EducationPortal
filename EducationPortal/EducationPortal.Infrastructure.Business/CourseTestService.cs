@@ -62,6 +62,13 @@ namespace EducationPortal.Infrastructure.Business
             return await testRepository.FindAsync(spec);
         }
 
+        public IEnumerable<Test> GetTests()
+        {
+            var spec = new Specification<Test>(x => true);
+
+            return testRepository.GetAsync(spec,1,20).Result.Items;
+        }
+
         public int CountResult(Question question, string userVariant, ref int result)
         {
             if (userVariant == question.Answers.FirstOrDefault(x => x.IsTrue == true).Name.Split(".")[0])

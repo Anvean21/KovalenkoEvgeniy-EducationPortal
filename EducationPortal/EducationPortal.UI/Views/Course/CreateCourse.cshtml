@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Create Course";
 }
-
 <h1>Create Course</h1>
 
 <hr />
@@ -23,32 +22,9 @@
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-8 col-sm-4">
-                    <span>Videos</span>
-                    @Html.ListBoxFor(Model => Model.Materials, ViewBag.Videos as MultiSelectList, new { @style = "width: 250px;" })
-                </div>
-                <div class="col-8 col-sm-4">
-                <span> Articles</span>
-                @Html.ListBoxFor(Model => Model.Materials, ViewBag.Articles as MultiSelectList, new { @style = "width: 250px;" })
-            </div>
-            <div class="col-8 col-sm-4">
-                <span> Books</span>
-                @Html.ListBoxFor(Model => Model.Materials, ViewBag.Books as MultiSelectList, new { @style = "width: 250px;" })
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-8 col-sm-4">
-                <span> Skiils</span>
-                @Html.ListBoxFor(Model => Model.Skills, ViewBag.Skills as MultiSelectList, new { @style = "width: 250px;" })
-            </div>
-            </div>
-            <div>
-                Test name
-                @Html.EditorFor(Model => Model.Test.Name)
-            </div>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Add materials to Course" class="btn btn-primary" />
             </div>
         </form>
     </div>

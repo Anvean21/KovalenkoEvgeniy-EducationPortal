@@ -1,7 +1,9 @@
 ﻿using EducationPortal.Domain.Core;
+using EducationPortal.Domain.Core.Entities;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.UI.Automapper;
 using EducationPortal.UI.Models;
+using EducationPortal.UI.Models.TestViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -18,30 +20,22 @@ namespace EducationPortal.UI.Controllers
         private readonly ICourseService courseService;
         private readonly IMaterialService materialService;
         private readonly ISkillService skillService;
+        private readonly ICourseTestService courseTestService;
         private readonly IMapper mapper;
 
-        public CourseController(ILogger<CourseController> logger, ICourseService courseService, IMaterialService materialService, ISkillService skillService, IMapper mapper)
+        public CourseController(ILogger<CourseController> logger, ICourseService courseService, IMaterialService materialService, ISkillService skillService, ICourseTestService courseTestService, IMapper mapper)
         {
             this.logger = logger;
             this.courseService = courseService;
             this.mapper = mapper;
             this.materialService = materialService;
             this.skillService = skillService;
+            this.courseTestService = courseTestService;
         }
 
         [HttpGet]
         public IActionResult CreateCourse()
         {
-            var videoMaterials = mapper.Map<Material, MaterialVM>(materialService.GetVideoMaterials());
-            var articleMaterials = mapper.Map<Material, MaterialVM>(materialService.GetArticleMaterials());
-            var bookMaterials = mapper.Map<Material, MaterialVM>(materialService.GetBookMaterials());
-            var skills = mapper.Map<Skill, SkillVM>(skillService.GetSkills());
-
-            ViewBag.Videos = new MultiSelectList(videoMaterials, "Id", "Name");
-            ViewBag.Articles = new MultiSelectList(articleMaterials, "Id", "Name");
-            ViewBag.Books = new MultiSelectList(bookMaterials, "Id", "Name");
-            ViewBag.Skills = new MultiSelectList(skills, "Id", "Name");
-
             return View();
         }
 
@@ -56,29 +50,68 @@ namespace EducationPortal.UI.Controllers
             var mappedCourse = mapper.Map<CourseVM, Course>(courseVM);
 
             await courseService.AddCourse(mappedCourse);
+
             courseVM.Id = mappedCourse.Id;
 
-            return View("Index", "Home");
+
+            return RedirectToAction("CourseMaterials", new { id = courseVM.Id });
         }
 
-        public IActionResult AddMaterial(int materialId, CourseVM course)
+        public IActionResult CourseMaterials(int id)
         {
-            var material = mapper.Map<Material, MaterialVM>(materialService.GetMaterialById(materialId).Result);
+            //cделать поля имя/описание неактивными
+            ViewBag.Videos = mapper.Map<Material, MaterialVM>(materialService.GetVideoMaterials());
+            ViewBag.Articles = mapper.Map<Material, MaterialVM>(materialService.GetArticleMaterials());
+            ViewBag.Books = mapper.Map<Material, MaterialVM>(materialService.GetBookMaterials());
 
-            if (course.Materials != null && course.Materials.Any(x => x.Name == material.Name))
-            {
-                ModelState.AddModelError("", "Material alredy exist");
-                return View("CreateCourse", course);
-            }
-
-            course.Materials.Add(material);
-
-            return View("CreateCourse");
+            var course = courseService.GetById(id);
+            var mappedCourse = mapper.Map<Course, CourseVM>(course);
+            return View(mappedCourse);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> AddMaterial(int courseId, int materialId)
         {
-            return View();
+            await courseService.AddMaterials(courseId, materialId);
+
+            TempData["success"] = "Material added";
+            return RedirectToAction("CourseMaterials", new { id = courseId });
+        }
+
+        public IActionResult CourseSkills(int id)
+        {
+            ViewBag.Skills = mapper.Map<Skill, SkillVM>(skillService.GetSkills());
+
+            var course = courseService.GetById(id);
+            var mappedCourse = mapper.Map<Course, CourseVM>(course);
+            return View(mappedCourse);
+        }
+
+        public async Task<IActionResult> AddSkill(int courseId, int skillId)
+        {
+
+            await courseService.AddSkills(courseId, skillId);
+
+            TempData["success"] = "Skill added";
+            return RedirectToAction("CourseSkills", new { id = courseId });
+        }
+
+        public IActionResult CourseTest(int id)
+        {
+            ViewBag.Test = mapper.Map<Test, TestVM>(courseTestService.GetTests());
+
+            var course = courseService.GetById(id);
+            var mappedCourse = mapper.Map<Course, CourseVM>(course);
+
+            return View(mappedCourse);
+        }
+
+        public async Task<IActionResult> AddTest(int courseId, int testId)
+        {
+
+            await courseService.AddTest(courseId, testId);
+
+            TempData["success"] = "Test added";
+            return RedirectToAction("Index","Home");
         }
     }
 }

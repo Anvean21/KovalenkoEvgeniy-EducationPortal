@@ -24,39 +24,23 @@ namespace EducationPortal.UI.Controllers
             this.mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateTest(TestVM testVM)
-        {
-            if (!(ModelState.IsValid && testService.UniqueTestName(testVM.Name)))
-            {
-                return View("CreateTest", testVM);
-            }
-
-            var mapped = mapper.Map<TestVM, Test>(testVM);
-            await testService.AddTest(mapped);
-            return View();
-        }
-
         [HttpGet]
         public IActionResult CreateTest()
         {
             return View();
         }
 
-        [HttpGet]
-        public IActionResult CreateQuestion()
-        {
-            return View();
-        }
-
         [HttpPost]
-        public IActionResult CreateQuestion(QuestionVM questionVM)
+        public async Task<IActionResult> CreateTest(TestVM testVM)
         {
-            if (!ModelState.IsValid)
+            if (!(testService.UniqueTestName(testVM.Name)))
             {
-                return View("CreateQuestion", questionVM);
+                return View("CreateTest", testVM);
             }
-            return View();
+
+            var mapped = mapper.Map<TestVM, Test>(testVM);
+            await testService.AddTest(mapped);
+            return RedirectToAction("CreateCourse","Course");
         }
     }
 }

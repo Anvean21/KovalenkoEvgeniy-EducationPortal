@@ -17,15 +17,28 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            @{await Html.RenderPartialAsync("CreateQuestion", Model);}
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create Test" class="btn btn-primary" />
+            </div>
+
+
+            <div class="col-md-6 offset-md-4">
+                <button type="button" id="questionButton" onclick="AddQuestion()" class="btn btn-primary">
+                    Add New Question
+                </button>
+            </div>
+
+            <br />
+            <div name="Questions" id="questions">
+
+
+            </div>
+            <div name ="Answers"id="answers" >
+
+
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<script src="~/js/testCreation.js" asp-append-version="true"></script>
 

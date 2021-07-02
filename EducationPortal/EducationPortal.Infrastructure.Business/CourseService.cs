@@ -1,4 +1,5 @@
 ﻿using EducationPortal.Domain.Core;
+using EducationPortal.Domain.Core.Entities;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
 using EFlecture.Core.Specifications;
@@ -14,15 +15,21 @@ namespace EducationPortal.Infrastructure.Business
     public class CourseService : ICourseService
     {
         private readonly IRepository<Course> courseRepository;
+        private readonly IRepository<Material> materialRepository;
+        private readonly IRepository<Skill> skillRepository;
+        private readonly IRepository<Test> testRepository;
 
-        public CourseService(IRepository<Course> courseRepository)
+        public CourseService(IRepository<Course> courseRepository, IRepository<Material> materialRepository, IRepository<Skill> skillRepository, IRepository<Test> testRepository)
         {
             this.courseRepository = courseRepository;
+            this.materialRepository = materialRepository;
+            this.skillRepository = skillRepository;
+            this.testRepository = testRepository;
         }
 
         public async Task AddCourse(Course course)
         {
-           await courseRepository.AddAsync(course);
+            await courseRepository.AddAsync(course);
         }
 
         public bool UniqueCourseName(string name)
@@ -41,7 +48,6 @@ namespace EducationPortal.Infrastructure.Business
         {
             var courseIncludes = new List<Expression<Func<Course, object>>>
             {
-                //TODO 
                 y => y.Skills
             };
 
@@ -62,6 +68,28 @@ namespace EducationPortal.Infrastructure.Business
             var courseSpec = new Specification<Course>(x => x.Id == id, courseIncludes);
 
             return courseRepository.FindAsync(courseSpec).Result;
+        }
+
+        public async Task AddMaterials(int courseId, int materialId)
+        {
+            var course = GetById(courseId);
+            course.Materials.Add(materialRepository.FindAsync(materialId).Result);
+            await courseRepository.SaveAsync();
+        }
+
+        public async Task AddSkills(int courseId, int skillId)
+        {
+            var course = GetById(courseId);
+            course.Skills.Add(skillRepository.FindAsync(skillId).Result);
+            await courseRepository.SaveAsync();
+        }
+
+        public async Task AddTest(int courseId, int testId)
+        {
+            var course = GetById(courseId);
+            course.TestId = testRepository.FindAsync(testId).Result.Id;
+            course.Created = true;
+            await courseRepository.SaveAsync();
         }
     }
 }
