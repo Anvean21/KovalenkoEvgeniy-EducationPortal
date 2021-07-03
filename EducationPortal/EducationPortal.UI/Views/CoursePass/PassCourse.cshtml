@@ -1,0 +1,94 @@
+﻿@model EducationPortal.UI.Models.PassCourseVM
+@inject EducationPortal.Services.Interfaces.IMaterialService Material
+@using System.Linq;
+
+@{
+    ViewData["Title"] = "PassCourse";
+}
+@{
+    Layout = "_Layout";
+}
+
+<h1>
+    @TempData["passingStarted"]
+</h1>
+
+<div class="row courseInfo">
+    <div class="col-6 col-md-6 text-center ">
+        @Html.DisplayNameFor(model => model.CourseVM.Name)
+    </div>
+
+    <div class="col-6 col-md-6 text-center">
+        @Html.DisplayNameFor(model => model.CourseVM.Description)
+    </div>
+
+    <div class="col-6 col-md-6 text-center">
+        @Html.DisplayFor(model => model.CourseVM.Name)
+    </div>
+    <div class="col-6 col-md-6 text-center">
+        @Html.DisplayFor(model => model.CourseVM.Description)
+    </div>
+</div>
+
+<div class="row materialsType">
+    <div class="col text-center videoMaterials">
+        Video materials
+    </div>
+    <div class="col text-center articleMaterials">
+        Article materials
+    </div>
+    <div class="col text-center bookMaterials">
+        Book materials
+    </div>
+</div>
+<div class="row materialsInfo">
+    <div class="col">
+        @if (!Model.Videos.Any())
+        {
+            <p>Video materials are empty</p>
+        }
+        else
+        {
+            @foreach (var item in Model.Videos)
+            {
+                <div>
+                    <p>Name: @item.Name </p><p>Duration: @item.Duration | Quality: @item.Quality  | <a href="@item.Link">Link</a></p>
+                </div>
+            }
+        }
+    </div>
+    <div class="col">
+        @if (!Model.Articles.Any())
+        {
+            <p>Article materials are empty</p>
+        }
+        else
+        {
+            @foreach (var item in Model.Articles)
+            {
+                <div>
+                    <p>Name: @item.Name </p><p>DateOfPublish: @item.PublishDate.ToShortDateString() | <a href="@item.Resource">Resourse</a></p>
+                </div>
+            }
+        }
+    </div>
+    <div class="col">
+        @if (!Model.Books.Any())
+        {
+            <p>Book materials are empty</p>
+        }
+        else
+        {
+            @foreach (var item in Model.Books)
+            {
+                <div>
+                    <p>Name: @item.Name </p><p>Author: @item.Author | YearOfPublish: @item.YearOfPublish  | CountOfPages: @item.Pages | Format: @item.Format</p>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div class="text-center align-self-center">
+    @Html.ActionLink("Pass Test", "PassTest", "CoursePass", new {courseId = Model.CourseVM.Id}, new { @class = "btn btn-success" })
+</div>

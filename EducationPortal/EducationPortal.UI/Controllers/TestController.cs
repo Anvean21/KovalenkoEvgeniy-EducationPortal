@@ -2,6 +2,7 @@
 using EducationPortal.Domain.Core.Entities;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.UI.Models.TestViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace EducationPortal.UI.Controllers
 {
+    [Authorize]
     public class TestController : Controller
     {
         private readonly ILogger<TestController> logger;

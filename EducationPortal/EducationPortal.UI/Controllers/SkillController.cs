@@ -2,6 +2,7 @@
 using EducationPortal.Services.Interfaces;
 using EducationPortal.UI.Automapper;
 using EducationPortal.UI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace EducationPortal.UI.Controllers
 {
+    [Authorize]
     public class SkillController : Controller
     {
         private readonly ISkillService skillService;

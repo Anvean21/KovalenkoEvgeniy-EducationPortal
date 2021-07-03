@@ -47,10 +47,6 @@ namespace EducationPortal.UI.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         [HttpGet]
         public IActionResult Login()

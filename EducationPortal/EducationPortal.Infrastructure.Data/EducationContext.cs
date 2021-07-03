@@ -95,10 +95,9 @@ namespace EducationPortal.Infrastructure.Data
             var skill2 = new Skill { Id = 2, Name = ".Net" };
             var skills = new List<Skill>() { skill, skill2 };
 
-            var article = new ArticleMaterial { Id = 1, Name = "Article 1", PublishDate = DateTime.Now, Resource = "Metanit.com" };
+            var article = new ArticleMaterial { Id = 1, Name = "Article 1", PublishDate = DateTime.Now, Resource = "https://metanit.com/" };
             var video = new VideoMaterial { Id = 2, Name = "Extreme Code - CLR", Quality = VideoQuality.High, Duration = "19,27", Link = "https://www.youtube.com/watch?v=neu6M576RWo" };
             var book = new BookMaterial { Id = 3, Name = "CLR via C#", Author = "Richetr", Format = BookFormat.Large, Pages = 236, YearOfPublish = 2006 };
-
             modelBuilder.Entity<Skill>().HasData(skills);
             modelBuilder.Entity<ArticleMaterial>().HasData(article);
             modelBuilder.Entity<VideoMaterial>().HasData(video);

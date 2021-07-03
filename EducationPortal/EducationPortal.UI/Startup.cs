@@ -55,6 +55,7 @@ namespace EducationPortal.UI
                 .AddTransient<IMaterialService, MaterialService>()
                 .AddTransient<ICourseService, CourseService>()
                 .AddTransient<ICourseTestService, CourseTestService>()
+                .AddTransient<IQuestionService, QuestionService>()
                 .AddTransient<IVideoMaterialService, VideoMaterialService>()
                 .AddTransient<IBookMaterialService, BookMaterialService>()
                 .AddTransient<IArticleMaterialService, ArticleMaterialService>()

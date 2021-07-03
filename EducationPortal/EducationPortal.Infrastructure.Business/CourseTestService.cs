@@ -40,7 +40,6 @@ namespace EducationPortal.Infrastructure.Business
         {
             var includes = new List<Expression<Func<Test, object>>>
             {
-                //TODO 
                 y => y.Questions
             };
 
@@ -49,11 +48,10 @@ namespace EducationPortal.Infrastructure.Business
             return await testRepository.FindAsync(spec);
         }
 
-        public async Task<Test> GetTestById(int Id)
+        public async Task<Test> GetTestById(int? Id)
         {
             var includes = new List<Expression<Func<Test, object>>>
             {
-                //TODO 
                 y => y.Questions
             };
 

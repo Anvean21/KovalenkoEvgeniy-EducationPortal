@@ -7,6 +7,7 @@ namespace EducationPortal.Domain.Core.Entities
     {
         public string Name { get; set; }
         public bool IsTrue { get; set; }
+        public int QuestionId { get; set; }
         [JsonIgnore]
         [NotMapped]
         public char[] Variant { get; set; }

@@ -51,12 +51,12 @@ namespace EducationPortal.Infrastructure.Business
                 y => y.Skills
             };
 
-            var courseSpec = new Specification<Course>(x => true, courseIncludes);
+            var courseSpec = new Specification<Course>(x => x.Created == true, courseIncludes);
 
             return courseRepository.GetAsync(courseSpec, pageNumber, itemCount).Result.Items;
         }
 
-        public Course GetById(int id)
+        public async Task<Course> GetById(int id)
         {
             var courseIncludes = new List<Expression<Func<Course, object>>>
             {
@@ -67,29 +67,39 @@ namespace EducationPortal.Infrastructure.Business
 
             var courseSpec = new Specification<Course>(x => x.Id == id, courseIncludes);
 
-            return courseRepository.FindAsync(courseSpec).Result;
+            return await courseRepository.FindAsync(courseSpec);
         }
 
         public async Task AddMaterials(int courseId, int materialId)
         {
-            var course = GetById(courseId);
+            var course = await GetById(courseId);
             course.Materials.Add(materialRepository.FindAsync(materialId).Result);
             await courseRepository.SaveAsync();
         }
 
         public async Task AddSkills(int courseId, int skillId)
         {
-            var course = GetById(courseId);
+            var course = await GetById(courseId);
             course.Skills.Add(skillRepository.FindAsync(skillId).Result);
             await courseRepository.SaveAsync();
         }
 
-        public async Task AddTest(int courseId, int testId)
+        public async Task<bool> AddTest(int courseId, int testId)
         {
-            var course = GetById(courseId);
-            course.TestId = testRepository.FindAsync(testId).Result.Id;
-            course.Created = true;
-            await courseRepository.SaveAsync();
+            var course = await GetById(courseId);
+            var courseSpec = new Specification<Course>(x => x.TestId == testId);
+            var IsTestAlreadyBusy = await courseRepository.FindAsync(courseSpec);
+            if (IsTestAlreadyBusy == null)
+            {
+                course.TestId = testRepository.FindAsync(testId).Result.Id;
+                course.Created = true;
+                await courseRepository.SaveAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

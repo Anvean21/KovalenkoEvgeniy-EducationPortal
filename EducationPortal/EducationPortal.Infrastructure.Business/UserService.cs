@@ -4,8 +4,10 @@ using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
 using EFlecture.Core.Specifications;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
@@ -26,7 +28,7 @@ namespace EducationPortal.Infrastructure.Business
         public async Task Register(User model)
         {
             model.Password = passwordHasher.HashPassword(model.Password);
-           await userRepository.AddAsync(model);
+            await userRepository.AddAsync(model);
             authorizedUser = model;
         }
 
@@ -78,22 +80,34 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public bool AddCourseToProgress(Course course)
+        public async Task<User> GetUserByEmail(string email)
         {
-            if (authorizedUser.PassedCourses.Any(x => x.CourseId == course.Id))
+            var includes = new List<Expression<Func<User, object>>>
+            {
+                y => y.CoursesInProgress,
+                y => y.PassedCourses,
+                y => y.UserSkills
+            };
+            var userSpecification = new Specification<User>(x => x.Email.ToLower() == email.ToLower(), includes);
+
+            return await userRepository.FindAsync(userSpecification);
+        }
+
+        public async Task<bool> AddCourseToProgress(User user, Course course)
+        {
+            if (user.PassedCourses.Any(x => x.CourseId == course.Id))
             {
                 return false;
             }
 
-            if (authorizedUser.CoursesInProgress.Any(x => x.CourseId == course.Id))
+            if (user.CoursesInProgress.Any(x => x.CourseId == course.Id))
             {
-
                 return true;
             }
 
-            authorizedUser.CoursesInProgress.Add(new UserCoursesInProgress { UserId = authorizedUser.Id, CourseId = course.Id });
+            user.CoursesInProgress.Add(new UserCoursesInProgress { UserId = user.Id, CourseId = course.Id });
 
-            userRepository.Update(authorizedUser);
+            await userRepository.Update(user);
             return true;
 
         }

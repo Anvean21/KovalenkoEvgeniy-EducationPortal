@@ -10,10 +10,10 @@ namespace EducationPortal.Services.Interfaces
     {
         public Task AddCourse(Course course);
         public IEnumerable<Course> GetCourses(int pageNumber = 1, int itemCount = 10);
-        public Course GetById(int id);
+        public Task<Course> GetById(int id);
         public bool UniqueCourseName(string name);
         public Task AddMaterials(int courseId, int materialId);
         public Task AddSkills(int courseId, int skillId);
-        public Task AddTest(int courseId, int testId);
+        public Task<bool> AddTest(int courseId, int testId);
     }
 }

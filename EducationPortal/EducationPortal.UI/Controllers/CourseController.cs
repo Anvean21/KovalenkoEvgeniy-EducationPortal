@@ -4,6 +4,7 @@ using EducationPortal.Services.Interfaces;
 using EducationPortal.UI.Automapper;
 using EducationPortal.UI.Models;
 using EducationPortal.UI.Models.TestViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace EducationPortal.UI.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         private readonly ILogger<CourseController> logger;
@@ -57,15 +59,16 @@ namespace EducationPortal.UI.Controllers
             return RedirectToAction("CourseMaterials", new { id = courseVM.Id });
         }
 
-        public IActionResult CourseMaterials(int id)
+        public async Task<IActionResult> CourseMaterials(int id)
         {
             //cделать поля имя/описание неактивными
             ViewBag.Videos = mapper.Map<Material, MaterialVM>(materialService.GetVideoMaterials());
             ViewBag.Articles = mapper.Map<Material, MaterialVM>(materialService.GetArticleMaterials());
             ViewBag.Books = mapper.Map<Material, MaterialVM>(materialService.GetBookMaterials());
 
-            var course = courseService.GetById(id);
+            var course = await courseService.GetById(id);
             var mappedCourse = mapper.Map<Course, CourseVM>(course);
+
             return View(mappedCourse);
         }
 
@@ -77,11 +80,11 @@ namespace EducationPortal.UI.Controllers
             return RedirectToAction("CourseMaterials", new { id = courseId });
         }
 
-        public IActionResult CourseSkills(int id)
+        public async Task<IActionResult> CourseSkills(int id)
         {
             ViewBag.Skills = mapper.Map<Skill, SkillVM>(skillService.GetSkills());
 
-            var course = courseService.GetById(id);
+            var course = await courseService.GetById(id);
             var mappedCourse = mapper.Map<Course, CourseVM>(course);
             return View(mappedCourse);
         }
@@ -95,11 +98,11 @@ namespace EducationPortal.UI.Controllers
             return RedirectToAction("CourseSkills", new { id = courseId });
         }
 
-        public IActionResult CourseTest(int id)
+        public async Task<IActionResult> CourseTest(int id)
         {
             ViewBag.Test = mapper.Map<Test, TestVM>(courseTestService.GetTests());
 
-            var course = courseService.GetById(id);
+            var course = await courseService.GetById(id);
             var mappedCourse = mapper.Map<Course, CourseVM>(course);
 
             return View(mappedCourse);
@@ -107,11 +110,14 @@ namespace EducationPortal.UI.Controllers
 
         public async Task<IActionResult> AddTest(int courseId, int testId)
         {
-
-            await courseService.AddTest(courseId, testId);
+            if (!await courseService.AddTest(courseId, testId))
+            {
+                ModelState.AddModelError("", "This test already taken");
+                return RedirectToAction("CourseTest", new { id = courseId});
+            }
 
             TempData["success"] = "Test added";
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

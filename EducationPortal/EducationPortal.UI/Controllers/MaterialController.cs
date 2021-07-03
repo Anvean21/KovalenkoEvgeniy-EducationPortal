@@ -2,6 +2,7 @@
 using EducationPortal.Services.Interfaces;
 using EducationPortal.UI.Automapper;
 using EducationPortal.UI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace EducationPortal.UI.Controllers
 {
+    [Authorize]
+
     public class MaterialController : Controller
     {
         private readonly ILogger<MaterialController> logger;

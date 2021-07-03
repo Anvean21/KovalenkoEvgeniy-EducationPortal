@@ -57,7 +57,7 @@ namespace EducationPortal.Infrastructure.Data
 
         public async Task Update(TEntity entity)
         {
-            this.entities.Update(entity);
+             this.entities.Update(entity);
 
             context.ChangeTracker.TrackGraph(entity, e =>
             {
@@ -74,12 +74,7 @@ namespace EducationPortal.Infrastructure.Data
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<TEntity> FindAsync(Specification<TEntity> specification)
-        {
-            var includes = Include(specification);
-
-            return await includes.FirstOrDefaultAsync(specification.Expression);
-        }
+       
 
         public async Task<TEntity> FindAsync(int id)
         {
@@ -112,6 +107,13 @@ namespace EducationPortal.Infrastructure.Data
             this.entities.RemoveRange(entities);
             context.SaveChanges();
             return Task.CompletedTask;
+        }
+
+        public async Task<TEntity> FindAsync(Specification<TEntity> specification)
+        {
+            var includes = Include(specification);
+
+            return await includes.FirstOrDefaultAsync(specification.Expression);
         }
 
         private IQueryable<TEntity> Include(Specification<TEntity> specification)
