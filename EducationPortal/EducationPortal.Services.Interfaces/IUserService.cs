@@ -13,8 +13,8 @@ namespace EducationPortal.Services.Interfaces
         public bool LogOut();
         public bool IsUserAuthorized();
         public Task<bool> AddCourseToProgress(User user,Course course);
-        public bool IsCoursePassed(Course course, int result);
-        public bool UserSkillUp(Skill skill);
+        public Task<bool> IsCoursePassed(User user,Course course, int result);
+        public bool UserSkillUp(User user,Skill skill);
         public bool GetUniqueEmail(string email);
         public Task<User> GetUserByEmail(string email);
     }

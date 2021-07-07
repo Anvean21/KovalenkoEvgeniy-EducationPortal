@@ -22,19 +22,17 @@ namespace EducationPortal.UI.Controllers
         private readonly ICourseService courseService;
         private readonly IUserService userService;
         private readonly IMaterialService materialService;
-        private readonly ISkillService skillService;
         private readonly ICourseTestService courseTestService;
         private readonly IQuestionService questionService;
         private readonly IMapper mapper;
 
-        public CoursePassController(ILogger<CoursePassController> logger, ICourseService courseService, IUserService userService, IMaterialService materialService, ISkillService skillService, ICourseTestService courseTestService, IQuestionService questionService, IMapper mapper)
+        public CoursePassController(ILogger<CoursePassController> logger, ICourseService courseService, IUserService userService, IMaterialService materialService, ICourseTestService courseTestService, IQuestionService questionService, IMapper mapper)
         {
             this.logger = logger;
             this.courseService = courseService;
             this.userService = userService;
             this.mapper = mapper;
             this.materialService = materialService;
-            this.skillService = skillService;
             this.courseTestService = courseTestService;
             this.questionService = questionService;
         }
@@ -83,7 +81,7 @@ namespace EducationPortal.UI.Controllers
                         articleMaterials.Add(articleMaterial);
                     }
                 }
-                
+
                 PassCourseVM passCourseVM = new PassCourseVM
                 {
                     CourseVM = mappedCourse,
@@ -103,18 +101,41 @@ namespace EducationPortal.UI.Controllers
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> PassTest(int courseId)
         {
-            var user = await userService.GetUserByEmail(HttpContext.User.Identity.Name);
             var course = await courseService.GetById(courseId);
             var test = await courseTestService.GetTestById(course.TestId);
             var mappedTest = mapper.Map<Test, TestVM>(test);
 
             foreach (var question in mappedTest.Questions)
             {
-              question.Answers.AddRange(mapper.Map<Answer,AnswerVM>(questionService.GetAnswers(question.Id)));
+                question.Answers.AddRange(mapper.Map<Answer, AnswerVM>(await questionService.GetAnswers(question.Id)));
             }
             return View(mappedTest);
+        }
+
+        public async Task<IActionResult> TestResult(string results, string testId)
+        {
+            var user = await userService.GetUserByEmail(HttpContext.User.Identity.Name);
+            var course = await courseService.GetByTestId(int.Parse(testId));
+            var listResult = new List<int>();
+            foreach (var item in results.Split(','))
+            {
+                int.TryParse(item, out int result);
+                listResult.Add(result);
+            }
+            var rightAnswers = await courseTestService.CountRightUserAnswers(listResult);
+            if (await userService.IsCoursePassed(user, course, rightAnswers))
+            {
+                TempData["testPassed"] = "Congratulations. Exam test passed! You have got new skills";
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                TempData["testFail"] = "Test is not passed. Learn materials hard and try again!";
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

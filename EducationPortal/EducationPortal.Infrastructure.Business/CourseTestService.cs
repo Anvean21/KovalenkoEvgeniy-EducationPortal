@@ -14,9 +14,12 @@ namespace EducationPortal.Infrastructure.Business
     public class CourseTestService : ICourseTestService
     {
         private readonly IRepository<Test> testRepository;
-        public CourseTestService(IRepository<Test> testService)
+        private readonly IRepository<Answer> answerRepository;
+
+        public CourseTestService(IRepository<Test> testService, IRepository<Answer> answerRepository)
         {
             this.testRepository = testService;
+            this.answerRepository = answerRepository;
         }
 
         public async Task AddTest(Test test)
@@ -64,17 +67,24 @@ namespace EducationPortal.Infrastructure.Business
         {
             var spec = new Specification<Test>(x => true);
 
-            return testRepository.GetAsync(spec,1,20).Result.Items;
+            return testRepository.GetAsync(spec, 1, 20).Result.Items;
         }
 
-        public int CountResult(Question question, string userVariant, ref int result)
+        public async Task<int> CountRightUserAnswers(List<int> answersId)
         {
-            if (userVariant == question.Answers.FirstOrDefault(x => x.IsTrue == true).Name.Split(".")[0])
+            var answers = new List<Answer>();
+
+            foreach (var id in answersId)
             {
-                result++;
+                var answerSpecification = new Specification<Answer>(x => x.Id == id && x.IsTrue == true );
+                var rightAnswer = await answerRepository.FindAsync(answerSpecification);
+                if (rightAnswer != null)
+                {
+                    answers.Add(rightAnswer);
+                }
             }
 
-            return result;
+            return answers.Count();
         }
     }
 }

@@ -6,5 +6,6 @@ namespace EducationPortal.UI.Models.TestViewModels
     {
         public string Name { get; set; }
         public ICollection<QuestionVM> Questions { get; set; }
+        public int Result { get; set; }
     }
 }

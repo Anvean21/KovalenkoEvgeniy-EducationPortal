@@ -4,6 +4,9 @@
     ViewData["Title"] = "PassTest";
 }
 
+@{ 
+    Layout = "_Layout";
+}
 <h1>PassTest</h1>
 
 <div>
@@ -17,14 +20,28 @@
         </dd>
     </dl>
 </div>
-<div>
-    @foreach (var item in Model.Questions)
-    {
-        <div>Question: @item.Name</div>
-        foreach (var item2 in item.Answers)
+
+
+<form asp-action="PassTest">
+
+    <div>
+        @foreach (var question in Model.Questions)
         {
-            @Html.RadioButton("answer",item2.Id)
-            <span>@item2.Name</span><br />
+            <div class="form-group">
+
+                <p><strong> @question.Name </strong></p>
+                @foreach (var answer in question.Answers)
+                {
+                    @Html.RadioButton(question.Name, answer.Id)
+                    <span>@answer.Name</span><br />
+                }
+
+            </div>
         }
-    }
-</div>
+    </div>
+    <input type="button" onclick="TestPassing()" value="Finish test" class="btn btn-primary" />
+    <div hidden="hidden" id="urlId">@Url.Action("TestResult", "CoursePass")</div>
+    <div hidden="hidden" id="testId">@Model.Id</div>
+</form>
+
+<script src="~/js/testPass.js" asp-append-version="true"></script>

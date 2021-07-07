@@ -101,5 +101,18 @@ namespace EducationPortal.Infrastructure.Business
                 return false;
             }
         }
+
+        public async Task<Course> GetByTestId(int testId)
+        {
+            var courseIncludes = new List<Expression<Func<Course, object>>>
+            {
+                y => y.Skills,
+                y => y.Test,
+            };
+
+            var courseSpec = new Specification<Course>(x => x.TestId == testId, courseIncludes);
+
+            return await courseRepository.FindAsync(courseSpec);
+        }
     }
 }

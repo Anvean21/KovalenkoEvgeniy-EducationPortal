@@ -11,6 +11,7 @@ namespace EducationPortal.Services.Interfaces
         public Task AddCourse(Course course);
         public IEnumerable<Course> GetCourses(int pageNumber = 1, int itemCount = 10);
         public Task<Course> GetById(int id);
+        public Task<Course> GetByTestId(int testId);
         public bool UniqueCourseName(string name);
         public Task AddMaterials(int courseId, int materialId);
         public Task AddSkills(int courseId, int skillId);

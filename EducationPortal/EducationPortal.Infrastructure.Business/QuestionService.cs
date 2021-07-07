@@ -4,6 +4,7 @@ using EducationPortal.Services.Interfaces;
 using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,11 +19,11 @@ namespace EducationPortal.Infrastructure.Business
             this.answerRepository = answerRepository;
         }
 
-        public IEnumerable<Answer> GetAnswers(int questionId)
+        public async Task<IEnumerable<Answer>> GetAnswers(int questionId)
         {
             var answerSpecification = new Specification<Answer>(x => x.QuestionId == questionId);
 
-           return  answerRepository.GetAsync(answerSpecification).Result;
+           return await answerRepository.GetAsync(answerSpecification);
         }
     }
 }

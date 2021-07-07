@@ -11,7 +11,7 @@ namespace EducationPortal.UI.Automapper
         public MainProfile()
         {
             CreateMap<Course, CourseVM>().ReverseMap();
-            CreateMap<Test, TestVM>().ReverseMap();
+            CreateMap<Test, TestVM>().ForMember(x=> x.Result, (options) => options.Ignore()).ReverseMap();
             CreateMap<Question, QuestionVM>().ReverseMap();
             CreateMap<Answer, AnswerVM>().ReverseMap();
             CreateMap<User, UserVM>().ReverseMap();

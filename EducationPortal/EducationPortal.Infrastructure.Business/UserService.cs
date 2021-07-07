@@ -112,7 +112,7 @@ namespace EducationPortal.Infrastructure.Business
 
         }
 
-        public bool IsCoursePassed(Course course, int rightAnswers)
+        public async Task<bool> IsCoursePassed(User user, Course course, int rightAnswers)
         {
             const double minimumRightAnswersPercent = 0.70;
 
@@ -120,25 +120,25 @@ namespace EducationPortal.Infrastructure.Business
 
             if (countOfQuestions * minimumRightAnswersPercent <= rightAnswers)
             {
-                authorizedUser.PassedCourses.Add(new UserPassedCourses { UserId = authorizedUser.Id, CourseId = course.Id });
+                user.PassedCourses.Add(new UserPassedCourses { UserId = user.Id, CourseId = course.Id });
 
                 foreach (var skill in course.Skills)
                 {
-                    if (UserSkillUp(skill))
+                    if (UserSkillUp(user, skill))
                     {
                         continue;
                     }
                     else
                     {
-                        authorizedUser.UserSkills.Add(new UserSkills { SkillId = skill.Id, UserId = authorizedUser.Id });
+                        user.UserSkills.Add(new UserSkills { SkillId = skill.Id, UserId = user.Id });
                     }
                 }
 
-                var removedCourse = authorizedUser.CoursesInProgress.FirstOrDefault(x => x.CourseId == course.Id);
+                var removedCourse = user.CoursesInProgress.FirstOrDefault(x => x.CourseId == course.Id);
 
-                authorizedUser.CoursesInProgress.Remove(removedCourse);
+                user.CoursesInProgress.Remove(removedCourse);
 
-                userRepository.Update(authorizedUser);
+                await userRepository.Update(user);
 
                 return true;
             }
@@ -146,11 +146,11 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public bool UserSkillUp(Skill skill)
+        public bool UserSkillUp(User user, Skill skill)
         {
-            if (authorizedUser.UserSkills.Any(x => x.SkillId == skill.Id))
+            if (user.UserSkills.Any(x => x.SkillId == skill.Id))
             {
-                authorizedUser.UserSkills.FirstOrDefault(x => x.SkillId == skill.Id).Level++;
+                user.UserSkills.FirstOrDefault(x => x.SkillId == skill.Id).Level++;
                 return true;
             }
 
