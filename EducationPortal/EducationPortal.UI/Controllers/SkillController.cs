@@ -31,7 +31,7 @@ namespace EducationPortal.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSkill(SkillVM skillVM)
         {
-            if (!(ModelState.IsValid && skillService.GetUniqueName(skillVM.Name)))
+            if (!(ModelState.IsValid && await skillService.GetUniqueName(skillVM.Name)))
             {
                 ModelState.AddModelError("","Invalid name or skill already exists");
                 return RedirectToAction("SkillList");

@@ -35,14 +35,14 @@ namespace EducationPortal.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTest(TestVM testVM)
         {
-            if (!(testService.UniqueTestName(testVM.Name)))
+            if (!(ModelState.IsValid && await testService.UniqueTestName(testVM.Name)))
             {
                 return View("CreateTest", testVM);
             }
 
             var mapped = mapper.Map<TestVM, Test>(testVM);
             await testService.AddTest(mapped);
-            return RedirectToAction("CreateCourse","Course");
+            return RedirectToAction("CreateCourse", "Course");
         }
     }
 }

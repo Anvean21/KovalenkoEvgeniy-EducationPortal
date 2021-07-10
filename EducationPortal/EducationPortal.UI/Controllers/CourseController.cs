@@ -45,7 +45,7 @@ namespace EducationPortal.UI.Controllers
         public async Task<IActionResult> CreateCourse(CourseVM courseVM)
         {
 
-            if (!(ModelState.IsValid && courseService.UniqueCourseName(courseVM.Name)))
+            if (!(ModelState.IsValid && await courseService.UniqueCourseName(courseVM.Name)))
             {
                 return View("CreateCourse");
             }
@@ -61,7 +61,6 @@ namespace EducationPortal.UI.Controllers
 
         public async Task<IActionResult> CourseMaterials(int id)
         {
-            //cделать поля имя/описание неактивными
             ViewBag.Videos = mapper.Map<Material, MaterialVM>(materialService.GetVideoMaterials());
             ViewBag.Articles = mapper.Map<Material, MaterialVM>(materialService.GetArticleMaterials());
             ViewBag.Books = mapper.Map<Material, MaterialVM>(materialService.GetBookMaterials());
@@ -85,6 +84,11 @@ namespace EducationPortal.UI.Controllers
             ViewBag.Skills = mapper.Map<Skill, SkillVM>(skillService.GetSkills());
 
             var course = await courseService.GetById(id);
+            if (!course.Materials.Any())
+            {
+                TempData["nullMaterials"] = "Materials cannot be null. Add materials";
+                return RedirectToAction("CourseMaterials", new { id = course.Id });
+            }
             var mappedCourse = mapper.Map<Course, CourseVM>(course);
             return View(mappedCourse);
         }
@@ -103,6 +107,11 @@ namespace EducationPortal.UI.Controllers
             ViewBag.Test = mapper.Map<Test, TestVM>(courseTestService.GetTests());
 
             var course = await courseService.GetById(id);
+            if (!course.Skills.Any())
+            {
+                TempData["nullSkills"] = "Skills cannot be null. Add skills";
+                return RedirectToAction("CourseSkills", new { id = course.Id });
+            }
             var mappedCourse = mapper.Map<Course, CourseVM>(course);
 
             return View(mappedCourse);
@@ -113,7 +122,7 @@ namespace EducationPortal.UI.Controllers
             if (!await courseService.AddTest(courseId, testId))
             {
                 ModelState.AddModelError("", "This test already taken");
-                return RedirectToAction("CourseTest", new { id = courseId});
+                return RedirectToAction("CourseTest", new { id = courseId });
             }
 
             TempData["success"] = "Test added";

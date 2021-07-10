@@ -35,7 +35,7 @@ namespace EducationPortal.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(UserVM userVM)
         {
-            if (!(ModelState.IsValid && userService.GetUniqueEmail(userVM.Email)))
+            if (!(ModelState.IsValid && await userService.GetUniqueEmail(userVM.Email)))
             {
                 return View("Registration", userVM);
             }

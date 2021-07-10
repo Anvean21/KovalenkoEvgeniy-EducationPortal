@@ -24,11 +24,11 @@ namespace EducationPortal.Infrastructure.Business
             await skillRepository.AddAsync(skill);
         }
 
-        public bool GetUniqueName(string name)
+        public async Task<bool> GetUniqueName(string name)
         {
             var skillSpecification = new Specification<Skill>(x => x.Name.ToLower() == name.ToLower());
 
-            if (skillRepository.FindAsync(skillSpecification).Result == null)
+            if (await skillRepository.FindAsync(skillSpecification) == null)
             {
                 return true;
             }

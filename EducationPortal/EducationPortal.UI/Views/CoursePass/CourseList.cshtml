@@ -4,11 +4,10 @@
     ViewData["Title"] = "CourseList";
 }
 
-<h1>CourseList</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Courses</h1>
+<h2>
+@TempData["testAlreadyPassed"]
+</h2>
 <table class="table">
     <thead>
         <tr>
@@ -38,7 +37,7 @@
                 @string.Join(", ", item.Skills.Select(x => x.Name))
             </td>
             <td>
-                @Html.ActionLink("Pass", "PassCourse", new { courseId = item.Id }) 
+                @Html.ActionLink("Pass", "PassCourse", new { courseId = item.Id }, new {@class ="btn btn-outline-info" }) 
             </td>
         </tr>
 }

@@ -32,11 +32,11 @@ namespace EducationPortal.Infrastructure.Business
             await courseRepository.AddAsync(course);
         }
 
-        public bool UniqueCourseName(string name)
+        public async Task<bool> UniqueCourseName(string name)
         {
             var courseSpecification = new Specification<Course>(x => x.Name.ToLower() == name.ToLower());
 
-            if (courseRepository.FindAsync(courseSpecification).Result == null)
+            if (await courseRepository.FindAsync(courseSpecification) == null)
             {
                 return true;
             }
@@ -89,9 +89,13 @@ namespace EducationPortal.Infrastructure.Business
             var course = await GetById(courseId);
             var courseSpec = new Specification<Course>(x => x.TestId == testId);
             var IsTestAlreadyBusy = await courseRepository.FindAsync(courseSpec);
+
             if (IsTestAlreadyBusy == null)
             {
-                course.TestId = testRepository.FindAsync(testId).Result.Id;
+                var test = await testRepository.FindAsync(testId);
+                test.Taken = true;
+                course.TestId = test.Id;
+                course.Test = test;
                 course.Created = true;
                 await courseRepository.SaveAsync();
                 return true;

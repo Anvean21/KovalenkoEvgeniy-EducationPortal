@@ -31,7 +31,6 @@ namespace EducationPortal.UI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EducationContext>(options =>
@@ -43,6 +42,7 @@ namespace EducationPortal.UI
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login");
                 });
 
+            services.AddMvc().AddRazorRuntimeCompilation();
 
             services
                 .AddScoped(typeof(IRepository<>), typeof(EFRepository<>))
@@ -77,6 +77,7 @@ namespace EducationPortal.UI
         {
             if (env.IsDevelopment())
             {
+                
                 app.UseDeveloperExceptionPage();
             }
             else

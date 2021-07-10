@@ -13,6 +13,6 @@ namespace EducationPortal.Services.Interfaces
         public Task<Test> GetTestById(int? Id);
         public Task<Test> GetTestByName(string name);
         public IEnumerable<Test> GetTests();
-        public bool UniqueTestName(string uniqeItem);
+        public Task<bool> UniqueTestName(string uniqeItem);
     }
 }

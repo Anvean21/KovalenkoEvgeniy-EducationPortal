@@ -62,7 +62,6 @@ namespace EducationPortal.UI.Controllers
                 var bookMaterials = new List<BookMaterialVM>();
                 var articleMaterials = new List<ArticleMaterialVM>();
 
-                //Секретный комментарий
                 foreach (var material in course.Materials)
                 {
                     var materialk = await materialService.GetMaterialById(material.Id);
@@ -97,6 +96,7 @@ namespace EducationPortal.UI.Controllers
             else
             {
                 //вы уже проходили этот курс раньше
+                TempData["testAlreadyPassed"] = "This test has already been passed by you";
                 return RedirectToAction("CourseList", "CoursePass");
             }
         }
@@ -112,6 +112,7 @@ namespace EducationPortal.UI.Controllers
             {
                 question.Answers.AddRange(mapper.Map<Answer, AnswerVM>(await questionService.GetAnswers(question.Id)));
             }
+
             return View(mappedTest);
         }
 
@@ -120,22 +121,30 @@ namespace EducationPortal.UI.Controllers
             var user = await userService.GetUserByEmail(HttpContext.User.Identity.Name);
             var course = await courseService.GetByTestId(int.Parse(testId));
             var listResult = new List<int>();
+
+            if (results == null)
+            {
+                RedirectToAction("PassTest", "CoursePass", new { courseId = course.Id });
+            }
+
             foreach (var item in results.Split(','))
             {
                 int.TryParse(item, out int result);
                 listResult.Add(result);
             }
+
             var rightAnswers = await courseTestService.CountRightUserAnswers(listResult);
+
             if (await userService.IsCoursePassed(user, course, rightAnswers))
             {
                 TempData["testPassed"] = "Congratulations. Exam test passed! You have got new skills";
-                return RedirectToAction("Index", "Home");
             }
             else
             {
                 TempData["testFail"] = "Test is not passed. Learn materials hard and try again!";
-                return RedirectToAction("Index", "Home");
             }
+
+            return View();
         }
     }
 }

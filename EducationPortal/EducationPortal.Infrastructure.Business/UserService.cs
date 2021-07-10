@@ -68,11 +68,11 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public bool GetUniqueEmail(string email)
+        public async Task<bool> GetUniqueEmail(string email)
         {
             var userSpecification = new Specification<User>(x => x.Email.ToLower() == email.ToLower());
 
-            if (userRepository.FindAsync(userSpecification).Result == null)
+            if (await userRepository.FindAsync(userSpecification) == null)
             {
                 return true;
             }
@@ -146,7 +146,7 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public bool UserSkillUp(User user, Skill skill)
+        private bool UserSkillUp(User user, Skill skill)
         {
             if (user.UserSkills.Any(x => x.SkillId == skill.Id))
             {

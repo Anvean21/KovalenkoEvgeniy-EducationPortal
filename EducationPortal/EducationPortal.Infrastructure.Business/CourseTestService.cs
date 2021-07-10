@@ -27,11 +27,11 @@ namespace EducationPortal.Infrastructure.Business
             await testRepository.AddAsync(test);
         }
 
-        public bool UniqueTestName(string name)
+        public async Task<bool> UniqueTestName(string name)
         {
             var courseSpecification = new Specification<Test>(x => x.Name.ToLower() == name.ToLower());
 
-            if (testRepository.FindAsync(courseSpecification).Result == null)
+            if (await testRepository.FindAsync(courseSpecification) == null)
             {
                 return true;
             }
@@ -65,7 +65,7 @@ namespace EducationPortal.Infrastructure.Business
 
         public IEnumerable<Test> GetTests()
         {
-            var spec = new Specification<Test>(x => true);
+            var spec = new Specification<Test>(x => x.Taken == false);
 
             return testRepository.GetAsync(spec, 1, 20).Result.Items;
         }
@@ -76,7 +76,7 @@ namespace EducationPortal.Infrastructure.Business
 
             foreach (var id in answersId)
             {
-                var answerSpecification = new Specification<Answer>(x => x.Id == id && x.IsTrue == true );
+                var answerSpecification = new Specification<Answer>(x => x.Id == id && x.IsTrue == true);
                 var rightAnswer = await answerRepository.FindAsync(answerSpecification);
                 if (rightAnswer != null)
                 {

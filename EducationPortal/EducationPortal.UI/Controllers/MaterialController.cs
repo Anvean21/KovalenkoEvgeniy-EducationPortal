@@ -48,7 +48,7 @@ namespace EducationPortal.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVideo(VideoMaterialVM videoMaterialVM)
         {
-            if (!ModelState.IsValid && materialService.UniqueMaterialName(videoMaterialVM.Name))
+            if (!ModelState.IsValid && await materialService.UniqueMaterialName(videoMaterialVM.Name))
             {
                 return View("CreateVideo", videoMaterialVM);
             }
@@ -68,7 +68,7 @@ namespace EducationPortal.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateArticle(ArticleMaterialVM articleMaterialVM)
         {
-            if (!ModelState.IsValid && materialService.UniqueMaterialName(articleMaterialVM.Name))
+            if (!ModelState.IsValid && await materialService.UniqueMaterialName(articleMaterialVM.Name))
             {
                 return View("CreateArticle", articleMaterialVM);
             }
@@ -89,7 +89,7 @@ namespace EducationPortal.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBook(BookMaterialVM bookMaterialVM)
         {
-            if (!ModelState.IsValid && materialService.UniqueMaterialName(bookMaterialVM.Name))
+            if (!ModelState.IsValid && await materialService.UniqueMaterialName(bookMaterialVM.Name))
             {
                 return View("CreateBook", bookMaterialVM);
             }

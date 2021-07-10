@@ -4,34 +4,37 @@
     ViewData["Title"] = "CreateTest";
 }
 
-<h1>CreateTest</h1>
+<h1>Test Constructor</h1>
 
-<h4>TestVM</h4>
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="CreateTest">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="col-md-4 form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+                <span asp-validation-for="Questions" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
                 <input type="submit" value="Create Test" class="btn btn-primary" />
             </div>
-
-
-            <div class="col-md-6 offset-md-4">
-                <button type="button" id="questionButton" onclick="CreateQuestion()" class="btn btn-primary">
+            <div class="col-md-6">
+                <button type="button" id="questionButton" onclick="CreateQuestion()" class="btn btn-outline-secondary">
                     Add New Question
                 </button>
             </div>
-
             <br />
-            <div id="Info">
 
-            </div>            
+            <div class="row" id="Info">
+                <div id="Question0">
+                    <label class="col-md-4 col-form-label text-md-right" asp-for="Name">Question 1 name:</label>
+                    <input type="text" asp-for="Name" class="col-md-4 form-group" name="Questions[0].Name">
+                    <button type="button" onclick="AddAnswer()" class="btn btn-success " id="AnswerButton">Add New Answer</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

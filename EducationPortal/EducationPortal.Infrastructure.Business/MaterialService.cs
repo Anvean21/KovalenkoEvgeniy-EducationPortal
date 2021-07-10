@@ -26,11 +26,11 @@ namespace EducationPortal.Infrastructure.Business
             return await materialRepository.FindAsync(materialSpecification);
         }
 
-        public bool UniqueMaterialName(string name)
+        public async Task<bool> UniqueMaterialName(string name)
         {
             var materialSpecification = new Specification<Material>(x => x.Name.ToLower() == name.ToLower());
 
-            if (materialRepository.FindAsync(materialSpecification).Result == null)
+            if ( await materialRepository.FindAsync(materialSpecification) == null)
             {
                 return true;
             }

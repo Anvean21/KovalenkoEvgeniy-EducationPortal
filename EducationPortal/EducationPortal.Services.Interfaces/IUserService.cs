@@ -14,8 +14,7 @@ namespace EducationPortal.Services.Interfaces
         public bool IsUserAuthorized();
         public Task<bool> AddCourseToProgress(User user,Course course);
         public Task<bool> IsCoursePassed(User user,Course course, int result);
-        public bool UserSkillUp(User user,Skill skill);
-        public bool GetUniqueEmail(string email);
+        public Task<bool> GetUniqueEmail(string email);
         public Task<User> GetUserByEmail(string email);
     }
 }

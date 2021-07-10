@@ -12,7 +12,7 @@ namespace EducationPortal.UI.FluentValidation
         public FluentQuestionValidator()
         {
             RuleFor(x => x.Name).NotEmpty().Length(3,128);
-            RuleForEach(x => x.Answers).SetValidator(new FluentAnswerValidator());
+            RuleForEach(x => x.Answers).NotEmpty();
         }
     }
 }
