@@ -17,13 +17,27 @@ namespace EducationPortal.UI.Controllers
     {
         private readonly ILogger<UserController> logger;
         private readonly IUserService userService;
+        private readonly ISkillService skillService;
         private readonly IMapper mapper;
 
-        public UserController(ILogger<UserController> logger, IUserService userService, IMapper mapper)
+        public UserController(ILogger<UserController> logger, IUserService userService, ISkillService skillService, IMapper mapper)
         {
             this.logger = logger;
             this.userService = userService;
+            this.skillService = skillService;
             this.mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Account()
+        {
+            var user = await userService.GetUserByEmail(HttpContext.User.Identity.Name);
+
+            foreach (var item in user.UserSkills)
+            {
+                item.Skill = await skillService.GetSkillById(item.SkillId);
+            }
+            return View(user);
         }
 
         [HttpGet]

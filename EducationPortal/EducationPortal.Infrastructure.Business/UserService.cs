@@ -86,7 +86,8 @@ namespace EducationPortal.Infrastructure.Business
             {
                 y => y.CoursesInProgress,
                 y => y.PassedCourses,
-                y => y.UserSkills
+                y => y.UserSkills,
+                y => y.CreatedCourses
             };
             var userSpecification = new Specification<User>(x => x.Email.ToLower() == email.ToLower(), includes);
 

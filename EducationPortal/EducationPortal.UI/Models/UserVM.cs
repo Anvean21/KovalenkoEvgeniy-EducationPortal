@@ -8,5 +8,7 @@ namespace EducationPortal.UI.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public ICollection<SkillVM> Skills { get; set; }
+        public ICollection<CourseVM> CreatedCourses { get; set; }
+
     }
 }

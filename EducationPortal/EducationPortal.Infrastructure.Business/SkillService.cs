@@ -1,4 +1,5 @@
 ﻿using EducationPortal.Domain.Core;
+using EducationPortal.Domain.Core.Entities.RelationModels;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
 using EFlecture.Core.Specifications;
@@ -45,9 +46,15 @@ namespace EducationPortal.Infrastructure.Business
 
         public IEnumerable<Skill> GetSkills(int pageNumber = 1, int itemCount = 10)
         {
-            var materialSpecification = new Specification<Skill>(x => true);
+            var skillSpecification = new Specification<Skill>(x => true);
 
-            return skillRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
+            return skillRepository.GetAsync(skillSpecification, pageNumber, itemCount).Result.Items;
+        }
+        public async Task<Skill> GetSkillById(int skillId)
+        {
+            var skillSpecification = new Specification<Skill>(x => x.Id == skillId);
+
+            return await skillRepository.FindAsync(skillSpecification);
         }
     }
 }

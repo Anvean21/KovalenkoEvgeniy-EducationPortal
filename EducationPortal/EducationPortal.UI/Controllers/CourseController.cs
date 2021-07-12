@@ -23,9 +23,10 @@ namespace EducationPortal.UI.Controllers
         private readonly IMaterialService materialService;
         private readonly ISkillService skillService;
         private readonly ICourseTestService courseTestService;
+        private readonly IUserService userService;
         private readonly IMapper mapper;
 
-        public CourseController(ILogger<CourseController> logger, ICourseService courseService, IMaterialService materialService, ISkillService skillService, ICourseTestService courseTestService, IMapper mapper)
+        public CourseController(ILogger<CourseController> logger, ICourseService courseService, IMaterialService materialService, ISkillService skillService, ICourseTestService courseTestService, IUserService userService, IMapper mapper)
         {
             this.logger = logger;
             this.courseService = courseService;
@@ -33,6 +34,7 @@ namespace EducationPortal.UI.Controllers
             this.materialService = materialService;
             this.skillService = skillService;
             this.courseTestService = courseTestService;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -50,11 +52,11 @@ namespace EducationPortal.UI.Controllers
                 return View("CreateCourse");
             }
             var mappedCourse = mapper.Map<CourseVM, Course>(courseVM);
-
+            var user = await userService.GetUserByEmail(HttpContext.User.Identity.Name);
+            mappedCourse.UserId = user.Id;
             await courseService.AddCourse(mappedCourse);
 
             courseVM.Id = mappedCourse.Id;
-
 
             return RedirectToAction("CourseMaterials", new { id = courseVM.Id });
         }
