@@ -1,0 +1,47 @@
+﻿@model EducationPortal.UI.Models.VideoMaterialVM
+
+@{
+    ViewData["Title"] = "Add Video";
+}
+@{
+    Layout = "_Layout";
+}
+<h1 class="mainWordV">Add Video</h1>
+
+<hr />
+<div class="row ">
+    <div class="col-md-4">
+        <form asp-action="CreateVideo">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label backgroundcolor"></label>
+                <input asp-for="Name" class="form-control inputColorV" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label backgroundcolor"></label>
+                <input asp-for="Duration" class="form-control inputColorV" placeholder="00,00" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Link" class="control-label backgroundcolor"></label>
+                <input asp-for="Link" class="form-control inputColorV" placeholder="https://..." />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quality" class="control-label backgroundcolor"></label>
+                @Html.DropDownListFor(Model => Model.Quality, Html.GetEnumSelectList(typeof(VideoQualityVM)))
+                <span asp-validation-for="Quality" class="text-danger"></span>
+                <input type="submit" value="Add Video" class="btn btn-outline-info cls" />
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/js/video.js" asp-append-version="true"></script>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

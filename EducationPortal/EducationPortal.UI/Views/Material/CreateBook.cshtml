@@ -1,0 +1,50 @@
+﻿@model EducationPortal.UI.Models.BookMaterialVM
+
+@{
+    ViewData["Title"] = "Add Book";
+}
+@{ 
+    Layout = "_Layout";
+}
+
+<h1 class="mainWordB">Add Book</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateBook">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label backgroundcolor"></label>
+                <input asp-for="Name" class="form-control inputcolorB" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Author" class="control-label backgroundcolor"></label>
+                <input asp-for="Author" class="form-control inputcolorB" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pages" class="control-label backgroundcolor"></label>
+                <input asp-for="Pages" class="form-control inputcolorB" />
+                <span asp-validation-for="Pages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearOfPublish" class="control-label backgroundcolor"></label>
+                <input asp-for="YearOfPublish" class="form-control inputcolorB" />
+                <span asp-validation-for="YearOfPublish" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Format" class="control-label backgroundcolor"></label>
+                @Html.DropDownListFor(Model => Model.Format, Html.GetEnumSelectList(typeof(BookFormatVM)))
+                <span asp-validation-for="Format" class="text-danger"></span>
+                <input type="submit" value="Add Book" class="btn btn-outline-light cls" />
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/js/book.js" asp-append-version="true"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

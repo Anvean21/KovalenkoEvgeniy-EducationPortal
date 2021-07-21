@@ -64,27 +64,14 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId1")
+                    b.Property<int>("TestId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
+                    b.HasIndex("TestId");
 
                     b.ToTable("Courses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Description",
-                            Name = "Course"
-                        });
                 });
 
             modelBuilder.Entity("EducationPortal.Domain.Core.Entities.Answer", b =>
@@ -109,20 +96,6 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsTrue = true,
-                            Name = "answer 1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsTrue = false,
-                            Name = "answer 2"
-                        });
                 });
 
             modelBuilder.Entity("EducationPortal.Domain.Core.Entities.Question", b =>
@@ -144,13 +117,54 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                     b.HasIndex("TestId");
 
                     b.ToTable("Questions");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Question 1"
-                        });
+            modelBuilder.Entity("EducationPortal.Domain.Core.Entities.RelationModels.UserCoursesInProgress", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("UserCoursesInProgress");
+                });
+
+            modelBuilder.Entity("EducationPortal.Domain.Core.Entities.RelationModels.UserPassedCourses", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("UserPassedCourses");
+                });
+
+            modelBuilder.Entity("EducationPortal.Domain.Core.Entities.RelationModels.UserSkills", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "SkillId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("UserSkills");
                 });
 
             modelBuilder.Entity("EducationPortal.Domain.Core.Entities.Test", b =>
@@ -160,27 +174,13 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId")
-                        .IsUnique();
-
                     b.ToTable("Tests");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CourseId = 1,
-                            Name = "Test1"
-                        });
                 });
 
             modelBuilder.Entity("EducationPortal.Domain.Core.Material", b =>
@@ -206,9 +206,6 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
@@ -221,8 +218,12 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Level = 0,
                             Name = "C#"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = ".Net"
                         });
                 });
 
@@ -248,30 +249,6 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "anvean@gmail.com",
-                            Name = "Anvean",
-                            Password = "leitxrf33"
-                        });
-                });
-
-            modelBuilder.Entity("SkillUser", b =>
-                {
-                    b.Property<int>("SkillsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SkillsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("SkillUser");
                 });
 
             modelBuilder.Entity("EducationPortal.Domain.Core.ArticleMaterial", b =>
@@ -292,7 +269,7 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                         {
                             Id = 1,
                             Name = "Article 1",
-                            PublishDate = new DateTime(2021, 6, 17, 19, 50, 5, 889, DateTimeKind.Local).AddTicks(8554),
+                            PublishDate = new DateTime(2021, 6, 27, 16, 21, 10, 678, DateTimeKind.Local).AddTicks(5274),
                             Resource = "Metanit.com"
                         });
                 });
@@ -333,6 +310,9 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                     b.HasBaseType("EducationPortal.Domain.Core.Material");
 
                     b.Property<string>("Duration")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quality")
@@ -382,13 +362,13 @@ namespace EducationPortal.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("EducationPortal.Domain.Core.Course", b =>
                 {
-                    b.HasOne("EducationPortal.Domain.Core.User", null)
-                        .WithMany("CourseInProgress")
-                        .HasForeignKey("UserId");
+                    b.HasOne("EducationPortal.Domain.Core.Entities.Test", "Test")
+                        .WithMany()
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("EducationPortal.Domain.Core.User", null)
-                        .WithMany("PassedCourses")
-                        .HasForeignKey("UserId1");
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("EducationPortal.Domain.Core.Entities.Answer", b =>
@@ -405,30 +385,61 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                         .HasForeignKey("TestId");
                 });
 
-            modelBuilder.Entity("EducationPortal.Domain.Core.Entities.Test", b =>
+            modelBuilder.Entity("EducationPortal.Domain.Core.Entities.RelationModels.UserCoursesInProgress", b =>
                 {
                     b.HasOne("EducationPortal.Domain.Core.Course", "Course")
-                        .WithOne("Test")
-                        .HasForeignKey("EducationPortal.Domain.Core.Entities.Test", "CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("UsersInProgress")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EducationPortal.Domain.Core.User", "User")
+                        .WithMany("CoursesInProgress")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Course");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SkillUser", b =>
+            modelBuilder.Entity("EducationPortal.Domain.Core.Entities.RelationModels.UserPassedCourses", b =>
                 {
-                    b.HasOne("EducationPortal.Domain.Core.Skill", null)
-                        .WithMany()
-                        .HasForeignKey("SkillsId")
+                    b.HasOne("EducationPortal.Domain.Core.Course", "Course")
+                        .WithMany("UsersPassed")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EducationPortal.Domain.Core.User", "User")
+                        .WithMany("PassedCourses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EducationPortal.Domain.Core.Entities.RelationModels.UserSkills", b =>
+                {
+                    b.HasOne("EducationPortal.Domain.Core.Skill", "Skill")
+                        .WithMany("UserSkills")
+                        .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EducationPortal.Domain.Core.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
+                    b.HasOne("EducationPortal.Domain.Core.User", "User")
+                        .WithMany("UserSkills")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Skill");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EducationPortal.Domain.Core.ArticleMaterial", b =>
@@ -460,7 +471,9 @@ namespace EducationPortal.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("EducationPortal.Domain.Core.Course", b =>
                 {
-                    b.Navigation("Test");
+                    b.Navigation("UsersInProgress");
+
+                    b.Navigation("UsersPassed");
                 });
 
             modelBuilder.Entity("EducationPortal.Domain.Core.Entities.Question", b =>
@@ -473,11 +486,18 @@ namespace EducationPortal.Infrastructure.Data.Migrations
                     b.Navigation("Questions");
                 });
 
+            modelBuilder.Entity("EducationPortal.Domain.Core.Skill", b =>
+                {
+                    b.Navigation("UserSkills");
+                });
+
             modelBuilder.Entity("EducationPortal.Domain.Core.User", b =>
                 {
-                    b.Navigation("CourseInProgress");
+                    b.Navigation("CoursesInProgress");
 
                     b.Navigation("PassedCourses");
+
+                    b.Navigation("UserSkills");
                 });
 #pragma warning restore 612, 618
         }

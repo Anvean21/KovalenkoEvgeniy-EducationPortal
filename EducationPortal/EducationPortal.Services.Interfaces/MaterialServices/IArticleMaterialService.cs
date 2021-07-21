@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Services.Interfaces
 {
     public interface IArticleMaterialService
     {
-        public void AddArticleMaterial(ArticleMaterial articleMaterial);
+        public Task AddArticleMaterial(ArticleMaterial articleMaterial);
     }
 }

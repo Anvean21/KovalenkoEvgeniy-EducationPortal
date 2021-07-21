@@ -8,11 +8,13 @@ namespace EducationPortal.Domain.Core
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool Created { get; set; }
+        public int UserId { get; set; }
         public ICollection<UserCoursesInProgress> UsersInProgress { get; set; } = new List<UserCoursesInProgress>();
         public ICollection<UserPassedCourses> UsersPassed { get; set; } = new List<UserPassedCourses>();
         public ICollection<Skill> Skills { get; set; } = new List<Skill>();
         public ICollection<Material> Materials { get; set; } = new List<Material>();
         public Test Test { get; set; }
-        public int TestId { get; set; }
+        public int? TestId { get; set; }
     }
 }

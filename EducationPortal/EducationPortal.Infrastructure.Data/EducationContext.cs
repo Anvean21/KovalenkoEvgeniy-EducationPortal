@@ -2,6 +2,8 @@
 using EducationPortal.Domain.Core.Entities;
 using EducationPortal.Domain.Core.Entities.RelationModels;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 namespace EducationPortal.Infrastructure.Data
 {
@@ -18,17 +20,9 @@ namespace EducationPortal.Infrastructure.Data
         public DbSet<VideoMaterial> VideoMaterials { get; set; }
         public DbSet<BookMaterial> BookMaterials { get; set; }
 
-        public EducationContext()
+        public EducationContext(DbContextOptions<EducationContext> options)
+            : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder
-                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EducationPortal;Trusted_Connection=True;")
-                .EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,18 +40,19 @@ namespace EducationPortal.Infrastructure.Data
             modelBuilder.Entity<Material>().Property(m => m.Name).HasMaxLength(50);
 
             modelBuilder.Entity<ArticleMaterial>().Property(b => b.Name).HasMaxLength(128);
-            modelBuilder.Entity<ArticleMaterial>().Property(b => b.Resource).HasMaxLength(250);
+            modelBuilder.Entity<ArticleMaterial>().Property(b => b.Resource).HasMaxLength(500);
 
             modelBuilder.Entity<VideoMaterial>().Property(v => v.Name).HasMaxLength(128);
+            modelBuilder.Entity<VideoMaterial>().Property(v => v.Link).HasMaxLength(500);
 
             modelBuilder.Entity<BookMaterial>().Property(v => v.Name).HasMaxLength(128);
             modelBuilder.Entity<BookMaterial>().Property(v => v.Author).HasMaxLength(128);
 
             modelBuilder.Entity<Test>().Property(c => c.Name).HasMaxLength(30);
 
-            modelBuilder.Entity<Question>().Property(c => c.Name).HasMaxLength(50);
+            modelBuilder.Entity<Question>().Property(c => c.Name).HasMaxLength(128);
 
-            modelBuilder.Entity<Answer>().Property(c => c.Name).HasMaxLength(50);
+            modelBuilder.Entity<Answer>().Property(c => c.Name).HasMaxLength(60);
 
             modelBuilder.Entity<Course>().Property(c => c.Name).HasMaxLength(128);
             modelBuilder.Entity<Course>().Property(c => c.Description).HasMaxLength(250);
@@ -96,40 +91,18 @@ namespace EducationPortal.Infrastructure.Data
                 .HasForeignKey(x => x.CourseId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //var user = new User { Id = 1, Name = "Anvean", Email = "anvean@gmail.com", Password = "leitxrf33" };
-            //var skill = new Skill { Id = 1, Name = "C#" };
-            //var skill2 = new Skill { Id = 2, Name = ".Net" };
-            //var skillList = new List<Skill>() { skill, skill2 };
+            var skill = new Skill { Id = 1, Name = "C#" };
+            var skill2 = new Skill { Id = 2, Name = ".Net" };
+            var skills = new List<Skill>() { skill, skill2 };
 
-            //var article = new ArticleMaterial { Id = 1, Name = "Article 1", PublishDate = DateTime.Now, Resource = "Metanit.com" };
-            //var video = new VideoMaterial { Id = 2, Name = "Extreme Code", Quality = VideoQuality.High, Duration = "19,27" };
-            //var book = new BookMaterial { Id = 3, Name = "CLR via C#", Author = "Richetr", Format = BookFormat.Large, Pages = 236, YearOfPublish = 2006 };
-            //var materials = new List<Material>() { article, video };
-            //var answers = new List<Answer>()
-            //{
-            //new Answer {  Id = 1, Name = "answer 1", IsTrue = true, Variant = "a".ToCharArray()},
-            //new Answer {  Id = 2, Name = "answer 2", IsTrue = false, Variant = "b".ToCharArray()}
-            //};
-            //var question = new Question { Id = 1, Name = "Question 1" };
-            //var questionList = new List<Question>() { question };
+            var article = new ArticleMaterial { Id = 1, Name = "C# Metanit", PublishDate = DateTime.Now, Resource = "https://metanit.com/" };
+            var video = new VideoMaterial { Id = 2, Name = "Extreme Code - CLR", Quality = VideoQuality.High, Duration = "19,27", Link = "https://www.youtube.com/watch?v=neu6M576RWo" };
+            var book = new BookMaterial { Id = 3, Name = "CLR via C#", Author = "Richter", Format = BookFormat.Large, Pages = 236, YearOfPublish = 2006 };
 
-            //var test = new Test { Id = 1, Name = "Test1" };
-
-            //var course = new Course { Id = 1, Name = "Course", Description = "Description" };
-            //course.TestId = test.Id;
-
-
-            //modelBuilder.Entity<User>().HasData(user);
-            //modelBuilder.Entity<Skill>().HasData(skill);
-            //modelBuilder.Entity<ArticleMaterial>().HasData(article);
-            //modelBuilder.Entity<VideoMaterial>().HasData(video);
-            //modelBuilder.Entity<BookMaterial>().HasData(book);
-            //modelBuilder.Entity<Answer>().HasData(answers);
-            //modelBuilder.Entity<Question>().HasData(question);
-
-            //modelBuilder.Entity<Test>().HasData(test);
-
-            //modelBuilder.Entity<Course>().HasData(course);
+            modelBuilder.Entity<Skill>().HasData(skills);
+            modelBuilder.Entity<ArticleMaterial>().HasData(article);
+            modelBuilder.Entity<VideoMaterial>().HasData(video);
+            modelBuilder.Entity<BookMaterial>().HasData(book);
         }
     }
 }

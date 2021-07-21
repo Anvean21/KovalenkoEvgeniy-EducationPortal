@@ -21,12 +21,12 @@ namespace EducationPortal.Infrastructure.Data
             entities = context.Set<TEntity>();
         }
 
-        public virtual async Task SaveAsync()
+        public async Task SaveAsync()
         {
             await this.context.SaveChangesAsync();
         }
 
-        public virtual async Task AddAsync(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
             context.ChangeTracker.TrackGraph(entity, e =>
             {
@@ -44,20 +44,20 @@ namespace EducationPortal.Infrastructure.Data
             await this.context.SaveChangesAsync();
         }
 
-        public virtual async Task AddAsync(IEnumerable<TEntity> entities)
+        public async Task AddAsync(IEnumerable<TEntity> entities)
         {
             await this.entities.AddRangeAsync(entities);
         }
 
-        public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
+        public Task UpdateAsync(IEnumerable<TEntity> entities)
         {
             this.entities.UpdateRange(entities);
             return Task.CompletedTask;
         }
 
-        public virtual async Task Update(TEntity entity)
+        public async Task Update(TEntity entity)
         {
-            this.entities.Update(entity);
+             this.entities.Update(entity);
 
             context.ChangeTracker.TrackGraph(entity, e =>
             {
@@ -74,26 +74,21 @@ namespace EducationPortal.Infrastructure.Data
             await this.context.SaveChangesAsync();
         }
 
-        public virtual async Task<TEntity> FindAsync(Specification<TEntity> specification)
-        {
-            var includes = Include(specification);
+       
 
-            return await includes.FirstOrDefaultAsync(specification.Expression);
-        }
-
-        public virtual async Task<TEntity> FindAsync(int id)
+        public async Task<TEntity> FindAsync(int id)
         {
             return await this.entities.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAsync(Specification<TEntity> specification)
+        public async Task<IEnumerable<TEntity>> GetAsync(Specification<TEntity> specification)
         {
             var includes = Include(specification);
 
             return await includes.Where(specification.Expression).ToListAsync().ConfigureAwait(false);
         }
 
-        public virtual Task<PagedList<TEntity>> GetAsync(Specification<TEntity> specification, int pageNumber, int pageSize)
+        public Task<PagedList<TEntity>> GetAsync(Specification<TEntity> specification, int pageNumber, int pageSize)
         {
             var includes = Include(specification);
 
@@ -107,11 +102,18 @@ namespace EducationPortal.Infrastructure.Data
             return Task.CompletedTask;
         }
 
-        public virtual Task RemoveAsync(IEnumerable<TEntity> entities)
+        public Task RemoveAsync(IEnumerable<TEntity> entities)
         {
             this.entities.RemoveRange(entities);
             context.SaveChanges();
             return Task.CompletedTask;
+        }
+
+        public async Task<TEntity> FindAsync(Specification<TEntity> specification)
+        {
+            var includes = Include(specification);
+
+            return await includes.FirstOrDefaultAsync(specification.Expression);
         }
 
         private IQueryable<TEntity> Include(Specification<TEntity> specification)

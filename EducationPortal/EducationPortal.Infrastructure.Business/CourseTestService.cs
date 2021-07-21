@@ -14,21 +14,24 @@ namespace EducationPortal.Infrastructure.Business
     public class CourseTestService : ICourseTestService
     {
         private readonly IRepository<Test> testRepository;
-        public CourseTestService(IRepository<Test> testService)
+        private readonly IRepository<Answer> answerRepository;
+
+        public CourseTestService(IRepository<Test> testService, IRepository<Answer> answerRepository)
         {
             this.testRepository = testService;
+            this.answerRepository = answerRepository;
         }
 
-        public void AddTest(Test test)
+        public async Task AddTest(Test test)
         {
-            testRepository.AddAsync(test);
+            await testRepository.AddAsync(test);
         }
 
-        public bool UniqueTestName(string name)
+        public async Task<bool> UniqueTestName(string name)
         {
             var courseSpecification = new Specification<Test>(x => x.Name.ToLower() == name.ToLower());
 
-            if (testRepository.FindAsync(courseSpecification).Result == null)
+            if (await testRepository.FindAsync(courseSpecification) == null)
             {
                 return true;
             }
@@ -40,7 +43,6 @@ namespace EducationPortal.Infrastructure.Business
         {
             var includes = new List<Expression<Func<Test, object>>>
             {
-                //TODO 
                 y => y.Questions
             };
 
@@ -49,11 +51,10 @@ namespace EducationPortal.Infrastructure.Business
             return await testRepository.FindAsync(spec);
         }
 
-        public async Task<Test> GetTestById(int Id)
+        public async Task<Test> GetTestById(int? Id)
         {
             var includes = new List<Expression<Func<Test, object>>>
             {
-                //TODO 
                 y => y.Questions
             };
 
@@ -62,14 +63,28 @@ namespace EducationPortal.Infrastructure.Business
             return await testRepository.FindAsync(spec);
         }
 
-        public int CountResult(Question question, string userVariant, ref int result)
+        public IEnumerable<Test> GetTests()
         {
-            if (userVariant == question.Answers.FirstOrDefault(x => x.IsTrue == true).Name.Split(".")[0])
+            var spec = new Specification<Test>(x => x.Taken == false);
+
+            return testRepository.GetAsync(spec, 1, 20).Result.Items;
+        }
+
+        public async Task<int> CountRightUserAnswers(List<int> answersId)
+        {
+            var answers = new List<Answer>();
+
+            foreach (var id in answersId)
             {
-                result++;
+                var answerSpecification = new Specification<Answer>(x => x.Id == id && x.IsTrue == true);
+                var rightAnswer = await answerRepository.FindAsync(answerSpecification);
+                if (rightAnswer != null)
+                {
+                    answers.Add(rightAnswer);
+                }
             }
 
-            return result;
+            return answers.Count();
         }
     }
 }

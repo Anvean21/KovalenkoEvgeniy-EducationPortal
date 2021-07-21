@@ -1,0 +1,47 @@
+﻿@inject EducationPortal.Services.Interfaces.IMaterialService Material
+
+@{
+    ViewData["Title"] = "Existing Materials";
+}
+@{
+    Layout = "_Layout";
+}
+<div class="materialList">
+    <h3 class="materialsColor books">Materials list</h3>
+</div>
+<div class="row">
+    <div class="col-md-4 align-self-start textCenter">
+        <dl>
+            <dt class="paragraphColor books">Videos</dt>
+            @foreach (var video in Material.GetVideoMaterials())
+            {
+                <dd class="materialsColor books"> @video.Name</dd>
+            }
+            <div>@Html.ActionLink("Add new video", "CreateVideo", "Material", null, new { @class = "linkDecor btn btn-info" })</div>
+        </dl>
+    </div>
+    <div class="col-md-4 align-self-center textCenter">
+        <dl>
+            <dt class="paragraphColor books">Articles</dt>
+            @foreach (var article in Material.GetArticleMaterials())
+            {
+                <dd class="materialsColor books"> @article.Name</dd>
+            }
+            <div>@Html.ActionLink("Add new article", "CreateArticle", "Material", null, new { @class = "linkDecor btn btn-info" })</div>
+        </dl>
+    </div>
+    <div class="col-md-4 align-self-end textCenter">
+        <dl>
+            <dt class="paragraphColor books">Books</dt>
+            @foreach (var book in Material.GetBookMaterials())
+            {
+                <dd class="materialsColor books">@book.Name</dd>
+            }
+            <div>@Html.ActionLink("Add new book", "CreateBook", "Material", null, new { @class = "linkDecor btn btn-info" })</div>
+        </dl>
+    </div>
+</div>
+<div class=" materialList"> @Html.ActionLink("I WILL USE EXISTING MATERIALS", "SkillList", "Skill", null, new { @class = "linkDecor btn btn-outline-dark", @style = "margin-left:20px; color: white;" })</div>
+<script src="~/js/materialList.js" asp-append-version="true"></script>
+
+

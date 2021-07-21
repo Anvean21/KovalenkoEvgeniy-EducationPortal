@@ -1,4 +1,5 @@
 ﻿using EducationPortal.Domain.Core;
+using EducationPortal.Domain.Core.Entities;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
 using EFlecture.Core.Specifications;
@@ -7,28 +8,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
     public class CourseService : ICourseService
     {
         private readonly IRepository<Course> courseRepository;
+        private readonly IRepository<Material> materialRepository;
+        private readonly IRepository<Skill> skillRepository;
+        private readonly IRepository<Test> testRepository;
 
-        public CourseService(IRepository<Course> courseRepository)
+        public CourseService(IRepository<Course> courseRepository, IRepository<Material> materialRepository, IRepository<Skill> skillRepository, IRepository<Test> testRepository)
         {
             this.courseRepository = courseRepository;
+            this.materialRepository = materialRepository;
+            this.skillRepository = skillRepository;
+            this.testRepository = testRepository;
         }
 
-        public void AddCourse(Course course)
+        public async Task AddCourse(Course course)
         {
-            courseRepository.AddAsync(course);
+            await courseRepository.AddAsync(course);
         }
 
-        public bool UniqueCourseName(string name)
+        public async Task<bool> UniqueCourseName(string name)
         {
             var courseSpecification = new Specification<Course>(x => x.Name.ToLower() == name.ToLower());
 
-            if (courseRepository.FindAsync(courseSpecification).Result == null)
+            if (await courseRepository.FindAsync(courseSpecification) == null)
             {
                 return true;
             }
@@ -40,16 +48,15 @@ namespace EducationPortal.Infrastructure.Business
         {
             var courseIncludes = new List<Expression<Func<Course, object>>>
             {
-                //TODO 
                 y => y.Skills
             };
 
-            var courseSpec = new Specification<Course>(x => true, courseIncludes);
+            var courseSpec = new Specification<Course>(x => x.Created == true, courseIncludes);
 
             return courseRepository.GetAsync(courseSpec, pageNumber, itemCount).Result.Items;
         }
 
-        public Course GetById(int id)
+        public async Task<Course> GetById(int id)
         {
             var courseIncludes = new List<Expression<Func<Course, object>>>
             {
@@ -60,7 +67,56 @@ namespace EducationPortal.Infrastructure.Business
 
             var courseSpec = new Specification<Course>(x => x.Id == id, courseIncludes);
 
-            return courseRepository.FindAsync(courseSpec).Result;
+            return await courseRepository.FindAsync(courseSpec);
+        }
+
+        public async Task AddMaterials(int courseId, int materialId)
+        {
+            var course = await GetById(courseId);
+            course.Materials.Add(materialRepository.FindAsync(materialId).Result);
+            await courseRepository.SaveAsync();
+        }
+
+        public async Task AddSkills(int courseId, int skillId)
+        {
+            var course = await GetById(courseId);
+            course.Skills.Add(skillRepository.FindAsync(skillId).Result);
+            await courseRepository.SaveAsync();
+        }
+
+        public async Task<bool> AddTest(int courseId, int testId)
+        {
+            var course = await GetById(courseId);
+            var courseSpec = new Specification<Course>(x => x.TestId == testId);
+            var IsTestAlreadyBusy = await courseRepository.FindAsync(courseSpec);
+
+            if (IsTestAlreadyBusy == null)
+            {
+                var test = await testRepository.FindAsync(testId);
+                test.Taken = true;
+                course.TestId = test.Id;
+                course.Test = test;
+                course.Created = true;
+                await courseRepository.SaveAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<Course> GetByTestId(int testId)
+        {
+            var courseIncludes = new List<Expression<Func<Course, object>>>
+            {
+                y => y.Skills,
+                y => y.Test,
+            };
+
+            var courseSpec = new Specification<Course>(x => x.TestId == testId, courseIncludes);
+
+            return await courseRepository.FindAsync(courseSpec);
         }
     }
 }

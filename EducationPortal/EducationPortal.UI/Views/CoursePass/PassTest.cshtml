@@ -1,0 +1,47 @@
+﻿@model EducationPortal.UI.Models.TestViewModels.TestVM
+
+@{
+    ViewData["Title"] = "PassTest";
+}
+
+@{ 
+    Layout = "_Layout";
+}
+<h1>PassTest</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+</div>
+
+
+<form asp-action="PassTest">
+
+    <div>
+        @foreach (var question in Model.Questions)
+        {
+            <div class="form-group">
+
+                <p><strong> @question.Name </strong></p>
+                @foreach (var answer in question.Answers)
+                {
+                    @Html.RadioButton(question.Name, answer.Id)
+                    <span>@answer.Name</span><br />
+                }
+
+            </div>
+        }
+    </div>
+    <input type="button" onclick="TestPassing()" value="Finish test" class="btn btn-primary" />
+    <div hidden="hidden" id="urlId">@Url.Action("TestResult", "CoursePass")</div>
+    <div hidden="hidden" id="testId">@Model.Id</div>
+</form>
+
+<script src="~/js/testPass.js" asp-append-version="true"></script>

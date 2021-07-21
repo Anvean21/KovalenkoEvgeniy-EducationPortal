@@ -4,8 +4,11 @@ using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
 using EFlecture.Core.Specifications;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
@@ -22,10 +25,10 @@ namespace EducationPortal.Infrastructure.Business
             this.passwordHasher = passwordHasher;
         }
 
-        public void Register(User model)
+        public async Task Register(User model)
         {
             model.Password = passwordHasher.HashPassword(model.Password);
-            userRepository.AddAsync(model);
+            await userRepository.AddAsync(model);
             authorizedUser = model;
         }
 
@@ -35,9 +38,13 @@ namespace EducationPortal.Infrastructure.Business
 
             var userFromDb = userRepository.FindAsync(userSpecification).Result;
 
+            if (userFromDb == null)
+            {
+                return false;
+            }
             var res = passwordHasher.VerifyHashedPassword(userFromDb.Password, password);
 
-            if (userFromDb != null && res == PasswordVerificationResult.Success)
+            if (res == PasswordVerificationResult.Success)
             {
                 authorizedUser = userFromDb;
                 return true;
@@ -61,11 +68,11 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public bool GetUniqueEmail(string email)
+        public async Task<bool> GetUniqueEmail(string email)
         {
             var userSpecification = new Specification<User>(x => x.Email.ToLower() == email.ToLower());
 
-            if (userRepository.FindAsync(userSpecification).Result == null)
+            if (await userRepository.FindAsync(userSpecification) == null)
             {
                 return true;
             }
@@ -73,27 +80,40 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public bool AddCourseToProgress(Course course)
+        public async Task<User> GetUserByEmail(string email)
         {
-            if (authorizedUser.PassedCourses.Any(x => x.CourseId == course.Id))
+            var includes = new List<Expression<Func<User, object>>>
+            {
+                y => y.CoursesInProgress,
+                y => y.PassedCourses,
+                y => y.UserSkills,
+                y => y.CreatedCourses
+            };
+            var userSpecification = new Specification<User>(x => x.Email.ToLower() == email.ToLower(), includes);
+
+            return await userRepository.FindAsync(userSpecification);
+        }
+
+        public async Task<bool> AddCourseToProgress(User user, Course course)
+        {
+            if (user.PassedCourses.Any(x => x.CourseId == course.Id))
             {
                 return false;
             }
 
-            if (authorizedUser.CoursesInProgress.Any(x => x.CourseId == course.Id))
+            if (user.CoursesInProgress.Any(x => x.CourseId == course.Id))
             {
-
                 return true;
             }
 
-            authorizedUser.CoursesInProgress.Add(new UserCoursesInProgress { UserId = authorizedUser.Id, CourseId = course.Id });
+            user.CoursesInProgress.Add(new UserCoursesInProgress { UserId = user.Id, CourseId = course.Id });
 
-            userRepository.Update(authorizedUser);
+            await userRepository.Update(user);
             return true;
 
         }
 
-        public bool IsCoursePassed(Course course, int rightAnswers)
+        public async Task<bool> IsCoursePassed(User user, Course course, int rightAnswers)
         {
             const double minimumRightAnswersPercent = 0.70;
 
@@ -101,25 +121,25 @@ namespace EducationPortal.Infrastructure.Business
 
             if (countOfQuestions * minimumRightAnswersPercent <= rightAnswers)
             {
-                authorizedUser.PassedCourses.Add(new UserPassedCourses { UserId = authorizedUser.Id, CourseId = course.Id });
+                user.PassedCourses.Add(new UserPassedCourses { UserId = user.Id, CourseId = course.Id });
 
                 foreach (var skill in course.Skills)
                 {
-                    if (UserSkillUp(skill))
+                    if (UserSkillUp(user, skill))
                     {
                         continue;
                     }
                     else
                     {
-                        authorizedUser.UserSkills.Add(new UserSkills { SkillId = skill.Id, UserId = authorizedUser.Id });
+                        user.UserSkills.Add(new UserSkills { SkillId = skill.Id, UserId = user.Id });
                     }
                 }
 
-                var removedCourse = authorizedUser.CoursesInProgress.FirstOrDefault(x => x.CourseId == course.Id);
+                var removedCourse = user.CoursesInProgress.FirstOrDefault(x => x.CourseId == course.Id);
 
-                authorizedUser.CoursesInProgress.Remove(removedCourse);
+                user.CoursesInProgress.Remove(removedCourse);
 
-                userRepository.Update(authorizedUser);
+                await userRepository.Update(user);
 
                 return true;
             }
@@ -127,11 +147,11 @@ namespace EducationPortal.Infrastructure.Business
             return false;
         }
 
-        public bool UserSkillUp(Skill skill)
+        private bool UserSkillUp(User user, Skill skill)
         {
-            if (authorizedUser.UserSkills.Any(x => x.SkillId == skill.Id))
+            if (user.UserSkills.Any(x => x.SkillId == skill.Id))
             {
-                authorizedUser.UserSkills.FirstOrDefault(x => x.SkillId == skill.Id).Level++;
+                user.UserSkills.FirstOrDefault(x => x.SkillId == skill.Id).Level++;
                 return true;
             }
 

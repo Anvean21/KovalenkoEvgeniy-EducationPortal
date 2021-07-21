@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Services.Interfaces
 {
     public interface IVideoMaterialService
     {
-        public void AddVideoMaterial(VideoMaterial videoMaterial);
+        public Task AddVideoMaterial(VideoMaterial videoMaterial);
     }
 }
