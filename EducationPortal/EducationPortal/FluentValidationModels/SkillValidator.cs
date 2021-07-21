@@ -15,14 +15,15 @@ namespace EducationPortal.FluentValidationModels
         public SkillValidator()
         {
             RuleFor(x => x.Name).NotEmpty().Length(1, 30).Must(UniqueSkill).WithMessage("Skill already exists");
+            RuleFor(x => x.Level).NotNull();
         }
         private bool UniqueSkill(string uniqeItem)
         {
-            if (skillService.GetSkills().Any(x => x.Name.ToLower() == uniqeItem.ToLower()))
+            if (skillService.GetUniqueName(uniqeItem))
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
     }
 }

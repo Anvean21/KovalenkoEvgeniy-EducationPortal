@@ -18,10 +18,12 @@ namespace EducationPortal.FluentValidationModels
             RuleFor(x => x.Description).NotEmpty().Length(5, 300);
             RuleForEach(x => x.Skills).NotEmpty().NotNull();
             RuleForEach(x => x.Materials).NotEmpty().NotNull();
+            RuleFor(x => x.Test).NotEmpty().NotNull();
         }
+
         private bool UniqueCourse(string uniqeItem)
         {
-            if (!courseService.GetCourses().Any(x => x.Name.ToLower() == uniqeItem.ToLower()))
+            if (courseService.UniqueCourseName(uniqeItem))
             {
                 return true;
             }

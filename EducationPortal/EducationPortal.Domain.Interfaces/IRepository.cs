@@ -1,16 +1,37 @@
-﻿using System;
+﻿using EducationPortal.Domain.Core;
+using EFlecture.Core.Models;
+using EFlecture.Core.Specifications;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Domain.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity> where TEntity : BasicEntity
     {
-        IEnumerable<T> GetAll();
-        T GetById(int id);
-        void Create(T item);
-        void Update(T item);
-        void Delete(int id);
+        Task SaveAsync();
+        Task<TEntity> FindAsync(int id);
+
+        Task<TEntity> FindAsync(Specification<TEntity> specification);
+
+        Task<IEnumerable<TEntity>> GetAsync(Specification<TEntity> specification);
+
+        Task<PagedList<TEntity>> GetAsync(Specification<TEntity> specification, int pageNumber, int pageSize);
+
+        Task AddAsync(TEntity entity);
+
+        Task AddAsync(IEnumerable<TEntity> entities);
+
+        Task Update(TEntity entity);
+
+        Task UpdateAsync(IEnumerable<TEntity> entity);
+
+        Task RemoveAsync(int entityId);
+
+        Task RemoveAsync(IEnumerable<TEntity> entity);
     }
 }

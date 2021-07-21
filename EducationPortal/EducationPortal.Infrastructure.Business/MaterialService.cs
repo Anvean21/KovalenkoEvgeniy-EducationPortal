@@ -1,65 +1,62 @@
 ﻿using EducationPortal.Domain.Core;
 using EducationPortal.Domain.Interfaces;
 using EducationPortal.Services.Interfaces;
+using EFlecture.Core.Models;
+using EFlecture.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Infrastructure.Business
 {
     public class MaterialService : IMaterialService
     {
-        private readonly IRepository<BookMaterial> bookMaterialRepository;
-        private readonly IRepository<ArticleMaterial> articleMaterialRepository;
-        private readonly IRepository<VideoMaterial> videoMaterialRepository;
-        public MaterialService(IRepository<BookMaterial> bookMaterialRepository, IRepository<ArticleMaterial> articleMaterialRepository, IRepository<VideoMaterial> videoMaterialRepository)
+        private readonly IRepository<Material> materialRepository;
+
+        public MaterialService(IRepository<Material> materialRepository)
         {
-            this.bookMaterialRepository = bookMaterialRepository;
-            this.articleMaterialRepository = articleMaterialRepository;
-            this.videoMaterialRepository = videoMaterialRepository;
+            this.materialRepository = materialRepository;
         }
 
-        public void AddArticleMaterial(ArticleMaterial articleMaterial)
+        public async Task<Material> GetMaterialById(int Id)
         {
-            articleMaterialRepository.Create(articleMaterial);
+            var materialSpecification = new Specification<Material>(x => x.Id == Id);
+            return await materialRepository.FindAsync(materialSpecification);
         }
 
-        public void AddBookMaterial(BookMaterial bookMaterial)
+        public async Task<bool> UniqueMaterialName(string name)
         {
-            bookMaterialRepository.Create(bookMaterial);
+            var materialSpecification = new Specification<Material>(x => x.Name.ToLower() == name.ToLower());
+
+            if ( await materialRepository.FindAsync(materialSpecification) == null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public void AddVideoMaterial(VideoMaterial videoMaterial)
+        public IEnumerable<Material> GetVideoMaterials(int pageNumber = 1, int itemCount = 40)
         {
-            videoMaterialRepository.Create(videoMaterial);
-        }
-        public IEnumerable<VideoMaterial> GetVideoMaterials()
-        {
-            return videoMaterialRepository.GetAll();
-        }
-        public IEnumerable<ArticleMaterial> GetArticleMaterials()
-        {
-            return articleMaterialRepository.GetAll();
+            var materialSpecification = new Specification<Material>(x => true && x is VideoMaterial);
+
+            return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }
 
-        public IEnumerable<BookMaterial> GetBookMaterials()
+        public IEnumerable<Material> GetBookMaterials(int pageNumber = 1, int itemCount = 40)
         {
-            return bookMaterialRepository.GetAll();
+            var materialSpecification = new Specification<Material>(x => true && x is BookMaterial);
+
+            return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }
 
-        public Material GetMaterialByName(string name)
+        public IEnumerable<Material> GetArticleMaterials(int pageNumber = 1, int itemCount = 40)
         {
-            return GetMaterials().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
-        }
+            var materialSpecification = new Specification<Material>(x => true && x is ArticleMaterial);
 
-        public IEnumerable<Material> GetMaterials()
-        {
-            List<Material> materials = new List<Material>();
-            materials.AddRange(GetVideoMaterials());
-            materials.AddRange(GetArticleMaterials());
-            materials.AddRange(GetBookMaterials());
-            return materials;
+            return materialRepository.GetAsync(materialSpecification, pageNumber, itemCount).Result.Items;
         }
     }
 }

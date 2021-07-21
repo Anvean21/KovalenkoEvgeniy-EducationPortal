@@ -2,15 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationPortal.Services.Interfaces
 {
     public interface IUserService
     {
-        public void Register(User model);
-        public bool LogIn(string email, string password);
+        public Task Register(User model);
+        public bool LogIn(string login, string password);
         public bool LogOut();
         public bool IsUserAuthorized();
-        public IEnumerable<User> GetUsers();
+        public Task<bool> AddCourseToProgress(User user,Course course);
+        public Task<bool> IsCoursePassed(User user,Course course, int result);
+        public Task<bool> GetUniqueEmail(string email);
+        public Task<User> GetUserByEmail(string email);
     }
 }

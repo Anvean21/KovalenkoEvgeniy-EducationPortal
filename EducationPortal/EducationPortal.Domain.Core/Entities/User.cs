@@ -1,9 +1,5 @@
-﻿using EducationPortal.Domain.Core.Entities.RelationEntities;
-using System;
+﻿using EducationPortal.Domain.Core.Entities.RelationModels;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Json.Serialization;
 
 namespace EducationPortal.Domain.Core
 {
@@ -12,11 +8,9 @@ namespace EducationPortal.Domain.Core
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public ICollection<Skill> Skills { get; set; }
-        public ICollection<Course> Courses { get; set; }
-        public ICollection<Course> CourseInProgress { get; set; }
-        [JsonIgnore]
-        public IList<ExistingUserSkills> ExistingUserSkills { get; set; }
-
+        public ICollection<Course> CreatedCourses { get; set; }
+        public ICollection<UserCoursesInProgress> CoursesInProgress { get; set; } = new List<UserCoursesInProgress>();
+        public ICollection<UserPassedCourses> PassedCourses { get; set; } = new List<UserPassedCourses>();
+        public ICollection<UserSkills> UserSkills { get; set; } = new List<UserSkills>();
     }
 }

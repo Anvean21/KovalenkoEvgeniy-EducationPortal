@@ -1,0 +1,82 @@
+﻿@model EducationPortal.Domain.Core.User
+
+@{
+    ViewData["Title"] = "Account";
+}
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Name)</h4>
+    <hr />
+    <div class="row">
+
+        <div class="col-3">
+            <p class="text-center font-weight-bold">Your skills</p>
+
+            @if (Model.UserSkills == null)
+            {
+                <div>You have not any skills</div>
+            }
+            else
+            {
+                @foreach (var skill in Model.UserSkills)
+                {
+                    <div class="col-sm-10">
+                        @skill.Skill.Name (Level: @skill.Level)
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="col-3">
+            <p class="text-center font-weight-bold">Created courses</p>
+
+            @if (!Model.CreatedCourses.Any())
+            {
+                <div>You have not create any courses</div>
+            }
+            else
+            {
+                @foreach (var course in Model.CreatedCourses)
+                {
+                    <p>
+                        Course: @course.Name (@course.Description) |  @Html.ActionLink("Edit", "Edit", new { courseId = course.Id })
+                    </p>
+                }
+            }
+        </div>
+        <div class="col-3">
+            <p class="text-center font-weight-bold">Passed courses</p>
+
+            @if (!Model.PassedCourses.Any())
+            {
+                <div>You have not pass any courses</div>
+            }
+            else
+            {
+                @foreach (var course in Model.PassedCourses)
+                {
+                    <p class="text-center">
+                        @course.Course.Name
+                    </p>
+                }
+            }
+        </div>
+        <div class="col-3">
+            <p class="text-center font-weight-bold">Courses in progress</p>
+
+            @if (!Model.CoursesInProgress.Any())
+            {
+                <div>You have not pass any courses</div>
+            }
+            else
+            {
+                @foreach (var course in Model.CoursesInProgress)
+                {
+                    <p class="text-center">
+                        @course.Course.Name - @Html.ActionLink("Continue passing", "PassCourse", new { courseId = course.CourseId }, new { @class = "btn btn-outline-info" })
+                    </p>
+                }
+            }
+        </div>
+    </div>
+</div>

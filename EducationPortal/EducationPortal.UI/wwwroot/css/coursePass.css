@@ -1,0 +1,30 @@
+.courseInfo {
+    background-color: slategray;
+    margin-bottom: 30px;
+}
+
+.materialsType {
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-family: 'Times New Roman';
+    text-align: center;
+    margin: 10px;
+}
+
+.materialsInfo {
+}
+
+.videoMaterials {
+    color: black;
+    font-family: 'Times New Roman';
+}
+
+.bookMaterials {
+    font-family: 'Times New Roman';
+}
+
+.articleMaterials {
+    font-family: 'Times New Roman';
+}

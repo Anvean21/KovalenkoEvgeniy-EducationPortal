@@ -1,15 +1,12 @@
-﻿using EducationPortal.Domain.Core.Entities.RelationEntities;
-using System;
+﻿using EducationPortal.Domain.Core.Entities.RelationModels;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
 
 namespace EducationPortal.Domain.Core
 {
     public class Skill : BasicEntity
     {
         public string Name { get; set; }
-        [JsonIgnore]
-        public IList<ExistingUserSkills> ExistingUserSkills { get; set; }
+        public ICollection<UserSkills> UserSkills { get; set; } = new List<UserSkills>();
+        public ICollection<Course> Courses { get; set; } = new List<Course>();
     }
 }

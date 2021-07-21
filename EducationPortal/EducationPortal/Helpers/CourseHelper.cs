@@ -1,4 +1,6 @@
-﻿using EducationPortal.Creator;
+﻿using EducationPortal.Automapper;
+using EducationPortal.Controllers;
+using EducationPortal.Creator;
 using EducationPortal.FluentValidationModels;
 using EducationPortal.Services.Interfaces;
 using EducationPortal.ViewModels;
@@ -6,25 +8,33 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace EducationPortal.Helpers
 {
     public class CourseHelper
     {
-        readonly MaterialCreator MaterialCreator = new MaterialCreator(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>());
+        readonly static VideoMaterialController videoMaterialController = new VideoMaterialController(CustomServiceProvider.Provider.GetRequiredService<IVideoMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
-        readonly SkillCreator SkillCreator = new SkillCreator(CustomServiceProvider.Provider.GetRequiredService<ISkillService>());
+        readonly static ArticleMaterialController articleMaterialController = new ArticleMaterialController(CustomServiceProvider.Provider.GetRequiredService<IArticleMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
+
+        readonly static BookMaterialController bookMaterialController = new BookMaterialController(CustomServiceProvider.Provider.GetRequiredService<IBookMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
+
+        private readonly MaterialController materialController = new MaterialController(CustomServiceProvider.Provider.GetRequiredService<IMaterialService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
+
+        readonly SkillConroller skillController = new SkillConroller(CustomServiceProvider.Provider.GetRequiredService<ISkillService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
+
+        readonly TestController testController = new TestController(CustomServiceProvider.Provider.GetRequiredService<ICourseTestService>(), CustomServiceProvider.Provider.GetRequiredService<IMapper>());
 
         public CourseVM CourseFullData()
         {
-            CourseVM courseVM = new CourseVM();
+            var courseVM = new CourseVM();
             Console.WriteLine("Enter course Name");
             courseVM.Name = Console.ReadLine();
             Console.WriteLine("Enter course Description");
             courseVM.Description = Console.ReadLine();
             courseVM.Materials = new List<MaterialVM>();
             courseVM.Skills = new List<SkillVM>();
+
             bool infinity = true;
             while (infinity)
             {
@@ -32,42 +42,47 @@ namespace EducationPortal.Helpers
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        MaterialCreator.VideoCreate();
+                        videoMaterialController.VideoCreate();
                         break;
                     case "2":
-                        MaterialCreator.BookCreate();
+                        bookMaterialController.BookCreate();
                         break;
                     case "3":
-                        MaterialCreator.ArticleCreate();
+                        articleMaterialController.ArticleCreate();
                         break;
+
                     case "4":
                         Console.Clear();
                         Console.WriteLine("List existing materials");
-                        MaterialCreator.MaterialList();
-                        Console.WriteLine("\nEnter the name of existing material");
-                        var name = Console.ReadLine().ToLower();
-                        if (courseVM.Materials.Any(x => x.Name.ToLower() == name.ToLower()))
+                        materialController.MaterialList();
+                        Console.WriteLine("\nEnter Id of existing material");
+                        var Id = int.Parse(Console.ReadLine());
+
+                        if (courseVM.Materials.Any(x => x.Id == Id))
                         {
                             Dye.Fail();
-                            Console.WriteLine("Invalid name or Material already exists in course");
+                            Console.WriteLine("Material already exists in course");
                             Console.ResetColor();
                         }
                         else
                         {
-                            var materialVM = MaterialCreator.AddMaterialByName(name);
+                            var materialVM = materialController.AddMaterialById(Id);
+
                             if (materialVM == null)
                             {
                                 Dye.Fail();
-                                Console.WriteLine("Invalid material name");
+                                Console.WriteLine("Invalid material Id");
                                 Console.ResetColor();
                                 break;
                             }
+
                             courseVM.Materials.Add(materialVM);
                             Dye.Succsess();
                             Console.WriteLine("Material added successfully");
                             Console.ResetColor();
                         }
                         break;
+
                     case "5":
                         Dye.Succsess();
                         Console.WriteLine("Materials added successfully");
@@ -78,14 +93,16 @@ namespace EducationPortal.Helpers
                         continue;
                 }
             }
-            while (true)
+
+            infinity = true;
+            while (infinity)
             {
                 Console.WriteLine("1 - Add new skill\n2 - Select existing\n3 - Finish adding skills");
 
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        var skill = SkillCreator.SkillCreate();
+                        var skill = skillController.SkillCreate();
                         Dye.Succsess();
                         Console.WriteLine("Skill created successfully, now you can add it to your course");
                         Console.ResetColor();
@@ -93,7 +110,7 @@ namespace EducationPortal.Helpers
                     case "2":
                         Console.Clear();
                         Console.WriteLine("List existing skills: ");
-                        SkillCreator.SkillsList();
+                        skillController.SkillsList();
                         Console.WriteLine("\nEnter the name of existing skill");
                         var name = Console.ReadLine().ToLower();
                         if (courseVM.Skills.Any(x => x.Name.ToLower() == name.ToLower()))
@@ -104,7 +121,7 @@ namespace EducationPortal.Helpers
                         }
                         else
                         {
-                            var skillVM = SkillCreator.AddSkillByName(name);
+                            var skillVM = skillController.AddSkillByName(name);
                             if (skillVM == null)
                             {
                                 Dye.Fail();
@@ -119,11 +136,23 @@ namespace EducationPortal.Helpers
                         }
                         break;
                     case "3":
-                        return courseVM;
+                        Dye.Succsess();
+                        Console.WriteLine("Skills added successfully");
+                        Console.ResetColor();
+                        infinity = false;
+                        break;
                     default:
                         continue;
                 }
             }
+            //Айдишник теста равен нулю
+            var test = testController.TestCreate();
+            var mappedTest = testController.GetTestByName(test.Name);
+
+            courseVM.Test = mappedTest;
+            courseVM.TestId = mappedTest.Id;
+
+            return courseVM;
         }
     }
 }

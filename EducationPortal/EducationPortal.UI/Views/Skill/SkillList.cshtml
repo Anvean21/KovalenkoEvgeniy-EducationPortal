@@ -1,0 +1,31 @@
+﻿@model EducationPortal.UI.Models.SkillVM
+
+@inject EducationPortal.Services.Interfaces.ISkillService Skill
+
+@{
+    ViewData["Title"] = "Skills List";
+}
+
+@{
+    Layout = "_Layout";
+}
+<h3 class="materialsColor books">Skills list</h3>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div style="float:right"> @Html.ActionLink("I WILL USE EXISTING SKILLS", "CreateTest", "Test", null, new { @class = "linkDecor btn btn-outline-light", @style = "margin-left:20px;" })</div>
+
+<div class="row" style="margin-top:5%; margin-bottom:5%; ">
+    <div class="col-md-4 textCenter">
+        <dl>
+            <dt class="skillColor paragraphColor">Existing skills</dt>
+            @foreach (var skill in Skill.GetSkills())
+            {
+                <dd class="skillColor">@skill.Name</dd>
+            }
+        </dl>
+    </div>
+    @{await Html.RenderPartialAsync("CreateSkill", Model); }
+
+</div>
+
+
+<script src="~/js/skillList.js" asp-append-version="true"></script>

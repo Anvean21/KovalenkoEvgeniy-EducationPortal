@@ -1,30 +1,27 @@
-﻿using EducationPortal.Domain.Core;
-using EducationPortal.FluentValidationModels;
-using EducationPortal.Automapper;
-using EducationPortal.Services.Interfaces;
-using EducationPortal.ViewModels;
-using FluentValidation;
+﻿using EducationPortal.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using EducationPortal.Helpers;
+using EducationPortal.Command;
 
 namespace EducationPortal
 {
     class Program
     {
-        private static readonly IUserService userService = CustomServiceProvider.Provider.GetRequiredService<IUserService>();
-        readonly static ConsoleView ConsoleView = new ConsoleView();
         static void Main(string[] args)
         {
+            DependencyInjection.DependecyInjection.ConfigureService();
+            IUserService userService = CustomServiceProvider.Provider.GetRequiredService<IUserService>();
+
+            CommandManager commandManager = new CommandManager(CustomServiceProvider.Provider.GetRequiredService<ICommandProcessor>());
+
             while (true)
             {
                 if (userService.IsUserAuthorized())
                 {
-                    ConsoleView.ViewForAuthorizedUser();
+                    commandManager.AuthStart();
                 }
                 else
                 {
-                    ConsoleView.ViewForUnautorizedUser();
+                    commandManager.Start();
                 }
             }
         }

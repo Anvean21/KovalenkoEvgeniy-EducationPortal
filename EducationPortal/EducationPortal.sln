@@ -3,23 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationPortal", "EducationPortal\EducationPortal.csproj", "{6E761117-C1E6-498D-958D-97B4E390074A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal", "EducationPortal\EducationPortal.csproj", "{6E761117-C1E6-498D-958D-97B4E390074A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{BAF2536B-3BE6-487C-A0C3-063ECF63D300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationPortal.Domain.Core", "EducationPortal.Domain.Core\EducationPortal.Domain.Core.csproj", "{3EC1584D-D13E-4E5E-8BEA-65BCF7A4FE05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.Domain.Core", "EducationPortal.Domain.Core\EducationPortal.Domain.Core.csproj", "{3EC1584D-D13E-4E5E-8BEA-65BCF7A4FE05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationPortal.Domain.Interfaces", "EducationPortal.Domain.Interfaces\EducationPortal.Domain.Interfaces.csproj", "{0F45A065-2745-46AD-BEEA-364FA3EC5C86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.Domain.Interfaces", "EducationPortal.Domain.Interfaces\EducationPortal.Domain.Interfaces.csproj", "{0F45A065-2745-46AD-BEEA-364FA3EC5C86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{DE2EBF2A-56FF-4D68-A503-543BDF9F2F12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationPortal.Infrastructure.Business", "EducationPortal.Infrastructure.Business\EducationPortal.Infrastructure.Business.csproj", "{18F40F66-5EAE-458F-B95B-D1262AA68BE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.Infrastructure.Business", "EducationPortal.Infrastructure.Business\EducationPortal.Infrastructure.Business.csproj", "{18F40F66-5EAE-458F-B95B-D1262AA68BE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationPortal.Infrastructure.Data", "EducationPortal.Infrastructure.Data\EducationPortal.Infrastructure.Data.csproj", "{062C7C22-BA90-4483-AFC2-6132904CC6F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.Infrastructure.Data", "EducationPortal.Infrastructure.Data\EducationPortal.Infrastructure.Data.csproj", "{062C7C22-BA90-4483-AFC2-6132904CC6F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{9E406442-BA9B-4120-A68E-FBE98B334179}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationPortal.Services.Interfaces", "EducationPortal.Services.Interfaces\EducationPortal.Services.Interfaces.csproj", "{01A6A87B-8EE1-4815-A1F2-C540D862573A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.Services.Interfaces", "EducationPortal.Services.Interfaces\EducationPortal.Services.Interfaces.csproj", "{01A6A87B-8EE1-4815-A1F2-C540D862573A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationPortal.UI", "EducationPortal.UI\EducationPortal.UI.csproj", "{E4356F35-DC14-4117-A9F7-68D4EF560E73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{01A6A87B-8EE1-4815-A1F2-C540D862573A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01A6A87B-8EE1-4815-A1F2-C540D862573A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01A6A87B-8EE1-4815-A1F2-C540D862573A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4356F35-DC14-4117-A9F7-68D4EF560E73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4356F35-DC14-4117-A9F7-68D4EF560E73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4356F35-DC14-4117-A9F7-68D4EF560E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4356F35-DC14-4117-A9F7-68D4EF560E73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
